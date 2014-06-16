@@ -7,7 +7,7 @@
   <title></title>
 
   <link href="lib/ionic/css/ionic.css" rel="stylesheet">
-  <link href="css/style.css" rel="stylesheet">
+  <link href="css/bootstrap.css" rel="stylesheet">
 
   <!-- IF using Sass (run gulp sass first), then uncomment below and remove the CSS includes above
     <link href="css/ionic.app.css" rel="stylesheet">
@@ -15,6 +15,7 @@
 
   <!-- ionic/angularjs js -->
   <script src="lib/ionic/js/ionic.bundle.js"></script>
+  <script src="lib/ui-bootstrap-tpls-0.11.0.js"></script>
 
 
   <!-- your app's js -->
@@ -107,19 +108,54 @@
     </ion-side-menu-content>
     
     <!-- Chat on left-side menu -->
+
     <ion-side-menu side="left">
       <ion-header-bar class="bar-positive">
-        <h1 class="title">Projects</h1>
+        <h1 class="title">Chat</h1>
       </ion-header-bar>
-          <ion-content>
+
+      <ion-header-bar align-title="left" class="bar-clear bar-subheader">
+        
+        <!-- Chat status dropdown menu -->
+        <div ng-controller="DropdownCtrl" style="display: inline-block;">
+          <div class="btn-group" dropdown is-open="status.isopen">
+            <button type="button" class="btn btn-primary dropdown-toggle" ng-disabled="disabled">
+              <i class="icon ion-checkmark-circled"></i> <span class="caret"></span>
+            </button>
+            <ul class="dropdown-menu" role="menu">
+              <li><a href="#">Absent</a></li>
+              <li><a href="#">Occupé</a></li>
+              <li><a href="#">Invisible</a></li>
+            </ul>
+          </div>
+        </div>
+
+        <!-- Search Box-->
+        <div style="display:inline-block;position: absolute;right:0;padding:0;width:60%;">
+          <div id="search-box" class="item-input-inset"style="padding:0;padding-right:10px;">
+            <label class="item-input-wrapper" >
+              <i class="icon ion-ios7-search placeholder-icon"></i>
+              <input type="search" placeholder="Search">
+            </label>
+          </div>
+        </div>
+         
+
+      </ion-header-bar>
+         
+         <ion-content>
             <ion-list>
               <ion-item class="item-avatar-left">
                 <img ng-src="photoAvatar.jpg">
-                <h2>username</h2>
-                <p>Mon humeur est un peu longue, qu'est-ce qui va bien pouvoir se passer
-                ?</p>
-                <div class="padding">
-                <button type="submit" class="button button-block button-positive">Create Task</button>
+                <div>
+                  <div style="display:inline-block;"  >
+                  <h2>username</h2>
+                  <p>Mon humeur</p> 
+                  </div>
+                  <div style="display:inline-block;float:right;vertical-align:middle;">
+                  <i  class="icon ion-android-add
+                  placeholder-icon button button-clear button-dark" href="#"></i>
+                  </div>
                 </div>
               </ion-item>
               <ion-item >

@@ -113,12 +113,14 @@
     <!-- Chat on left-side menu -->
 
     <ion-side-menu side="left">
+      
+      <!-- Header -->
       <ion-header-bar class="bar-positive">
         <h1 class="title">Chat</h1>
       </ion-header-bar>
 
+      <!-- Subheader-->
       <ion-header-bar align-title="left" class="bar-clear bar-subheader">
-        
         <!-- Chat status dropdown menu -->
         <div ng-controller="DropdownCtrl" style="display: inline-block;">
           <div class="btn-group" dropdown is-open="status.isopen">
@@ -153,88 +155,95 @@
         </div>
          
       
-      <!-- Chat user list-->
       </ion-header-bar>
          
-         <ion-content>
-            <ion-list>
+      <!-- Footer -->
+      <ion-footer-bar class="bar-light">
+        <button class="button button-clear pull-right">
+          <i class="icon ion-ios7-gear pull-right"></i>
+        </button>
+      </ion-footer-bar>
+        
+        <!-- Chat user list-->
+        <ion-content>
+          <ion-list>
+            
+            <!-- Chat item : user -->
+            <ion-item class="item-avatar-left">
+              <img ng-src="res/test/photoAvatar.jpg">
               
-              <!-- Chat item : user -->
-              <ion-item class="item-avatar-left">
-                <img ng-src="res/test/photoAvatar.jpg">
+              <div style="position:relative;left:-4px;">
                 
-                <div style="position:relative;left:-4px;">
-                  
-                  <!-- Status -->
-                  <i id="chat-user-status-icon" 
-                     class="icon ion-checkmark-circled" 
-                     style="display:inline-block;vertical-align:top;color:green;"></i>
-                  <div style="display:inline-block;width:3px;"></div>
-                  
-                  <!-- Name and affiliation-->
-                  <div  id="chat-user-name"  
-                        style="display:inline-block;">
-                    <h2>username</h2>
-                    <p>Mon humeur</p> 
-                  </div>
-                  
-                  <!-- Additional info -->
-                  <div style="display:inline-block;float:right;vertical-align:middle;">
-                    <i class="icon ion-android-add placeholder-icon button button-clear button-dark" href="#"></i>
-                  </div>
-                </div>
-
-              </ion-item>
-              <ion-item class="item-avatar-left">
-                <img ng-src="res/test/user2.png">
+                <!-- Status -->
+                <i id="chat-user-status-icon" 
+                   class="icon ion-checkmark-circled" 
+                   style="display:inline-block;vertical-align:top;color:green;"></i>
+                <div style="display:inline-block;width:3px;"></div>
                 
-                <div style="position:relative;left:-4px;">
-                  
-                  <!-- Status -->
-                  <i class="icon ion-minus-circled"
-                     style="display:inline-block;vertical-align:top;color:orange;"></i>
-                  <div style="display:inline-block;width:3px;"></div>
-                  
-                  <!-- Name and affiliation-->
-                  <div style="display:inline-block;">
-                    <h2>username</h2>
-                    <p>Mon humeur</p> 
-                  </div>
-                  
-                  <!-- Additional info -->
-                  <div style="display:inline-block;float:right;vertical-align:middle;">
-                    <i  class="icon ion-android-add placeholder-icon button button-clear button-dark" href="#"></i>
-                  </div>
+                <!-- Name and affiliation-->
+                <div  id="chat-user-name"  
+                      style="display:inline-block;">
+                  <h2>username</h2>
+                  <p>Mon humeur</p> 
                 </div>
-              </ion-item>
-
-              <ion-item class="item-avatar-left">
-                <img ng-src="res/test/user3.jpg">
                 
-                <div style="position:relative;left:-4px;">
-                  
-                  <!-- Status -->
-                  <i class="icon ion-ios7-circle-outline"
-                     style="display:inline-block;vertical-align:top;color:grey;"></i>
-                  <div style="display:inline-block;width:3px;"></div>
-                  
-                  <!-- Name and affiliation-->
-                  <div style="display:inline-block;">
-                    <h2>username</h2>
-                    <p>Mon humeur</p> 
-                  </div>
-                  
-                  <!-- Additional info -->
-                  <div style="display:inline-block;float:right;vertical-align:middle;">
-                    <i class="icon ion-android-add placeholder-icon button button-clear button-dark" 
-                       href="#"></i>
-                  </div>
+                <!-- Additional info -->
+                <div style="display:inline-block;float:right;vertical-align:middle;">
+                  <i class="icon ion-android-add placeholder-icon button button-clear button-dark" href="#"></i>
                 </div>
+              </div>
 
-              </ion-item>
-            <ion-content>
+            </ion-item>
+            <ion-item class="item-avatar-left">
+              <img ng-src="res/test/user2.png">
+              
+              <div style="position:relative;left:-4px;">
+                
+                <!-- Status -->
+                <i class="icon ion-minus-circled"
+                   style="display:inline-block;vertical-align:top;color:orange;"></i>
+                <div style="display:inline-block;width:3px;"></div>
+                
+                <!-- Name and affiliation-->
+                <div style="display:inline-block;">
+                  <h2>username</h2>
+                  <p>Mon humeur</p> 
+                </div>
+                
+                <!-- Additional info -->
+                <div style="display:inline-block;float:right;vertical-align:middle;">
+                  <i  class="icon ion-android-add placeholder-icon button button-clear button-dark" href="#"></i>
+                </div>
+              </div>
+            </ion-item>
+
+            <ion-item class="item-avatar-left">
+              <img ng-src="res/test/user3.jpg">
+              
+              <div style="position:relative;left:-4px;">
+                
+                <!-- Status -->
+                <i class="icon ion-ios7-circle-outline"
+                   style="display:inline-block;vertical-align:top;color:grey;"></i>
+                <div style="display:inline-block;width:3px;"></div>
+                
+                <!-- Name and affiliation-->
+                <div style="display:inline-block;">
+                  <h2>username</h2>
+                  <p>Mon humeur</p> 
+                </div>
+                
+                <!-- Additional info -->
+                <div style="display:inline-block;float:right;vertical-align:middle;">
+                  <i class="icon ion-android-add placeholder-icon button button-clear button-dark" 
+                     href="#"></i>
+                </div>
+              </div>
+
+            </ion-item>
           </ion-list>
-          
+        <ion-content>
+    
     </ion-side-menu>
   
   </ion-side-menus>

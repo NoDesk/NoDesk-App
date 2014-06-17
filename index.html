@@ -44,19 +44,22 @@
           <h4>Paramètres</h4>
         </button>
         
-        <h1 class="title"> <img class="title-image" src="logo.png" width="auto"
-        height="43" /></h1>
+        <h1 class="title"> <img class="title-image" 
+                                src="res/test/logo.png" 
+                                width="auto"
+                                height="43" />
+        </h1>
 
         <div style="display:inline-block;position: absolute;right:0;padding:0;width:25%;">
           <div id="search-box"
-          class="item-input-inset"style="padding:0;padding-right:10px;"
-          >
+               class="item-input-inset"
+               style="padding:0;padding-right:10px;">
             <label class="item-input-wrapper" >
               <i class="icon ion-ios7-search placeholder-icon"></i>
               <input type="search" placeholder="Search">
             </label>
           </div>
-          </div>
+        </div>
        
       
       </ion-header-bar>
@@ -83,21 +86,21 @@
             <div class="col">
               <div class="list card" style="display: inline-block;">
                 <div class="item item-image">
-                  <img src="cover.jpg">
+                  <img src="res/test/cover.jpg">
                 </div>
               </div> 
             </div> 
             <div class="col">
               <div class="list card" style="display: inline-block;">
                 <div class="item item-image">
-                  <img src="cover.jpg">
+                  <img src="res/test/cover.jpg">
                 </div>
               </div> 
             </div> 
             <div class="col">
               <div class="list card" style="display: inline-block;">
                 <div class="item item-image">
-                  <img src="cover.jpg">
+                  <img src="res/test/cover.jpg">
                 </div>
               </div>
             </div> 
@@ -119,20 +122,29 @@
         <!-- Chat status dropdown menu -->
         <div ng-controller="DropdownCtrl" style="display: inline-block;">
           <div class="btn-group" dropdown is-open="status.isopen">
-            <button type="button" class="btn btn-primary dropdown-toggle" ng-disabled="disabled">
-              <i class="icon ion-checkmark-circled" style="display:inline-block"></i> <span class="caret"></span>
+            
+            <button type="button" 
+                    class="btn btn-default dropdown-toggle" 
+                    ng-disabled="disabled">
+              <i id="current-status-icon" 
+                 class="icon ion-checkmark-circled"
+                 style="display:inline-block;color:green;"></i> <span class="caret"></span>
             </button>
+
             <ul class="dropdown-menu" role="menu">
-              <li><a href="#"><i class="icon ion-close-circled"></i>  Absent</a></li>
-              <li><a href="#"><i class="icon ion-minus-circled"></i>  Occupé</a></li>
-              <li><a href="#"><i class="icon ion-ios7-circle-outline"></i>  Invisible</a></li>
+              <li><a href="#"><i id="away-status-icon" class="icon ion-close-circled" style="color:red;"></i>  Absent</a></li>
+              <li><a href="#"><i id="occupied-status-icon" class="icon ion-minus-circled" style="color:orange;"></i>  Occupé</a></li>
+              <li><a href="#"><i id="invisible-status-icon" class="icon ion-ios7-circle-outline" style="color:grey;"></i>  Invisible</a></li>
             </ul>
+
           </div>
         </div>
 
         <!-- Search Box-->
         <div style="display:inline-block;position: absolute;right:0;padding:0;width:60%;">
-          <div id="search-box" class="item-input-inset"style="padding:0;padding-right:10px;">
+          <div id="search-box" 
+               class="item-input-inset"
+               style="padding:0;padding-right:10px;">
             <label class="item-input-wrapper" >
               <i class="icon ion-ios7-search placeholder-icon"></i>
               <input type="search" placeholder="Search">
@@ -140,29 +152,85 @@
           </div>
         </div>
          
-
+      
+      <!-- Chat user list-->
       </ion-header-bar>
          
          <ion-content>
             <ion-list>
+              
+              <!-- Chat item : user -->
               <ion-item class="item-avatar-left">
-                <img ng-src="photoAvatar.jpg">
-                <div>
-                  <div style="display:inline-block;"  >
-                  <h2>username</h2>
-                  <p>Mon humeur</p> 
+                <img ng-src="res/test/photoAvatar.jpg">
+                
+                <div style="position:relative;left:-4px;">
+                  
+                  <!-- Status -->
+                  <i id="chat-user-status-icon" 
+                     class="icon ion-checkmark-circled" 
+                     style="display:inline-block;vertical-align:top;color:green;"></i>
+                  <div style="display:inline-block;width:3px;"></div>
+                  
+                  <!-- Name and affiliation-->
+                  <div  id="chat-user-name"  
+                        style="display:inline-block;">
+                    <h2>username</h2>
+                    <p>Mon humeur</p> 
                   </div>
+                  
+                  <!-- Additional info -->
                   <div style="display:inline-block;float:right;vertical-align:middle;">
-                  <i  class="icon ion-android-add
-                  placeholder-icon button button-clear button-dark" href="#"></i>
+                    <i class="icon ion-android-add placeholder-icon button button-clear button-dark" href="#"></i>
+                  </div>
+                </div>
+
+              </ion-item>
+              <ion-item class="item-avatar-left">
+                <img ng-src="res/test/user2.png">
+                
+                <div style="position:relative;left:-4px;">
+                  
+                  <!-- Status -->
+                  <i class="icon ion-minus-circled"
+                     style="display:inline-block;vertical-align:top;color:orange;"></i>
+                  <div style="display:inline-block;width:3px;"></div>
+                  
+                  <!-- Name and affiliation-->
+                  <div style="display:inline-block;">
+                    <h2>username</h2>
+                    <p>Mon humeur</p> 
+                  </div>
+                  
+                  <!-- Additional info -->
+                  <div style="display:inline-block;float:right;vertical-align:middle;">
+                    <i  class="icon ion-android-add placeholder-icon button button-clear button-dark" href="#"></i>
                   </div>
                 </div>
               </ion-item>
-              <ion-item >
-                Hello, world 2!
-              </ion-item>
-              <ion-item >
-                Hello, world 3!
+
+              <ion-item class="item-avatar-left">
+                <img ng-src="res/test/user3.jpg">
+                
+                <div style="position:relative;left:-4px;">
+                  
+                  <!-- Status -->
+                  <i class="icon ion-ios7-circle-outline"
+                     style="display:inline-block;vertical-align:top;color:grey;"></i>
+                  <div style="display:inline-block;width:3px;"></div>
+                  
+                  <!-- Name and affiliation-->
+                  <div style="display:inline-block;">
+                    <h2>username</h2>
+                    <p>Mon humeur</p> 
+                  </div>
+                  
+                  <!-- Additional info -->
+                  <div style="display:inline-block;float:right;vertical-align:middle;">
+                    <i class="icon ion-android-add placeholder-icon button button-clear button-dark" 
+                       href="#"></i>
+                  </div>
+                </div>
+
               </ion-item>
             <ion-content>
           </ion-list>

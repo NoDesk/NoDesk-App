@@ -120,12 +120,12 @@
         <div ng-controller="DropdownCtrl" style="display: inline-block;">
           <div class="btn-group" dropdown is-open="status.isopen">
             <button type="button" class="btn btn-primary dropdown-toggle" ng-disabled="disabled">
-              <i class="icon ion-checkmark-circled"></i> <span class="caret"></span>
+              <i class="icon ion-checkmark-circled" style="display:inline-block"></i> <span class="caret"></span>
             </button>
             <ul class="dropdown-menu" role="menu">
-              <li><a href="#">Absent</a></li>
-              <li><a href="#">Occupé</a></li>
-              <li><a href="#">Invisible</a></li>
+              <li><a href="#"><i class="icon ion-close-circled"></i>  Absent</a></li>
+              <li><a href="#"><i class="icon ion-minus-circled"></i>  Occupé</a></li>
+              <li><a href="#"><i class="icon ion-ios7-circle-outline"></i>  Invisible</a></li>
             </ul>
           </div>
         </div>

@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no, width=device-width">
+  <title></title>
+
+  <link href="lib/ionic/css/ionic.css" rel="stylesheet">
+  <link href="css/bootstrap.css" rel="stylesheet">
+
+  <!-- IF using Sass (run gulp sass first), then uncomment below and remove the CSS includes above
+    <link href="css/ionic.app.css" rel="stylesheet">
+    -->
+
+  <!-- ionic/angularjs js -->
+  <script src="lib/ionic/js/ionic.bundle.js"></script>
+  <script src="lib/ui-bootstrap-tpls-0.11.0.js"></script>
+
+
+  <!-- your app's js -->
+  <script src="js/app.js"></script>
+  <script src="js/controllers.js"></script>
+  
+  <!-- phonegap script  -->
+  <script src="phonegap.js"></script>
+</head>
+
+<body ng-app="starter" >
+  
+  <!-- Login screen --> 
+  <ion-pane>
+    <div style="  display: -webkit-box;      /* OLD - iOS 6-, Safari 3.1-6 */
+    display: -moz-box;         /* OLD - Firefox 19- (buggy but mostly works) */
+    display: -webkit-flex;     /* NEW - Chrome */
+    display: flex;             /* NEW, Spec - Opera 12.1, Firefox 20+ */
+    -webkit-box-flex-direction: row;
+    -moz-box-flex-direction: row;
+    -webkit-flex-direction: row;
+    flex-direction: row;
+    height:100%;">
+      <div style="margin:auto;">
+        <div class="list" >
+          <label class="item item-input">
+            <span class="input-label">Username</span>
+            <input type="text" ng-model="user.username">
+          </label>
+          <label class="item item-input">
+            <span class="input-label">Password</span>
+            <input type="password" ng-model="user.password">
+          </label>
+        </div>
+        <div class="padding">
+          <button class="button button-block button-positive" ng-click="signIn(user)">
+            Sign-In
+          </button>
+          <p class="text-center">
+            <a href="#/forgot-password">Forgot password</a>
+          </p>
+        </div>
+      </div>
+    </div>
+  </ion-pan> 
+
+</body>
+
+</html>

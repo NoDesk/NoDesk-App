@@ -16,14 +16,15 @@
  * specific language governing permissions and limitations
  * under the License.
  */
+/*
 * {
-    -webkit-tap-highlight-color: rgba(0,0,0,0); /* make transparent link selection, adjust last value opacity 0 to 1.0 */
+    -webkit-tap-highlight-color: rgba(0,0,0,0); /* make transparent link selection, adjust last value opacity 0 to 1.0 
 }
 
 body {
-    -webkit-touch-callout: none;                /* prevent callout to copy image, etc when tap to hold */
-    -webkit-text-size-adjust: none;             /* prevent webkit from resizing text to fit */
-    -webkit-user-select: none;                  /* prevent copy paste, to allow, change 'none' to 'text' */
+    -webkit-touch-callout: none;                /* prevent callout to copy image, etc when tap to hold 
+    -webkit-text-size-adjust: none;             /* prevent webkit from resizing text to fit 
+    -webkit-user-select: none;                  /* prevent copy paste, to allow, change 'none' to 'text' 
     background-color:#E4E4E4;
     background-image:linear-gradient(top, #A7A7A7 0%, #E4E4E4 51%);
     background-image:-webkit-linear-gradient(top, #A7A7A7 0%, #E4E4E4 51%);
@@ -45,27 +46,27 @@ body {
     width:100%;
 }
 
-/* Portrait layout (default) */
+/* Portrait layout (default) 
 .app {
-    background:url(../img/logo.png) no-repeat center top; /* 170px x 200px */
-    position:absolute;             /* position in the center of the screen */
+    background:url(../img/logo.png) no-repeat center top; /* 170px x 200px 
+    position:absolute;             /* position in the center of the screen 
     left:50%;
     top:50%;
-    height:50px;                   /* text area height */
-    width:225px;                   /* text area width */
+    height:50px;                   /* text area height 
+    width:225px;                   /* text area width 
     text-align:center;
-    padding:180px 0px 0px 0px;     /* image height is 200px (bottom 20px are overlapped with text) */
-    margin:-115px 0px 0px -112px;  /* offset vertical: half of image height and text area height */
-                                   /* offset horizontal: half of text area width */
+    padding:180px 0px 0px 0px;     /* image height is 200px (bottom 20px are overlapped with text) 
+    margin:-115px 0px 0px -112px;  /* offset vertical: half of image height and text area height 
+                                   /* offset horizontal: half of text area width
 }
 
-/* Landscape layout (with min-width) */
+/* Landscape layout (with min-width) 
 @media screen and (min-aspect-ratio: 1/1) and (min-width:400px) {
     .app {
         background-position:left center;
-        padding:75px 0px 75px 170px;  /* padding-top + padding-bottom + text area = image height */
-        margin:-90px 0px 0px -198px;  /* offset vertical: half of image height */
-                                      /* offset horizontal: half of image width and text area width */
+        padding:75px 0px 75px 170px;  /* padding-top + padding-bottom + text area = image height 
+        margin:-90px 0px 0px -198px;  /* offset vertical: half of image height
+                                      /* offset horizontal: half of image width and text area width 
     }
 }
 
@@ -113,3 +114,84 @@ h1 {
     animation:fade 3000ms infinite;
     -webkit-animation:fade 3000ms infinite;
 }
+*/
+
+.nsk-inset-searchbox {
+  padding:0;
+  padding-right:10px;
+}
+.nsk-header-icon-hspacer {
+  display :inline-block;
+  width:18px;
+}
+
+.nsk-header-searchbox {
+  display:inline-block;
+  position: absolute;
+  right:0;
+  padding:0;
+  width:25%;
+}
+
+.nsk-main-margin {
+  margin:3%;
+}
+
+.nsk-inlined {
+  display:inline-block;
+}
+
+.nsk-margin-auto {
+  margin:auto%;
+}
+
+/*
+.nsk- {
+"="display:inline-block;width:100%;
+}
+*/
+
+.nsk-color-green {
+  color:green;
+}
+
+.nsk-color-red {
+  color:red;
+}
+
+.nsk-color-orange {
+  color:orange;
+}
+
+.nsk-color-grey{
+  color:grey;
+}
+
+.nsk-chat-searchbox {
+  display:inline-block;
+  position: absolute;
+  right:0;
+  padding:0;
+  width:60%;
+}
+
+.nsk-chat-client-info {
+ position:relative;
+ left:-4px;
+}
+
+.nsk-chat-user-status-icon {
+  display:inline-block;
+  vertical-align:top;
+}
+
+.nsk-chat-user-name {
+  display:inline-block;
+}
+
+.nsk-chat-additional-info {
+  display:inline-block;
+  float:right;
+  vertical-align:middle;
+}
+

@@ -195,3 +195,12 @@ h1 {
   vertical-align:middle;
 }
 
+.nsk-font-roboto{
+  font-family: 'Roboto', sans-serif;
+  font-weight:400;
+}
+
+.nsk-font-roboto-bold{
+  font-family: 'Roboto', sans-serif;
+  font-weight:700;
+}

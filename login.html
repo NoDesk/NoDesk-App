@@ -8,6 +8,7 @@
 
   <link href="lib/ionic/css/ionic.css" rel="stylesheet">
   <link href="css/bootstrap.css" rel="stylesheet">
+  <link href="css/login.css" rel="stylesheet">
 
   <!-- IF using Sass (run gulp sass first), then uncomment below and remove the CSS includes above
     <link href="css/ionic.app.css" rel="stylesheet">
@@ -26,19 +27,11 @@
   <script src="phonegap.js"></script>
 </head>
 
-<body ng-app="starter" >
+<body ng-app="starter">
   
   <!-- Login screen --> 
   <ion-pane>
-    <div style="  display: -webkit-box;      /* OLD - iOS 6-, Safari 3.1-6 */
-    display: -moz-box;         /* OLD - Firefox 19- (buggy but mostly works) */
-    display: -webkit-flex;     /* NEW - Chrome */
-    display: flex;             /* NEW, Spec - Opera 12.1, Firefox 20+ */
-    -webkit-box-flex-direction: row;
-    -moz-box-flex-direction: row;
-    -webkit-flex-direction: row;
-    flex-direction: row;
-    height:100%;">
+    <div class="nsk-login-center-box nsk-login-bg" >
       <div style="margin:auto;">
         <div class="list" >
           <label class="item item-input">
@@ -60,7 +53,7 @@
         </div>
       </div>
     </div>
-  </ion-pan> 
+  </ion-pane> 
 
 </body>
 

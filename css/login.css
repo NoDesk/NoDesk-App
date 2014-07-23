@@ -1,0 +1,32 @@
+.nsk-login-center-box {
+  display: -webkit-box;      /* OLD - iOS 6-, Safari 3.1-6 */
+  display: -moz-box;         /* OLD - Firefox 19- (buggy but mostly works) */
+  display: -webkit-flex;     /* NEW - Chrome */
+  display: flex;             /* NEW, Spec - Opera 12.1, Firefox 20+ */
+  -webkit-box-flex-direction: row;
+  -moz-box-flex-direction: row;
+  -webkit-flex-direction: row;
+  flex-direction: row;
+  height:100%;
+}
+
+.nsk-login-bg {
+  /* Old browsers */
+  background: #87e0fd; 
+  /* FF3.6+ */
+  background: -moz-radial-gradient(center, ellipse cover,  #87e0fd 17%, #53cbf1 55%, #05abe0 93%); 
+  /* Chrome10+,Safari5.1+ */
+  background: -webkit-radial-gradient(center, ellipse cover,  #87e0fd 17%,#53cbf1 55%,#05abe0 93%); 
+  /* Opera 12+ */
+  background: -o-radial-gradient(center, ellipse cover,  #87e0fd 17%,#53cbf1 55%,#05abe0 93%); 
+  /* IE10+ */
+  background: -ms-radial-gradient(center, ellipse cover,  #87e0fd 17%,#53cbf1 55%,#05abe0 93%); 
+  /* W3C */
+  background: radial-gradient(ellipse at center,  #87e0fd 17%,#53cbf1 55%,#05abe0 93%); 
+  /* IE6-9 fallback on horizontal gradient */
+  filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#87e0fd', endColorstr='#05abe0',GradientType=1 ); 
+}
+
+.nsk-margin-auto {
+  margin:auto;
+}

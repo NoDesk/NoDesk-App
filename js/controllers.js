@@ -40,7 +40,18 @@ angular.module('starter.controllers', ['ui.bootstrap'])
   }
 })
 
-//Examples of controller
+.controller('BrowseCtrl', function($scope) {
+  $scope.items = [
+    'The first choice!',
+    'And another choice for you.',
+    'And another choice for you2.',
+    'but wait! A third!'
+  ];
+  
+})
+
+
+/*Examples of controller
 .controller('ToDoListCtrl', function($scope,$ionicModal) {
 	$scope.toDoListItems = [{
     task: 'Scuba Diving',
@@ -73,5 +84,6 @@ $ionicModal.fromTemplateUrl('modal.html', {
   $scope.$on('$destroy', function() {
     $scope.modal.remove();
   });
-  
+
 });
+*/

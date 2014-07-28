@@ -23,6 +23,7 @@ angular.module('starter.controllers', ['ui.bootstrap'])
 })
 
 .controller('CarouselCtrl', function($scope) {
+  /*
   $scope.myInterval = 5000;  
   var slides = $scope.slides = []; 
   
@@ -38,6 +39,10 @@ angular.module('starter.controllers', ['ui.bootstrap'])
   for (var i=0; i<4; i++) {
     $scope.addSlide();
   }
+  
+  */
+
+  
 })
 
 .controller('BrowseCtrl', function($scope) {
@@ -87,3 +92,28 @@ $ionicModal.fromTemplateUrl('modal.html', {
 
 });
 */
+
+.controller('ChatListCtrl', function($scope) {
+  $scope.items = [
+    { 
+      name:"Charles",
+      short:"Lorem ipsum",
+      imagePath:"photoAvatar.jpg",
+      status:"connected"
+    },
+    { 
+      name:"Eleanor",
+      short:"Lorem ipsum ",
+      imagePath:"user2.png",
+      status:"occupied"
+    },
+    { 
+      name:"Alacoque",
+      short:"Lorem ipsum ",
+      imagePath:"user3.jpg",
+      status:"away"
+    }
+  ];
+  
+})
+

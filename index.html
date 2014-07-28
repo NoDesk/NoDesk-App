@@ -206,23 +206,23 @@
         
         <!-- Chat user list-->
         <ion-content>
-          <ion-list>
+          <ion-list ng-controller="ChatListCtrl">
             
             <!-- Chat item : user -->
-            <ion-item class="item-avatar-left">
-              <img ng-src="res/test/photoAvatar.jpg">
+            <ion-item ng-repeat="item in items" class="item-avatar-left">
+              <img ng-src="res/test/{{item.imagePath}}">
               
               <div class="nsk-chat-client-info">
                 
                 <!-- Status -->
-                <i   class="icon ion-checkmark-circled nsk-chat-user-status-icon nsk-color-green"></i> 
+                <i   class="icon ion-checkmark-circled nsk-chat-user-status-icon nsk-color-{{item.status}}"></i> 
                 <!-- add padding right to nsk-user-status-icon class -->
                 <div style="display:inline-block;width:3px;"></div>
                 
                 <!-- Name and affiliation-->
                 <div  class="nsk-chat-user-name">
-                  <h2>username</h2>
-                  <p>Mon humeur</p> 
+                  <h2>{{item.name}}</h2>
+                  <p>{{item.short}}</p> 
                 </div>
                 
                 <!-- Additional info -->
@@ -232,54 +232,7 @@
               </div>
 
             </ion-item>
-            <ion-item class="item-avatar-left">
-              <img ng-src="res/test/user2.png">
-              
-              <div class="nsk-chat-client-info">
-                
-                <!-- Status -->
-                <i class="icon ion-minus-circled nsk-chat-user-status-icon nsk-color-orange"></i>
-                <!-- add padding right to nsk-user-status-icon class -->
-                <div style="display:inline-block;width:3px;"></div>
-                
-                <!-- Name and affiliation-->
-                <div class="nsk-chat-user-name">
-                  <h2>username</h2>
-                  <p>Mon humeur</p> 
-                </div>
-                
-                <!-- Additional info -->
-                <div class="nsk-chat-additional-info" >
-                  <i  class="icon ion-android-add placeholder-icon button button-clear button-dark" href="#"></i>
-                </div>
-              </div>
-            </ion-item>
-
-            <ion-item class="item-avatar-left">
-              <img ng-src="res/test/user3.jpg">
-              
-              <div class="nsk-chat-client-info">
-                
-                <!-- Status -->
-                <i class="icon ion-ios7-circle-outline nsk-chat-user-status-icon nsk-color-grey"></i>
-                <!-- add padding right to nsk-user-status-icon class -->
-                <div style="display:inline-block;width:3px;"></div>
-                
-                <!-- Name and affiliation-->
-                <div class="nsk-chat-user-name">
-                  <h2>username</h2>
-                  <p>Mon humeur</p> 
-                </div>
-                
-                <!-- Additional info -->
-                <div class="nsk-chat-additional-info" >
-                  <i class="icon ion-android-add placeholder-icon button button-clear button-dark" 
-                     href="#"></i>
-                </div>
-              </div>
-
-            </ion-item>
-          </ion-list>
+                      </ion-list>
         <ion-content>
     
     </ion-side-menu>

@@ -134,7 +134,8 @@ h1 {
 }
 
 .nsk-main-margin {
-  margin:3%;
+  margin-left:3%;
+  margin-right:3%;
 }
 
 .nsk-inlined {
@@ -204,3 +205,28 @@ h1 {
   font-family: 'Roboto', sans-serif;
   font-weight:700;
 }
+
+.slider {
+  height: 100%;
+}
+
+.slider-slides {
+  height: 100%;
+}
+
+.box{
+  height:300px;
+}
+
+.blue{
+  background:blue;
+}
+
+.yellow{
+  background:yellow;
+}
+
+.pink{
+  background:pink;
+}
+

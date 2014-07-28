@@ -117,3 +117,12 @@ $ionicModal.fromTemplateUrl('modal.html', {
   
 })
 
+.controller('UpdateListCtrl', function($scope) {
+
+  $scope.items = [
+    'Hello 1',
+    'Hello, world 2!',
+    'Hello, world 3!'
+  ];
+
+})

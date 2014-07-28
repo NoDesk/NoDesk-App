@@ -106,17 +106,13 @@
               <div class="nsk-inlined " style="width:100%;">
                 <!-- Recent update list --> 
                 <ion-scroll>
-                  <ion-list>
-                    <ion-item href="">
-                      Hello 1!
-                    </ion-item>
-                    <ion-item href="" >
-                      Hello, world 2!
-                    </ion-item>
-                    <ion-item href="" >
-                      Hello, world 3!
+                  
+                  <ion-list ng-controller="UpdateListCtrl">
+                    <ion-item ng-repeat="update in items"href="">
+                      {{update}}
                     </ion-item>
                   </ion-list>
+                
                 </ion-scroll>
               </div>
             </div>

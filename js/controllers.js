@@ -6,43 +6,27 @@ angular.module('starter.controllers', ['ui.bootstrap'])
 })
 
 .config(function($stateProvider, $urlRouterProvider) {
-  // Set up the initial routes that our app will respond to.
-  // These are then tied up to our nav router which animates and
-  // updates a navigation bar
-  //$routeProvider.when('/', {
-  //  templateUrl: 'option.html',
-    //controller: 'IntroCtrl'
-  //});
-
-  //$routeProvider.when('/main', {
-  //  templateUrl: 'main.html',
-  //  controller: 'MainCtrl'
-    //});
-
-    // if none of the above routes are met, use this fallback
-    // which executes the 'IntroCtrl' controller (controllers.js)
-    $urlRouterProvider
-    //  .when('options','option.html')
-      .otherwise('/');
+  $urlRouterProvider
+  //.when('options','option.html')
+    .otherwise('/');
 
   $stateProvider
-  .state("home", {
-
-          // Use a url of "/" to set a states as the "index".
-          url: "/",
-
-          // Example of an inline template string. By default, templates
-          // will populate the ui-view within the parent state's template.
-          // For top level states, like this one, the parent template is
-          // the index.html file. So this template will be inserted into the
-          // ui-view within index.html.
-          templateUrl: 'home.html'
-
-        })
-  .state("options", {
-    url: '/options',
-    templateUrl: 'option.html'
-  })
+    .state("home", {
+      url: "/",
+      templateUrl: 'home.html'
+    })
+    .state("options", {
+      url: '/options',
+      templateUrl: 'option.html'
+    })
+    .state("editor", {
+      url: '/editor',
+      templateUrl: 'editor.html'
+    })
+    .state("browsing", {
+      url: '/browsing',
+      templateUrl: 'browse.html'
+    })
 
 })
 
@@ -69,25 +53,6 @@ angular.module('starter.controllers', ['ui.bootstrap'])
 })
 
 .controller('CarouselCtrl', function($scope) {
-  /*
-  $scope.myInterval = 5000;  
-  var slides = $scope.slides = []; 
-  
-  $scope.addSlide = function() {
-    var newWidth = 500 + slides.length;
-    slides.push({
-      image: 'http://placekitten.com/' + newWidth + '/250',
-      text: ['More','Extra','Lots of','Surplus'][slides.length % 4] + ' ' +
-        ['Cats', 'Kittys', 'Felines', 'Cutes'][slides.length % 4]
-    });
-  };
-
-  for (var i=0; i<4; i++) {
-    $scope.addSlide();
-  }
-  
-  */
-
   
 })
 
@@ -101,43 +66,6 @@ angular.module('starter.controllers', ['ui.bootstrap'])
   
 })
 
-
-/*Examples of controller
-.controller('ToDoListCtrl', function($scope,$ionicModal) {
-	$scope.toDoListItems = [{
-    task: 'Scuba Diving',
-    status: 'not done'
-  }, {
-    task: 'Climb Everest',
-    status: 'not done'
-  }];
-
-$scope.AddItem = function(data){
-	$scope.toDoListItems.push({task:data.newItem,status:'not done'});
-	 data.newItem = ' ';
-         $scope.closeModal();
-  };
-  
-$ionicModal.fromTemplateUrl('modal.html', {
-    scope: $scope,
-    animation: 'slide-in-up'
-  }).then(function(modal) {
-    $scope.modal = modal;
-  });
-  
-  $scope.openModal = function() {
-    $scope.modal.show();
-  };
-  $scope.closeModal = function() {
-    $scope.modal.hide();
-  };
-  //Cleanup the modal when we're done with it!
-  $scope.$on('$destroy', function() {
-    $scope.modal.remove();
-  });
-
-});
-*/
 
 .controller('ChatListCtrl', function($scope) {
   $scope.items = [
@@ -170,5 +98,26 @@ $ionicModal.fromTemplateUrl('modal.html', {
     'Hello, world 2!',
     'Hello, world 3!'
   ];
+
+})
+
+.controller('HeaderCtrl', function($scope,$location) {
+  
+  $scope.goToOption= function(){
+    $location.path("/options");
+  };
+  
+  $scope.goToMain= function(){
+    $location.path("/");
+  };
+
+})
+
+.controller('MainButtonCtrl', function($scope,$location) {
+  
+  $scope.goTo= function(e){
+    $location.path(e);
+    console.log(e);
+  };
 
 })

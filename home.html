@@ -1,0 +1,80 @@
+      <!-- Content -->
+      <ion-content has-header="true">
+        <div class="nsk-main-margin">
+          
+          <div class="row">
+            
+            <div class="col">
+              <h3>Recent files</h3>
+              <div ng-controller="CarouselCtrl"  >    
+              <ion-slide-box on-slide-changed="slideHasChanged($index)">
+                <ion-slide >
+                  <div class="box blue"><h1>BLUE</h1></div>
+                </ion-slide>
+                <ion-slide>
+                  <div class="box yellow"><h1>YELLOW</h1></div>
+                </ion-slide>
+                <ion-slide>
+                  <div class="box pink"><h1>PINK</h1></div>
+                </ion-slide>
+              </ion-slide-box>
+              </div>
+              <!--
+              <div ng-controller="CarouselCtrl" class="nsk-inlined" >    
+                <carousel interval="myInterval">
+                  <slide ng-repeat="slide in slides" active="slide.active">
+                    <img ng-src={{slide.image}} class="nsk-margin-auto" >
+                    <div class="carousel-caption">
+                      <h4>Slide {{$index}}</h4>
+                      <p>{{slide.text}}</p>
+                    </div>
+                  </slide>
+                </carousel>
+              </div>
+              -->
+            </div>
+
+            <div class="col">
+              <h3>Update</h3>
+              <div class="nsk-inlined " style="width:100%;">
+                <!-- Recent update list --> 
+                <ion-scroll>
+                  
+                  <ion-list ng-controller="UpdateListCtrl">
+                    <ion-item ng-repeat="update in items"href="">
+                      {{update}}
+                    </ion-item>
+                  </ion-list>
+                
+                </ion-scroll>
+              </div>
+            </div>
+          
+          </div>
+          <!-- Main Buttons --> 
+          <div class="row">
+            <div class="col">
+              <div class="list card nsk-inlined">
+                <div class="item item-image">
+                  <img src="http://placehold.it/1024x1024.jpg">
+                </div>
+              </div> 
+            </div> 
+            <div class="col">
+              <div class="list card nsk-inlined">
+                <div class="item item-image">
+                  <img src="http://placehold.it/1024x1024.jpg">
+                </div>
+              </div> 
+            </div> 
+            <div class="col">
+              <div class="list card nsk-inlined">
+                <div class="item item-image">
+                  <img src="http://placehold.it/1024x1024.jpg">
+                </div>
+              </div>
+            </div> 
+          </div>
+
+        </div>
+      </ion-content>   

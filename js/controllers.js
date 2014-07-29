@@ -1,5 +1,51 @@
 angular.module('starter.controllers', ['ui.bootstrap'])
 
+.config(function ($compileProvider){
+  // Set the whitelist for certain URLs just to be safe
+  $compileProvider.aHrefSanitizationWhitelist(/^\s*(https?|ftp|mailto|file|tel):/);
+})
+
+.config(function($stateProvider, $urlRouterProvider) {
+  // Set up the initial routes that our app will respond to.
+  // These are then tied up to our nav router which animates and
+  // updates a navigation bar
+  //$routeProvider.when('/', {
+  //  templateUrl: 'option.html',
+    //controller: 'IntroCtrl'
+  //});
+
+  //$routeProvider.when('/main', {
+  //  templateUrl: 'main.html',
+  //  controller: 'MainCtrl'
+    //});
+
+    // if none of the above routes are met, use this fallback
+    // which executes the 'IntroCtrl' controller (controllers.js)
+    $urlRouterProvider
+    //  .when('options','option.html')
+      .otherwise('/');
+
+  $stateProvider
+  .state("home", {
+
+          // Use a url of "/" to set a states as the "index".
+          url: "/",
+
+          // Example of an inline template string. By default, templates
+          // will populate the ui-view within the parent state's template.
+          // For top level states, like this one, the parent template is
+          // the index.html file. So this template will be inserted into the
+          // ui-view within index.html.
+          templateUrl: 'home.html'
+
+        })
+  .state("options", {
+    url: '/options',
+    templateUrl: 'option.html'
+  })
+
+})
+
 .controller('DropdownCtrl', function($scope) {
   $scope.items = [
     'The first choice!',

@@ -1,0 +1,27 @@
+<ion-header-bar align-title="left" class="bar-light bar-subheader">
+<!-- TODO: Filter and ordering option-->  
+</ion-header-bar>
+
+<ion-content>
+  <div class="inset-card-grid">
+    <div ng-controller="BrowseCtrl"> 
+      
+      <div class="row" ng-repeat="val in items">
+        <div class="col" ng-repeat="val in items">
+          
+          <div class="list card">
+            <div class="item item-image">
+                <img src="http://placehold.it/150x180">
+            </div>
+            <div class="item item-text-wrap">
+               <p>{{val}}</p>
+            </div>
+          </div>
+        
+        </div>
+      </div>
+
+    </div>
+  <div>
+</ion-content>
+

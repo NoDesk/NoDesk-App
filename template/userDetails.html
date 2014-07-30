@@ -1,0 +1,49 @@
+<ion-pane has-header class="nsk-thin-centered has-header">
+  
+  <div ng-controller="UserDetailsCtrl">
+    <div >
+      <img style="width:100%;height:auto;" src="http://placehold.it/250x150">
+    </div>
+    
+    <div class="list list-inset nsk-no-margin">
+              
+      <!-- Name -->
+      <div class="item item-icon-left item-button-right nsk-border-clear-first">
+        <i class="icon"></i>
+        {{user.name}}
+      </div>
+      
+      <!-- Surname -->
+      <div class="item item-icon-left item-button-right nsk-border-clear">
+        <i class="icon"></i>
+        {{user.surname}}
+      </div>
+      
+      <!-- phone-->
+      <div class="item item-icon-left item-button-right nsk-border-clear">
+        <i class="icon ion-ios7-telephone"></i>
+        {{user.phone}}
+      </div>
+
+      <!-- blank -->
+      <div class="item item-icon-left item-button-right nsk-border-clear">
+        <i class="icon"></i>
+      </div>
+
+      <!-- Email -->
+      <div class="item item-icon-left item-button-right nsk-border-clear">
+        <i class="icon ion-email"></i>
+        {{user.email}}
+      </div>
+      
+      <!-- Affiliation -->
+      <div class="item item-icon-left item-button-right nsk-border-clear-last">
+        <i class="icon ion-link"></i>
+        {{user.affiliation}}
+      </div>
+
+    </div>
+  </div>
+
+</ion-pane>
+

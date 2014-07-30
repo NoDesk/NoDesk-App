@@ -13,19 +13,19 @@ angular.module('starter.controllers', ['ui.bootstrap','textAngular'])
   $stateProvider
     .state("home", {
       url: "/",
-      templateUrl: 'home.html'
+      templateUrl: 'template/home.html'
     })
     .state("options", {
       url: '/options',
-      templateUrl: 'option.html'
+      templateUrl: 'template/option.html'
     })
     .state("editor", {
       url: '/editor',
-      templateUrl: 'editor.html'
+      templateUrl: 'template/editor.html'
     })
     .state("browsing", {
       url: '/browsing',
-      templateUrl: 'browse.html'
+      templateUrl: 'template/browse.html'
     })
 
 })

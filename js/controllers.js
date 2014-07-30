@@ -1,4 +1,4 @@
-angular.module('starter.controllers', ['ui.bootstrap'])
+angular.module('starter.controllers', ['ui.bootstrap','textAngular'])
 
 .config(function ($compileProvider){
   // Set the whitelist for certain URLs just to be safe
@@ -101,23 +101,33 @@ angular.module('starter.controllers', ['ui.bootstrap'])
 
 })
 
-.controller('HeaderCtrl', function($scope,$location) {
+.controller('HeaderCtrl', function($scope,$location,$state) {
   
   $scope.goToOption= function(){
-    $location.path("/options");
+    $state.go("options");
   };
   
   $scope.goToMain= function(){
-    $location.path("/");
+    $state.go("home");
   };
 
 })
 
-.controller('MainButtonCtrl', function($scope,$location) {
+.controller('MainButtonCtrl', function($scope,$location,$state) {
   
   $scope.goTo= function(e){
-    $location.path(e);
+    $state.go(e);
     console.log(e);
   };
 
+})
+
+.controller('EditorCtrl', function($scope,$state) {
+  
+  $scope.goTo= function(e){
+    $state.go(e);
+    console.log(e);
+  };
+  
+  $scope.htmlVariable='<h2>Try me!</h2><p>textAngular is a super cool WYSIWYG Text Editor directive for AngularJS</p><p><b>Features:</b></p><ol><li>Automatic Seamless Two-Way-Binding</li><li style="color: blue;">Super Easy <b>Theming</b> Options</li><li>Simple Editor Instance Creation</li><li>Safely Parses Html for Custom Toolbar Icons</li><li>Doesn&apos;t Use an iFrame</li><li>Works with Firefox, Chrome, and IE8+</li></ol><p><b>Code at GitHub:</b> <a href="https://github.com/fraywing/textAngular">Here</a> </p>'
 })

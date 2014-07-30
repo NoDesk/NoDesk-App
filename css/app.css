@@ -1,0 +1,237 @@
+.inset-card-grid{
+  margin-top:0%;
+  margin-bottom:,2%;
+  margin-left:9%;
+  margin-right:6%;
+
+}
+
+.nsk-inset-searchbox {
+  padding:0;
+  padding-right:10px;
+}
+.nsk-header-icon-hspacer {
+  display :inline-block;
+  width:18px;
+}
+
+.nsk-header-searchbox {
+  display:inline-block;
+  position: absolute;
+  right:0;
+  padding:0;
+  width:25%;
+}
+
+.nsk-header-icon-hspacer {
+  display :inline-block;
+  width:18px;
+}
+
+.nsk-header-searchbox {
+  display:inline-block;
+  position: absolute;
+  right:0;
+  padding:0;
+  width:25%;
+}
+
+.nsk-main-margin {
+  margin-left:3%;
+  margin-right:3%;
+}
+
+.nsk-inlined {
+  display:inline-block;
+}
+
+.nsk-margin-auto {
+  margin:auto%;
+}
+
+.nsk-color-green {
+  color:green;
+}
+
+.nsk-color-red {
+  color:red;
+}
+
+.nsk-color-orange {
+  color:orange;
+}
+
+.nsk-color-grey{
+  color:grey;
+}
+
+.nsk-chat-searchbox {
+  display:inline-block;
+  position: absolute;
+  right:0;
+  padding:0;
+  width:60%;
+}
+
+.nsk-chat-client-info {
+ position:relative;
+ left:-4px;
+}
+
+.nsk-chat-user-status-icon {
+  display:inline-block;
+  vertical-align:top;
+}
+
+.nsk-chat-user-name {
+  display:inline-block;
+}
+
+.nsk-chat-additional-info {
+  display:inline-block;
+  float:right;
+  vertical-align:middle;
+}
+
+.nsk-font-roboto{
+  font-family: 'Roboto', sans-serif;
+  font-weight:400;
+}
+
+.nsk-font-roboto-bold{
+  font-family: 'Roboto', sans-serif;
+  font-weight:700;
+}
+
+.slider {
+  height: 100%;
+}
+
+.slider-slides {
+  height: 100%;
+}
+
+.box{
+  height:300px;
+}
+
+.blue{
+  background:blue;
+}
+
+.yellow{
+  background:yellow;
+}
+
+.pink{
+  background:pink;
+}
+
+.nsk-option-userphoto{
+  float:left;
+}
+
+
+.nsk-inlined {
+  display:inline-block;
+}
+.nsk-login-center-box {
+  display: -webkit-box;      /* OLD - iOS 6-, Safari 3.1-6 */
+  display: -moz-box;         /* OLD - Firefox 19- (buggy but mostly works) */
+  display: -webkit-flex;     /* NEW - Chrome */
+  display: flex;             /* NEW, Spec - Opera 12.1, Firefox 20+ */
+  -webkit-box-flex-direction: row;
+  -moz-box-flex-direction: row;
+  -webkit-flex-direction: row;
+  flex-direction: row;
+  height:100%;
+}
+
+.nsk-login-bg {
+  /* Old browsers */
+  background: #87e0fd; 
+  /* FF3.6+ */
+  background: -moz-radial-gradient(center, ellipse cover,  #87e0fd 17%, #53cbf1 55%, #05abe0 93%); 
+  /* Chrome10+,Safari5.1+ */
+  background: -webkit-radial-gradient(center, ellipse cover,  #87e0fd 17%,#53cbf1 55%,#05abe0 93%); 
+  /* Opera 12+ */
+  background: -o-radial-gradient(center, ellipse cover,  #87e0fd 17%,#53cbf1 55%,#05abe0 93%); 
+  /* IE10+ */
+  background: -ms-radial-gradient(center, ellipse cover,  #87e0fd 17%,#53cbf1 55%,#05abe0 93%); 
+  /* W3C */
+  background: radial-gradient(ellipse at center,  #87e0fd 17%,#53cbf1 55%,#05abe0 93%); 
+  /* IE6-9 fallback on horizontal gradient */
+  filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#87e0fd', endColorstr='#05abe0',GradientType=1 ); 
+}
+
+.nsk-margin-auto {
+  margin:auto;
+}
+.nsk-thin-centered{
+  width:70%;
+  position:absolute;
+  height:50%;
+  position:relative;
+  display:block;
+  margin-left:auto;
+  margin-right:auto;
+  margin-bottom:2%;
+}
+
+.nsk-border-clear{
+  border-bottom: none;
+  border-top: none;
+}
+
+.nsk-border-clear-first{
+  border-bottom: none;
+}
+.nsk-border-clear-last{
+  border-top: none;
+}
+
+.nsk-no-margin{
+  margin-top:0px;
+  margin-bottom:0px;
+  margin-left:0px;
+  margin-right:0px;
+}
+
+.nsk-box-border{
+ color: #444444;
+ //background-color: #ddd;
+ //background-image: linear-gradient(#E5E5E5, #CFCFCF);
+ border-width:0px;
+ border-style:solid;
+ border-color:black;
+ height:800px;
+}
+
+.nsk-box-shadow{
+  box-shadow: -1px 2px 5px 1px rgba(0, 0, 0, 0.7);
+}
+
+
+/*css for nodesk template */
+.nsk-tpl-left{}
+.nsk-tpl-right{}
+.nsk-tpl-full{}
+
+
+.nsk-tpl-image{}
+.nsk-tpl-video{}
+.nsk-tpl-gps{}
+.nsk-tpl-user{}
+//etc ..
+/*--end css for nedesk template */
+
+/*textAngular RTE css*/
+.ta-editor {
+    min-height: 300px;
+    height: auto;
+    overflow: auto;
+    font-family: inherit;
+    font-size: 100%;
+    margin:20px 0;
+}
+

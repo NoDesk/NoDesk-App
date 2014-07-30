@@ -101,7 +101,7 @@ angular.module('starter.controllers', ['ui.bootstrap','textAngular'])
 
 })
 
-.controller('HeaderCtrl', function($scope,$location,$state) {
+.controller('HeaderCtrl', function($scope,$location,$state,$ionicSideMenuDelegate) {
   
   $scope.goToOption= function(){
     $state.go("options");
@@ -109,6 +109,10 @@ angular.module('starter.controllers', ['ui.bootstrap','textAngular'])
   
   $scope.goToMain= function(){
     $state.go("home");
+  };
+  
+  $scope.toggleLeftSideMenu = function() {
+    $ionicSideMenuDelegate.toggleLeft();
   };
 
 })

@@ -1,6 +1,8 @@
 <ion-content has-header="true" class="has-header">
     <div class="has-header nsk-thin-centered nsk-box-border nsk-box-shadow" ng-controller="EditorCtrl">
-    <div text-angular ng-model="htmlVariable"></div>
+    <text-angular-toolbar  name="toolbar"></text-angular-toolbar>
+    <text-angular name="htmlcontent1" ng-model="data.htmlcontent1" ta-target-toolbars='toolbar'></text-angular>
+    <text-angular name="htmlcontent2" ng-model="data.htmlcontent2" ta-target-toolbars='toolbar'></text-angular>
     </div>
 </ion-content>
 

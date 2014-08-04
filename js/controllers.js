@@ -126,11 +126,78 @@ angular.module('starter.controllers', ['ui.bootstrap','textAngular'])
 
 })
 
-.controller('EditorCtrl', function($scope,$state) {
+.controller('EditorCtrl', function($scope,$state,$ionicPopup, $timeout) {
+  $scope.currentTemplate;
   
   $scope.goTo= function(e){
     $state.go(e);
     console.log(e);
+  };
+  
+  $scope.test=function(){
+  }
+  
+  $scope.addImage=function(refValue){
+    var myPopup = $ionicPopup.show({
+    template: '<input type="password" ng-model="data.wifi">',
+    title: 'Enter Wi-Fi Password',
+    subTitle: 'Please use normal things',
+    scope: $scope,
+    buttons: [
+      { text: 'Cancel' },
+      {
+        text: '<b>Save</b>',
+        type: 'button-positive',
+        onTap: function(e) {
+          if (!$scope.data.wifi) {
+            //don't allow the user to close unless he enters wifi password
+            e.preventDefault();
+          } else {
+            return $scope.data.wifi;
+          }
+        }
+      },
+    ]
+    });
+    myPopup.then(function(res) {
+      console.log('Tapped!', res);
+    });
+    $timeout(function() {
+      myPopup.close(); //close the popup after 3 seconds for some reason
+    }, 3000);
+  };
+
+  $scope.addSound=function(refValue){
+  }
+
+  $scope.addVideo=function(refValue){
+  }
+
+  $scope.parseTemplate=function(/*templateJSON*/){
+    //var tpl=JSON.parse(templateJSON)
+    
+    var tpl=[ { type: 'TextArea', name: 'TextArea_', value: 'TextArea' },
+    { type: 'TextLine', name: 'TextLine_', value: 'TextLine' },
+    { type: 'Image', name: 'Image_', value: 'template_test.yaml' },
+    { type: 'Sound', name: 'Sound_', value: 'template_test.yaml' },
+    { type: 'Video', name: 'Video_', value: 'template_test.yaml' },
+    { type: 'Coordinates', name: 'Coordinates_', value: '43.2,42.0' },
+    { type: 'Date', name: 'Date_', value: '01/01/2000' },
+    { type: 'Time', name: 'Time_', value: '12:00' },
+    { type: 'User', name: 'User_', value: 'User' },
+    { type: 'Creator', name: 'Creator_', value: 'Creator' },
+    { type: 'Email', name: 'Email_', value: 'test@email.com' },
+    { type: 'Phone', name: 'Phone_', value: '00 00 00 00 00' },
+    { type: 'Radiobox',
+      name: 'Radiobox_',
+      value: [ 42, 'ok', 'maybe' ], 
+      result:''},
+    { type: 'Checkbox',
+      name: 'Checkbox_',
+      value: [ {text:'check1',checked:false},{text:'check2',checked:false},{text:'check3',checked:false} ] },
+    { type: 'Number', name: 'Number_', value: 42 } ];
+      
+    $scope.currentTemplate=tpl;
   };
   
   $scope.data={ htmlcontent1:'<h2>Try me!</h2><p>textAngular is a super cool WYSIWYG Text Editor directive for AngularJS</p><p><b>Features:</b></p><ol><li>Automatic Seamless Two-Way-Binding</li><li style="color: blue;">Super Easy <b>Theming</b> Options</li><li>Simple Editor Instance Creation</li><li>Safely Parses Html for Custom Toolbar Icons</li><li>Doesn&apos;t Use an iFrame</li><li>Works with Firefox, Chrome, and IE8+</li></ol><p><b>Code at GitHub:</b> <a href="https://github.com/fraywing/textAngular">Here</a> </p>',htmlcontent2:'test'}

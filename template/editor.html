@@ -1,8 +1,117 @@
 <ion-content has-header="true" class="has-header">
-    <div class="has-header nsk-thin-centered nsk-box-border nsk-box-shadow" ng-controller="EditorCtrl">
+  <div  class="has-header nsk-thin-centered nsk-box-border nsk-box-shadow" ng-controller="EditorCtrl">
     <text-angular-toolbar  name="toolbar"></text-angular-toolbar>
-    <text-angular name="htmlcontent1" ng-model="data.htmlcontent1" ta-target-toolbars='toolbar'></text-angular>
-    <text-angular name="htmlcontent2" ng-model="data.htmlcontent2" ta-target-toolbars='toolbar'></text-angular>
+    <div ng-repeat="item in currentTemplate" ng-switch="item.type">
+      
+      <div ng-switch-when="TextArea">
+        <h4>{{item.name}}</h4>
+        <text-angular name="htmlcontent1" ng-model="item.value" ta-target-toolbars='toolbar'></text-angular>
+      </div>
+      
+      <div ng-switch-when="Image" class="nsk-tpl-image">
+        <h4>{{item.name}}</h4>
+        <div ><img style="width:100%;" src="http://placehold.it/100x80"></div>
+        <button style="width:100%;" type="button" class="btn btn-default"
+        ng-click="addImage({{item.value}})">Ajouter image</button>
+      </div>
+      
+      <div ng-switch-when="Sound" class="nsk-tpl-sound">
+        <h4>{{item.name}}</h4>
+        <div ><img style="width:100%;" src="http://placehold.it/100x80"></div>
+        <button style="width:100%;" type="button" class="btn btn-default"
+        ng-click="addSound({{item.value}})">Ajouter message sonore</button>
+      </div>
+
+      <div ng-switch-when="Video" class="nsk-tpl-video">
+        <h4>{{item.name}}</h4>
+        <div ><img style="width:100%;" src="http://placehold.it/100x80"></div>
+        <button style="width:100%;" type="button" class="btn btn-default" 
+        ng-click="addVideo({{item.value}})">Ajouter video</button>
+      </div>
+
+      <div ng-switch-when="User">
+        <h4>{{item.name}}</h4>
+        <div class="input-group">
+          <span class="input-group-addon">@</span>
+          <input type="text" class="form-control" placeholder="Username">
+        </div>
+      </div>
+      
+      <div ng-switch-when="Creator">
+        <h4>{{item.name}}</h4>
+        <div class="input-group input-group-large">
+          <span class="input-group-addon">@</span>
+          <input type="text" class="form-control" placeholder="Username">
+        </div>
+      </div>
+      
+      <div ng-switch-when="Coordinates">
+        <h4>{{item.name}}</h4>
+        <iframe width="425" height="350" frameborder="0" scrolling="no"
+        marginheight="0" marginwidth="0"
+        ng-src="http://www.openstreetmap.org/export/embed.html?bbox=
+        {{item.value.split(",").slice(1)-10 }}
+        %2C{{item.value.split(",").slice(0)-10 }}
+        %2C{{item.value.split(",").slice(1)+10 }}
+        %2C{{item.value.split(",").slice(0)+10 }}
+        &amp;layer=mapnik" style="border: 1px solid black"></iframe><br/>
+        <small><a href="http://www.openstreetmap.org/#map=19/48.57903/7.76321">Afficher une carte plus grande</a></small>
+      </div>
+      
+      <div ng-switch-when="Email">
+        <h4>{{item.name}}</h4>
+        <div class="input-group">
+          <span class="input-group-addon">@</span>
+          <input type="email" class="form-control" placeholder="{{item.value}}">
+        </div>
+      </div>
+      
+      <div ng-switch-when="Phone">
+        <h4>{{item.name}}</h4>
+        <div class="input-group">
+          <span class="input-group-addon">@</span>
+          <input type="tel" class="form-control" placeholder="{{item.value}}">
+        </div>
+      </div>
+      
+      <div ng-switch-when="Date">
+        <h4>{{item.name}}</h4>
+        <div class="input-group">
+          <span class="input-group-addon">@</span>
+          <input type="date" class="form-control" placeholder="{{item.value}}">
+        </div>
+      </div>
+
+      <div ng-switch-when="Time">
+        <h4>{{item.name}}</h4>
+        <div class="input-group">
+          <span class="input-group-addon">@</span>
+          <input type="time" class="form-control" placeholder="{{item.value}}">
+        </div>
+      </div>
+      
+      <div ng-switch-when="Radiobox">
+        <h4>{{item.name}}</h4>
+        <ion-radio  ng-repeat="val in item.value"
+                    ng-value="val"
+                    ng-model="item.result">
+                    {{val}}
+      </ion-radio>
+      </div>
+      
+      <div ng-switch-when="Checkbox">
+        <h4>{{item.name}}</h4>
+        <ion-checkbox  ng-repeat="val in item.value"
+                    ng-checked="val.checked"
+                    ng-model="val.checked">
+                    {{val.text}}
+      </ion-checkbox>
+      </div>
     </div>
+
+    <button style="width:100%;" type="button" class="btn btn-default"
+    ng-click="parseTemplate()">Refresh test</button>
+
+  </div>
 </ion-content>
 

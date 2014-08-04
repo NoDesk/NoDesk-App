@@ -212,6 +212,14 @@
 
 
 /*css for nodesk template */
+.nsk-tpl-img{
+  width:100%;
+}
+
+.nsk-tpl-btn{
+  width:100%;
+}
+
 .nsk-tpl-left{}
 .nsk-tpl-right{}
 .nsk-tpl-full{}
@@ -248,3 +256,10 @@
     margin:20px 0;
 }
 
+.form-control.nsk-bt-input{
+  border: 1px solid #ccc;
+}
+
+.popup-buttons.row{
+  margin-left:0;
+}

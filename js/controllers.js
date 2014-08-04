@@ -139,39 +139,125 @@ angular.module('starter.controllers', ['ui.bootstrap','textAngular'])
   
   $scope.addImage=function(refValue){
     var myPopup = $ionicPopup.show({
-    template: '<input type="password" ng-model="data.wifi">',
-    title: 'Enter Wi-Fi Password',
-    subTitle: 'Please use normal things',
+    title: 'Selectionner image',
     scope: $scope,
     buttons: [
-      { text: 'Cancel' },
-      {
-        text: '<b>Save</b>',
-        type: 'button-positive',
-        onTap: function(e) {
-          if (!$scope.data.wifi) {
-            //don't allow the user to close unless he enters wifi password
-            e.preventDefault();
-          } else {
-            return $scope.data.wifi;
-          }
+      { type: 'button button-icon icon ion-folder',
+        onTap: function(refValue) {
+            //Cordova/phoneGap Files explorer
+            //MIME-type image 
+            return ;
+        }
+      },
+      { type: 'button button-icon icon ion-camera',
+        onTap: function(refValue) {
+            //Cordova/phoneGap camera 
+            return ;
         }
       },
     ]
     });
+    /*
     myPopup.then(function(res) {
       console.log('Tapped!', res);
     });
+    
     $timeout(function() {
       myPopup.close(); //close the popup after 3 seconds for some reason
     }, 3000);
+    */
   };
 
   $scope.addSound=function(refValue){
-  }
-
+    var myPopup2 = $ionicPopup.show({
+    title: 'Selectionner fichier audio',
+    scope: $scope,
+    buttons: [
+      { type: 'button button-icon icon ion-folder',
+        onTap: function(refValue) {
+            //Cordova/phoneGap Files explorer
+            //MIME-type audio 
+            return;
+        }
+      },
+      { type: 'button button-icon icon ion-ios7-mic',
+        onTap: function(refValue) {
+            //Cordova/phoneGap microphone
+            return;
+        }
+      },
+    ]
+    });
+    /*
+    myPopup.then(function(res) {
+      console.log('Tapped!', res);
+    });
+    
+    $timeout(function() {
+      myPopup.close(); //close the popup after 3 seconds for some reason
+    }, 3000);
+    */
+  };
+  
   $scope.addVideo=function(refValue){
-  }
+    var myPopup3 = $ionicPopup.show({
+    title: 'Selectionner video',
+    scope: $scope,
+    buttons: [
+      { type: 'button button-icon icon ion-folder',
+        onTap: function(refValue) {
+            //Cordova/phoneGap Files explorer
+            //MIME-type video 
+            return;
+        }
+      },
+      { type: 'button button-icon icon ion-videocamera',
+        onTap: function(refValue) {
+            //Cordova/phoneGap camera/video
+            return;
+        }
+      },
+    ]
+    });
+    /*
+    myPopup.then(function(res) {
+      console.log('Tapped!', res);
+    });
+
+    $timeout(function() {
+      myPopup.close(); //close the popup after 3 seconds for some reason
+    }, 3000);
+    */
+  };
+  
+  $scope.addCoordinate=function(refValue){
+    var myPopup3 = $ionicPopup.show({
+    title: 'Geo-localistion',
+    subtitle: "GPS ou adresse",
+    template: '<input type="text" class="form-control" placeholder="Text input">',
+    scope: $scope,
+    buttons: [
+      { type: 'button button-icon icon ion-location',
+        onTap: function(refValue) {
+            //Cordova/phoneGap gps
+            return;
+        }
+      }
+    ]
+    });
+    /*
+    myPopup.then(function(res) {
+      console.log('Tapped!', res);
+    });
+
+    $timeout(function() {
+      myPopup.close(); //close the popup after 3 seconds for some reason
+    }, 3000);
+    */
+  };
+
+
+
 
   $scope.parseTemplate=function(/*templateJSON*/){
     //var tpl=JSON.parse(templateJSON)

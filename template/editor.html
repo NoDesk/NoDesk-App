@@ -10,22 +10,22 @@
       
       <div ng-switch-when="Image" class="nsk-tpl-image">
         <h4>{{item.name}}</h4>
-        <div ><img style="width:100%;" src="http://placehold.it/100x80"></div>
-        <button style="width:100%;" type="button" class="btn btn-default"
+        <div ><img class="nsk-tpl-img" src="http://placehold.it/100x80"></div>
+        <button type="button" class="btn btn-default nsk-tpl-btn"
         ng-click="addImage({{item.value}})">Ajouter image</button>
       </div>
       
       <div ng-switch-when="Sound" class="nsk-tpl-sound">
         <h4>{{item.name}}</h4>
-        <div ><img style="width:100%;" src="http://placehold.it/100x80"></div>
-        <button style="width:100%;" type="button" class="btn btn-default"
+        <div ><img class="nsk-tpl-img" src="http://placehold.it/100x80"></div>
+        <button  type="button" class="btn btn-default nsk-tpl-btn"
         ng-click="addSound({{item.value}})">Ajouter message sonore</button>
       </div>
 
       <div ng-switch-when="Video" class="nsk-tpl-video">
         <h4>{{item.name}}</h4>
-        <div ><img style="width:100%;" src="http://placehold.it/100x80"></div>
-        <button style="width:100%;" type="button" class="btn btn-default" 
+        <div ><img class="nsk-tpl-img" src="http://placehold.it/100x80"></div>
+        <button  type="button" class="btn btn-default nsk-tpl-btn" 
         ng-click="addVideo({{item.value}})">Ajouter video</button>
       </div>
 
@@ -33,7 +33,7 @@
         <h4>{{item.name}}</h4>
         <div class="input-group">
           <span class="input-group-addon">@</span>
-          <input type="text" class="form-control" placeholder="Username">
+          <input type="text" class="form-control nsk-bt-input" placeholder="Username">
         </div>
       </div>
       
@@ -41,7 +41,7 @@
         <h4>{{item.name}}</h4>
         <div class="input-group input-group-large">
           <span class="input-group-addon">@</span>
-          <input type="text" class="form-control" placeholder="Username">
+          <input type="text" class="form-control nsk-bt-input" placeholder="Username">
         </div>
       </div>
       
@@ -56,13 +56,15 @@
         %2C{{item.value.split(",").slice(0)+10 }}
         &amp;layer=mapnik" style="border: 1px solid black"></iframe><br/>
         <small><a href="http://www.openstreetmap.org/#map=19/48.57903/7.76321">Afficher une carte plus grande</a></small>
+        <button style="width:425px;" type="button" class="btn btn-default"
+        ng-click="addCoordinate({{item.value}})">Ajouter coordonnees</button>
       </div>
       
       <div ng-switch-when="Email">
         <h4>{{item.name}}</h4>
         <div class="input-group">
           <span class="input-group-addon">@</span>
-          <input type="email" class="form-control" placeholder="{{item.value}}">
+          <input type="email" class="form-control nsk-bt-input" placeholder="{{item.value}}">
         </div>
       </div>
       
@@ -70,7 +72,7 @@
         <h4>{{item.name}}</h4>
         <div class="input-group">
           <span class="input-group-addon">@</span>
-          <input type="tel" class="form-control" placeholder="{{item.value}}">
+          <input type="tel" class="form-control nsk-bt-input" placeholder="{{item.value}}">
         </div>
       </div>
       
@@ -78,7 +80,7 @@
         <h4>{{item.name}}</h4>
         <div class="input-group">
           <span class="input-group-addon">@</span>
-          <input type="date" class="form-control" placeholder="{{item.value}}">
+          <input type="date" class="form-control nsk-bt-input" placeholder="{{item.value}}">
         </div>
       </div>
 
@@ -86,7 +88,7 @@
         <h4>{{item.name}}</h4>
         <div class="input-group">
           <span class="input-group-addon">@</span>
-          <input type="time" class="form-control" placeholder="{{item.value}}">
+          <input type="time" class="form-control nsk-bt-input" placeholder="{{item.value}}">
         </div>
       </div>
       

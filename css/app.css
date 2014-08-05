@@ -267,3 +267,15 @@
 .ta-toolbar.btn-toolbar{
   margin-left:0;
 }
+
+.nsk-transparency{
+  opacity:0.3;
+}
+
+.nsk-frosted-glass{
+  -webkit-filter: blur(2px);
+  -moz-filter   : blur(2px);
+  -ms-filter    : blur(2px);
+  -o-filter     : blur(2px);
+  filter        : blur(2px);
+}

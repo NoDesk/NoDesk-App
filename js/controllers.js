@@ -126,7 +126,7 @@ angular.module('starter.controllers', ['ui.bootstrap','textAngular'])
 
 })
 
-.controller('EditorCtrl', function($scope,$state,$ionicPopup, $timeout) {
+.controller('EditorCtrl', function($scope,$state,$ionicPopup, $timeout,$ionicModal) {
   $scope.currentTemplate;
   
   $scope.goTo= function(e){
@@ -258,7 +258,6 @@ angular.module('starter.controllers', ['ui.bootstrap','textAngular'])
 
 
 
-
   $scope.parseTemplate=function(/*templateJSON*/){
     //var tpl=JSON.parse(templateJSON)
     
@@ -287,4 +286,32 @@ angular.module('starter.controllers', ['ui.bootstrap','textAngular'])
   };
   
   $scope.data={ htmlcontent1:'<h2>Try me!</h2><p>textAngular is a super cool WYSIWYG Text Editor directive for AngularJS</p><p><b>Features:</b></p><ol><li>Automatic Seamless Two-Way-Binding</li><li style="color: blue;">Super Easy <b>Theming</b> Options</li><li>Simple Editor Instance Creation</li><li>Safely Parses Html for Custom Toolbar Icons</li><li>Doesn&apos;t Use an iFrame</li><li>Works with Firefox, Chrome, and IE8+</li></ol><p><b>Code at GitHub:</b> <a href="https://github.com/fraywing/textAngular">Here</a> </p>',htmlcontent2:'test'}
+})
+
+
+.controller('PINModalCtrl', function($scope,$ionicModal) {
+  $ionicModal.fromTemplateUrl('PIN', {
+      scope: $scope,
+      animation: 'slide-in-up'
+    }).then(function(modal) {
+      $scope.modal = modal;
+    });
+    $scope.openModal = function() {
+      $scope.modal.show();
+    };
+    $scope.closeModal = function() {
+      $scope.modal.hide();
+    };
+    //Cleanup the modal when we're done with it!
+    $scope.$on('$destroy', function() {
+      $scope.modal.remove();
+    });
+    // Execute action on hide modal
+    $scope.$on('modal.hidden', function() {
+      // Execute action
+    });
+    // Execute action on remove modal
+    $scope.$on('modal.removed', function() {
+      // Execute action
+    });
 })

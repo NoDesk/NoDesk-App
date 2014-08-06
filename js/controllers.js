@@ -198,7 +198,22 @@ angular.module('starter.controllers', ['ui.bootstrap','textAngular'])
     }, 3000);
     */
   };
+   
   
+  /*FIX-ME: Doesn't render overflown centent*/
+  $scope.storeCanvas=function(){
+    html2canvas(document.querySelector("#currentFile"), {
+      allowTaint:'true',
+      useOverflow:'true',
+      onrendered: function(canvas) {
+
+        var base64 = canvas.toDataURL();
+        console.log(base64);
+    }
+    });
+  };
+
+
   $scope.addVideo=function(refValue){
     var myPopup3 = $ionicPopup.show({
     title: 'Selectionner video',

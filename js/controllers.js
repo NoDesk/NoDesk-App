@@ -1,5 +1,13 @@
 angular.module('starter.controllers', ['ui.bootstrap','textAngular'])
 
+.config(function($httpProvider) {
+      //Enable cross domain calls
+      $httpProvider.defaults.useXDomain = true;
+
+      //Remove the header used to identify ajax call  that would prevent CORS from working
+      delete $httpProvider.defaults.headers.common['X-Requested-With'];
+  })
+
 .config(function ($compileProvider){
   // Set the whitelist for certain URLs just to be safe
   $compileProvider.aHrefSanitizationWhitelist(/^\s*(https?|ftp|mailto|file|tel):/);
@@ -126,7 +134,7 @@ angular.module('starter.controllers', ['ui.bootstrap','textAngular'])
 
 })
 
-.controller('EditorCtrl', function($scope,$state,$ionicPopup, $timeout,$ionicModal) {
+.controller('EditorCtrl', function($scope,$state,$ionicPopup, $timeout,$ionicModal,$http) {
   $scope.currentTemplate;
   
   $scope.goTo= function(e){
@@ -271,7 +279,31 @@ angular.module('starter.controllers', ['ui.bootstrap','textAngular'])
     */
   };
 
-
+  
+  $scope.fetchTemplateList=function(){
+   /*
+   $http.get('http://localhost:8000/template/').then(function(resp) {
+      console.log('Success', resp);
+      })
+    //, function(err) {
+    //    console.error('ERR', err);
+    //  })
+    $http.get('http://localhost:8000/template/').then(function(resp) {
+    $scope.conditions = resp.data.conditions;
+  }, function(err) {
+    console.error('ERR', err);
+    // err.status will contain the status code
+  })
+    */
+  };
+  
+  $http.get('http://localhost:8000/template/').then(function(resp) {
+    console.log('Success', resp);
+    // For JSON responses, resp.data contains the result
+  }, function(err) {
+    console.error('ERR', err);
+    // err.status will contain the status code
+  })
 
   $scope.parseTemplate=function(/*templateJSON*/){
     //var tpl=JSON.parse(templateJSON)

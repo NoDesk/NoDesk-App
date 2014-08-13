@@ -31,7 +31,7 @@
   
   <!-- Login screen --> 
   <ion-pane>
-    <div class="nsk-login-center-box nsk-login-bg" >
+    <div class="nsk-login-center-box nsk-login-bg" ng-controller="LoginCtrl">
       <div style="margin:auto;">
         <div class="list" >
           <label class="item item-input">
@@ -44,7 +44,7 @@
           </label>
         </div>
         <div class="padding">
-          <button class="button button-block button-positive" ng-click="signIn(user)">
+          <button class="button button-block button-positive" ng-click="login()">
             Sign-In
           </button>
           <p class="text-center">

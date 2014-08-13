@@ -3,7 +3,7 @@
 // angular.module is a global place for creating, registering and retrieving Angular modules
 // 'starter' is the name of this angular module example (also set in a <body> attribute in index.html)
 // the 2nd parameter is an array of 'requires'
-angular.module('starter', ['ionic','starter.controllers'])
+angular.module('starter', ['ionic','http-auth-interceptor','starter.controllers'])
 
 .config(function($httpProvider) {
       //Enable cross domain calls
@@ -21,7 +21,7 @@ angular.module('starter', ['ionic','starter.controllers'])
 .config(function($stateProvider, $urlRouterProvider) {
   $urlRouterProvider
   //.when('options','option.html')
-    .otherwise('/');
+    .otherwise('/login');
 
   $stateProvider
     .state("home", {
@@ -40,6 +40,10 @@ angular.module('starter', ['ionic','starter.controllers'])
       url: '/browsing',
       templateUrl: 'template/browse.html'
     })
+    .state("login", {
+      url: '/login',
+      templateUrl: 'template/login.html'
+    })
 
 })
 
@@ -57,10 +61,48 @@ angular.module('starter', ['ionic','starter.controllers'])
     var db = window.sqlitePlugin.openDatabase({name: "nodesk.db"});
     
     db.transaction(function(tx) {
-      tx.executeSql('CREATE TABLE IF NOT EXISTS template (id integer primary key, templateJSON text, alive boolean, timestamp integer)');
-      tx.executeSql('CREATE TABLE IF NOT EXISTS dossier (id integer primary key, data dossierJSON, timestamp integer)');
-      tx.executeSql('CREATE TABLE IF NOT EXISTS user (id integer primary key, name text, surname text, photo text, timestamp integer)');
-      tx.executeSql('CREATE TABLE IF NOT EXISTS option (id integer primary key, optionJSON text, timestamp integer)');
+      tx.executeSql('CREATE TABLE IF NOT EXISTS template (idTemplate integer primary key, templateJSON text, alive boolean, timestamp integer)');
+      tx.executeSql('CREATE TABLE IF NOT EXISTS dossier (idDossier integer primary key, data dossierJSON, timestamp integer)');
+      tx.executeSql('CREATE TABLE IF NOT EXISTS user (idUser integer primary key, name text, surname text, photo text, timestamp integer)');
+      tx.executeSql('CREATE TABLE IF NOT EXISTS option (idOption integer primary key, optionJSON text, timestamp integer)');
     })
   });
+})
+
+
+.factory('AuthenticationService', function($rootScope, $http, authService) {
+  var service = {
+    login: function(user) {
+      $http.post('http://localhost:8000/auth/login',"username="+encodeURI(user.username)+"&password="+encodeURI(user.password),{headers:{'Content-Type':'application/x-www-form-urlencoded'}})
+      //$http.post('http://localhost:8000/auth/login',user)
+      .success(function (data, status, headers, config) {
+    	  $http.defaults.headers.common.Authorization = data.authorizationToken;  // Step 1
+          console.log("Token "+data.authorizationToken);
+        
+    	  // Need to inform the http-auth-interceptor that
+        // the user has logged in successfully.  To do this, we pass in a function that
+        // will configure the request headers with the authorization token so
+        // previously failed requests(aka with status == 401) will be resent with the
+        // authorization token placed in the header
+        authService.loginConfirmed(data, function(config) {  // Step 2 & 3
+          config.headers.Authorization = data.authorizationToken;
+          return config;
+        });
+      })
+      .error(function (data, status, headers, config) {
+        $rootScope.$broadcast('event:auth-login-failed', status);
+      });
+    },
+    logout: function(user) {
+      $http.post('https://logout', {}, { ignoreAuthModule: true })
+      .finally(function(data) {
+        delete $http.defaults.headers.common.Authorization;
+        $rootScope.$broadcast('event:auth-logout-complete');
+      });			
+    },	
+    loginCancelled: function() {
+      authService.loginCancelled();
+    }
+  };
+  return service;
 })

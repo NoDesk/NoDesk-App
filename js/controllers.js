@@ -320,30 +320,50 @@ angular.module('starter.controllers', ['ui.bootstrap','textAngular'])
   };
 
   
-  $scope.fetchTemplateList=function(){
-   /*
-   $http.get('http://localhost:8000/template/').then(function(resp) {
+  $scope.fetchTemplateList=function(server){
+    $http.get(server+"/template/").then(function(resp) {
       console.log('Success', resp);
+      }
+      ,function(err) {
+        console.error('ERR', err);
       })
-    //, function(err) {
-    //    console.error('ERR', err);
-    //  })
-    $http.get('http://localhost:8000/template/').then(function(resp) {
-    $scope.conditions = resp.data.conditions;
-  }, function(err) {
-    console.error('ERR', err);
-    // err.status will contain the status code
-  })
-    */
   };
   
-  $http.get('http://localhost:8000/template/').then(function(resp) {
-    console.log('Success', resp);
-    // For JSON responses, resp.data contains the result
-  }, function(err) {
-    console.error('ERR', err);
-    // err.status will contain the status code
-  })
+  $scope.getFile=function(server,dossierID){
+    $http.get(server+''+dossierID).then(function(resp) {
+      console.log('Success', resp);
+      // For JSON responses, resp.data contains the result
+    }, function(err) {
+      console.error('ERR', err);
+      // err.status will contain the status code
+    })
+  };
+  
+  $scope.saveFile=function(){
+    var currentDate = new Date();
+    var dateTime = currentDate.getTime(); 
+
+    if($scope.isNew){
+      $scope.localDB.transaction(function(tx) {
+        tx.executeSql("INSERT INTO dossier (dossierJSON, timestamp) VALUES (?,?)", [$scope.currentTemplate,dateTime]);
+      })
+    }
+    else{
+      $scope.localDB.transaction(function(tx) {
+        tx.executeSql("UPDATE dossier SET dossierJSON=?, timestamp=? WHERE idDossier=?", [$scope.currentTemplate,dateTime,$scope.currentID]);
+      })
+    }
+  };
+
+  $scope.sendFile=function(server){
+    $http.post(server).then(function(resp) {
+      console.log('Success', resp);
+      // For JSON responses, resp.data contains the result
+    }, function(err) {
+      console.error('ERR', err);
+      // err.status will contain the status code
+    })
+  };
 
   $scope.parseTemplate=function(/*templateJSON*/){
     //var tpl=JSON.parse(templateJSON)
@@ -372,12 +392,16 @@ angular.module('starter.controllers', ['ui.bootstrap','textAngular'])
     $scope.currentTemplate=tpl;
   };
   
+
   $scope.data={ htmlcontent1:'<h2>Try me!</h2><p>textAngular is a super cool WYSIWYG Text Editor directive for AngularJS</p><p><b>Features:</b></p><ol><li>Automatic Seamless Two-Way-Binding</li><li style="color: blue;">Super Easy <b>Theming</b> Options</li><li>Simple Editor Instance Creation</li><li>Safely Parses Html for Custom Toolbar Icons</li><li>Doesn&apos;t Use an iFrame</li><li>Works with Firefox, Chrome, and IE8+</li></ol><p><b>Code at GitHub:</b> <a href="https://github.com/fraywing/textAngular">Here</a> </p>',htmlcontent2:'test'}
 })
 
 
 .controller('PINModalCtrl', function($scope,$ionicModal) {
-  $ionicModal.fromTemplateUrl('PIN', {
+  $ionicModal.fromTemplateUrl('PIN',function(modal){
+      $scope.loginModal=modal;
+    },
+    {
       scope: $scope,
       animation: 'slide-in-up'
     }).then(function(modal) {
@@ -402,3 +426,43 @@ angular.module('starter.controllers', ['ui.bootstrap','textAngular'])
       // Execute action
     });
 })
+
+
+.controller('LoginCtrl', function($scope, $http, $state ,AuthenticationService) {
+  $scope.message = "";
+  
+  $scope.user = {
+    username: null,
+    password: null
+  };
+ 
+  $scope.login = function() {
+    AuthenticationService.login($scope.user);
+  };
+ 
+  
+  $scope.$on('event:auth-loginRequired', function(e, rejection) {
+    $scope.loginModal.show();
+  });
+ 
+  $scope.$on('event:auth-loginConfirmed', function() {
+     $scope.username = null;
+     $scope.password = null;
+     $scope.loginModal.hide();
+  });
+  
+  $scope.$on('event:auth-login-failed', function(e, status) {
+    var error = "Login failed.";
+    if (status == 401) {
+      error = "Invalid Username or Password.";
+    }
+    $scope.message = error;
+  });
+ 
+  $scope.$on('event:auth-logout-complete', function() {
+    $state.go('login', {}, {reload: true, inherit: false});
+  }); 
+  
+})
+
+

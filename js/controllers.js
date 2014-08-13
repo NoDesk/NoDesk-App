@@ -1,43 +1,5 @@
 angular.module('starter.controllers', ['ui.bootstrap','textAngular'])
 
-.config(function($httpProvider) {
-      //Enable cross domain calls
-      $httpProvider.defaults.useXDomain = true;
-
-      //Remove the header used to identify ajax call  that would prevent CORS from working
-      delete $httpProvider.defaults.headers.common['X-Requested-With'];
-  })
-
-.config(function ($compileProvider){
-  // Set the whitelist for certain URLs just to be safe
-  $compileProvider.aHrefSanitizationWhitelist(/^\s*(https?|ftp|mailto|file|tel):/);
-})
-
-.config(function($stateProvider, $urlRouterProvider) {
-  $urlRouterProvider
-  //.when('options','option.html')
-    .otherwise('/');
-
-  $stateProvider
-    .state("home", {
-      url: "/",
-      templateUrl: 'template/home.html'
-    })
-    .state("options", {
-      url: '/options',
-      templateUrl: 'template/option.html'
-    })
-    .state("editor", {
-      url: '/editor',
-      templateUrl: 'template/editor.html'
-    })
-    .state("browsing", {
-      url: '/browsing',
-      templateUrl: 'template/browse.html'
-    })
-
-})
-
 .controller('DropdownCtrl', function($scope) {
   $scope.items = [
     'The first choice!',
@@ -137,6 +99,83 @@ angular.module('starter.controllers', ['ui.bootstrap','textAngular'])
 .controller('EditorCtrl', function($scope,$state,$ionicPopup, $timeout,$ionicModal,$http) {
   $scope.currentTemplate;
   
+  /*Cordova/phonegap */ 
+  
+  /*Camera - Get Picture
+   * API links : https://github.com/apache/cordova-plugin-camera/blob/master/doc/index.md
+   **/
+  /*
+  navigator.camera.getPicture(onSuccess, onFail, { quality: 50,
+    destinationType: Camera.DestinationType.DATA_URL
+  });
+
+  function onSuccess(imageData) {
+    var image = document.getElementById('myImage');
+    image.src = "data:image/jpeg;base64," + imageData;
+  }
+
+  function onFail(message) {
+    alert('Failed because: ' + message);
+  } 
+  */
+
+  /*GPS - Get Position
+   * API links : https://github.com/apache/cordova-plugin-geolocation/blob/master/doc/index.md
+   **/
+  /*
+  // onSuccess Callback
+  // This method accepts a Position object, which contains the
+  // current GPS coordinates
+  //
+  var onSuccess = function(position) {
+    alert('Latitude: '          + position.coords.latitude          + '\n' +
+          'Longitude: '         + position.coords.longitude         + '\n' +
+          'Altitude: '          + position.coords.altitude          + '\n' +
+          'Accuracy: '          + position.coords.accuracy          + '\n' +
+          'Altitude Accuracy: ' + position.coords.altitudeAccuracy  + '\n' +
+          'Heading: '           + position.coords.heading           + '\n' +
+          'Speed: '             + position.coords.speed             + '\n' +
+          'Timestamp: '         + position.timestamp                + '\n');
+  };
+
+  // onError Callback receives a PositionError object
+  //
+  function onError(error) {
+    alert('code: '    + error.code    + '\n' +
+          'message: ' + error.message + '\n');
+  }
+
+  navigator.geolocation.getCurrentPosition(onSuccess, onError);
+  */
+
+  /*Audio - Get/Play audio media
+   * API links : https://github.com/apache/cordova-plugin-media/blob/master/doc/index.md  
+   **/
+   
+  /*
+  // Record audio
+  //
+  function recordAudio() {
+    var src = "myrecording.mp3";
+    var mediaRec = new Media(src,
+      // success callback
+      function() {
+        console.log("recordAudio():Audio Success");
+      },
+      // error callback
+      function(err) {
+        console.log("recordAudio():Audio Error: "+ err.code);
+      });
+
+      // Record audio
+      mediaRec.startRecord();
+  }
+  
+  //Stop recording   
+  mediaRec.stopRecord();
+  /*
+  /*EMD -- Cordova/phonegap */
+
   $scope.goTo= function(e){
     $state.go(e);
     console.log(e);
@@ -178,7 +217,8 @@ angular.module('starter.controllers', ['ui.bootstrap','textAngular'])
 
   $scope.addSound=function(refValue){
     var myPopup2 = $ionicPopup.show({
-    title: 'Selectionner fichier audio',
+    title: 'Selectionner fichier audio', 
+    template: '<input type="file" id="fileInput">', // String (optional). The html template to place in the popup body.
     scope: $scope,
     buttons: [
       { type: 'button button-icon icon ion-folder',

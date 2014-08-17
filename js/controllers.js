@@ -1,3 +1,8 @@
+/*
+ * TODO: Remove all console.log when releasing 
+ * */
+
+
 angular.module('starter.controllers', ['ui.bootstrap','textAngular'])
 
 .controller('DropdownCtrl', function($scope) {
@@ -319,18 +324,10 @@ angular.module('starter.controllers', ['ui.bootstrap','textAngular'])
     */
   };
 
-  
-  $scope.fetchTemplateList=function(server){
-    $http.get(server+"/template/").then(function(resp) {
-      console.log('Success', resp);
-      }
-      ,function(err) {
-        console.error('ERR', err);
-      })
-  };
-  
+
+
   $scope.getFile=function(server,dossierID){
-    $http.get(server+''+dossierID).then(function(resp) {
+    $http.get("http://"+server+"/"+dossierID).then(function(resp) {
       console.log('Success', resp);
       // For JSON responses, resp.data contains the result
     }, function(err) {
@@ -427,6 +424,139 @@ angular.module('starter.controllers', ['ui.bootstrap','textAngular'])
     });
 })
 
+.controller('TemplateSyncCtrl', function($scope, $http, $state ,AuthenticationService) {
+  //The full template list, loaded at start-up from the BD and updated by the
+  //server.
+  //When closing the app, the localDB is updated by this list, ensuring
+  //pseudo-persistency when network problem occurs 
+  $scope.currentTemplateList=[];
+  
+  //Hold the full (json-added) template list response from the server
+  $scope.fetchedFullTemplateList=[];
+  
+  //Hold ther short template list response from the server
+  $scope.fetchedTemplateList;
+
+  //Only hold the a template JSON 
+  $scope.fetchTEmplateJSON;
+  
+  //Update the specific template in the localDB
+  $scope.updateTemplate=function(pk,updatedJSON){
+    $scope.localDB.transaction(function(tx) {
+      tx.executeSql("UPDATE INTO template SET templateJSON=? where idTemplate=?", [updatedJSON,pk]);
+    })
+  };
+  
+  //Add a new template in the localDB
+  $scope.createTemplate=function(pk,templateName,templateJSON){
+    $scope.localDB.transaction(function(tx) {
+      tx.executeSql("INSERT INTO template (idTemplate,templateJSON,templateName) VALUES (?,?,?)", [pk,templateJSON,templateName]);
+    })
+  };
+  
+  //Load templates form the localDB into the $scope.currentTemplateList
+  $scope.loadTplListFromDB=function(){
+    //Clear the previous list
+    $scope.currentTemplateList=[];
+    
+    //Load the template list from the localDB
+    $scope.localDB.transaction(function(tx) {
+      tx.executeSql("SELECT * FROM template", [],
+      function(transaction, result) {
+        if (result != null && result.rows != null) {
+          for (var i = 0; i < result.rows.length; i++) {
+            var row = result.rows.item(i);
+            var tpl={name: row.templateName,pk:row.idTemplate,json:row.templateJSON}
+            $scope.currentTemplateList.push(tpl);
+          }
+        }
+      },errorHandler)
+    })
+  };
+  
+  //Update the localDB from the $scope.currentTemplateList
+  //Try to limit write on the localBD by checking the state of the current row
+  //TODO: May be better performance-wise to just drop the whole table instead
+  $scope.updateTplListToDB=function(){
+      var i;
+      var j;
+      var currentListLength=$scope.currentTemplateList.length;
+      var DBListlength;
+      var tplListDB=[];
+      
+      //Load the template list from the localDB
+      $scope.localDB.transaction(function(tx) {
+        tx.executeSql("SELECT * FROM template", [],
+        function(transaction, result) {
+          if (result != null && result.rows != null) {
+            DBListLength=result.rows.lenght;
+            for (var i = 0; i < DBListlength; i++) {
+              var row = result.rows.item(i);
+              var tpl={name: row.templateName,pk:row.idTemplate,json:row.templateJSON}
+              tplListDB.push(tpl);
+            }
+          }
+        },errorHandler)
+      });
+      
+      //Compare the current template list with the one store in the database and
+      //update or create rows accordingly
+      for(i=0;i<listLength;i++){
+        for(j=0;j<currentTplListLenght;j++){
+        
+          if($scope.currentTemplateList[index].pk=tplListDB[j].pk){
+            updateTemplate(pk);
+          }
+          else{
+            createTemplate(pk);
+          }
+        }
+      }
+  };
+
+  //refreshed the main list using data fetched from the server
+  $scope.refreshTplList=function(){
+    //Clear the previous list
+    $scope.currentTemplateList=[];
+    
+    var i;
+    var listLength=templateAlive.length;
+    
+    for(i=0;i<listLength;i++){
+      $scopeCurrentList.push($scope.fetchedFullTemplateList[i]);
+    }
+  };
+  
+  //API call to get alive template list 
+  $scope.fetchTemplateList=function(server,full){
+    //Get list of full template from server
+    if(full){
+      $http.get("http://"+server+"/template/?alive=true&json=true",{withCredentials :"true"}).then(function(resp) {
+        console.log('Success', resp);
+        $scope.fetchedFullTemplateList=resp.data;
+      });
+    }
+    //Get list of template from server
+    else{
+      $http.get("http://"+server+"/template/?alive=true",{withCredentials :"true"}).then(function(resp) {
+        console.log('Success', resp);
+        $scope.fetchedTemplateList=resp.data;
+      });
+    }
+  };
+
+  //API : Fetch a specific template 
+  $scope.fetchTemplate=function(server,templateID){
+    $http.get("http://"+server+"/template/"+templateID,{withCredentials :"true"}).then(function(resp) {
+      console.log('Success', resp);
+      $scope.fetchedTemplateJSON=resp.data;
+      }
+      ,function(err) {
+        console.error('ERR', err);
+      })
+  };
+
+})
 
 .controller('LoginCtrl', function($scope, $http, $state ,AuthenticationService) {
   $scope.message = "";
@@ -442,13 +572,14 @@ angular.module('starter.controllers', ['ui.bootstrap','textAngular'])
  
   
   $scope.$on('event:auth-loginRequired', function(e, rejection) {
-    $scope.loginModal.show();
+    //alert("Error 401")
+    //$scope.loginModal.show();
   });
  
   $scope.$on('event:auth-loginConfirmed', function() {
      $scope.username = null;
      $scope.password = null;
-     $scope.loginModal.hide();
+     $state.go('home', {}, {reload: true, inherit: false});
   });
   
   $scope.$on('event:auth-login-failed', function(e, status) {

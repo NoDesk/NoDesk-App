@@ -76,8 +76,7 @@ angular.module('starter', ['ionic','http-auth-interceptor','starter.controllers'
       $http.post('http://localhost:8000/auth/login',"username="+encodeURI(user.username)+"&password="+encodeURI(user.password),{headers:{'Content-Type':'application/x-www-form-urlencoded'}})
       //$http.post('http://localhost:8000/auth/login',user)
       .success(function (data, status, headers, config) {
-    	  $http.defaults.headers.common.Authorization = data.authorizationToken;  // Step 1
-          console.log("Token "+data.authorizationToken);
+    	 // $http.defaults.headers.common.Cookie = data.Set-Cookie;  // Step 1
         
     	  // Need to inform the http-auth-interceptor that
         // the user has logged in successfully.  To do this, we pass in a function that
@@ -85,7 +84,7 @@ angular.module('starter', ['ionic','http-auth-interceptor','starter.controllers'
         // previously failed requests(aka with status == 401) will be resent with the
         // authorization token placed in the header
         authService.loginConfirmed(data, function(config) {  // Step 2 & 3
-          config.headers.Authorization = data.authorizationToken;
+          //config.headers.Authorization = data.authorizationToken;
           return config;
         });
       })
@@ -96,7 +95,7 @@ angular.module('starter', ['ionic','http-auth-interceptor','starter.controllers'
     logout: function(user) {
       $http.post('https://logout', {}, { ignoreAuthModule: true })
       .finally(function(data) {
-        delete $http.defaults.headers.common.Authorization;
+        //delete $http.defaults.headers.common.Authorization;
         $rootScope.$broadcast('event:auth-logout-complete');
       });			
     },	
@@ -106,3 +105,4 @@ angular.module('starter', ['ionic','http-auth-interceptor','starter.controllers'
   };
   return service;
 })
+

@@ -101,7 +101,7 @@ angular.module('starter.controllers', ['ui.bootstrap','textAngular'])
 
 })
 
-.controller('EditorCtrl', function($scope,$state,$ionicPopup, $timeout,$ionicModal,$http) {
+.controller('EditorCtrl', function($scope,$sce,$state,$ionicPopup, $timeout,$ionicModal,$http) {
   $scope.currentTemplate;
   
   /*Cordova/phonegap */ 
@@ -323,43 +323,59 @@ angular.module('starter.controllers', ['ui.bootstrap','textAngular'])
     }, 3000);
     */
   };
-
-
-
-  $scope.getFile=function(server,dossierID){
-    $http.get("http://"+server+"/"+dossierID).then(function(resp) {
-      console.log('Success', resp);
-      // For JSON responses, resp.data contains the result
-    }, function(err) {
-      console.error('ERR', err);
-      // err.status will contain the status code
-    })
-  };
   
-  $scope.saveFile=function(){
-    var currentDate = new Date();
-    var dateTime = currentDate.getTime(); 
 
-    if($scope.isNew){
-      $scope.localDB.transaction(function(tx) {
-        tx.executeSql("INSERT INTO dossier (dossierJSON, timestamp) VALUES (?,?)", [$scope.currentTemplate,dateTime]);
-      })
-    }
-    else{
-      $scope.localDB.transaction(function(tx) {
-        tx.executeSql("UPDATE dossier SET dossierJSON=?, timestamp=? WHERE idDossier=?", [$scope.currentTemplate,dateTime,$scope.currentID]);
-      })
-    }
-  };
+  //Check if a template is completely filled
+  //Checkbox due to their metaphore are not checked at all
+  //Return an object where a boolean is set accordinly to completeness plus an
+  //array of the missing field identified by their name 
+  $scope.checkCompleteness=function(form){
+    var nbField=form.length;
+    var i;
+    var j;
+    var result={bool:true,where:[]};
 
-  $scope.sendFile=function(server){
-    $http.post(server).then(function(resp) {
-      console.log('Success', resp);
-      // For JSON responses, resp.data contains the result
-    }, function(err) {
-      console.error('ERR', err);
-      // err.status will contain the status code
-    })
+    for(i=0;i<nbField;i++){
+      //Common case
+      if(form[i].type!='Radiobox' && form[i].type!='Checkbox'){
+        if(form[i].values==null)
+          result.bool=false;
+          result.where.push(form[i].name);
+      }
+      //Special case radiobox
+      else if(form[i].type=='RadioBox'){
+        var nbChoice=form[i].values.length;
+        var valid=false;
+        for (var j = 0; j < nbChoice; j++) {
+          if(form[i].values[j].checked==true){
+            valid=true;
+            break;
+          }
+        }
+        if(!valid)
+          result.bool=false;
+          result.where.push(form[i].name);
+      }
+      //Checkbox are left unchecked
+    }
+    return result;
+  }
+
+  $scope.osmURL=function(coord){
+        var gps1=(coord.split(",")[1]-10); 
+        var gps2=(coord.split(",")[0]-10); 
+        var gps3=(coord.split(",")[1]+10); 
+        var gps4=(coord.split(",")[0]+10);
+        var baseURL="http://www.openstreetmap.org/export/embed.html?bbox=" +gps1+'%2C'+gps2+'%2C'+gps3+'%2C'+gps4+'&amp;layer=mapnik'; 
+        /*
+        // One should think about their particular case and sanitize accordingly
+    var qs = ["a", "b"].map(function(value, name) {
+        return encodeURIComponent(name) + "=" +
+               encodeURIComponent(value);
+      }).join("&");
+    */
+    // `baseUrl` isn't exposed to a user's control, so we don't have to worry about escaping it.
+    return $sce.trustAsResourceUrl(baseURL);
   };
 
   $scope.parseTemplate=function(/*templateJSON*/){
@@ -596,4 +612,50 @@ angular.module('starter.controllers', ['ui.bootstrap','textAngular'])
   
 })
 
+.controller('DossierSyncCtrl', function($scope, $http, $state ,AuthenticationService) {
 
+  $scope.getFile=function(server,dossierID){
+    $http.get("http://"+server+"/"+dossierID).then(function(resp) {
+      console.log('Success', resp);
+      // For JSON responses, resp.data contains the result
+    }, function(err) {
+      console.error('ERR', err);
+      // err.status will contain the status code
+    })
+  };
+  
+  $scope.saveFile=function(){
+    var currentDate = new Date();
+    var dateTime = currentDate.getTime(); 
+
+    if($scope.isNew){
+      $scope.localDB.transaction(function(tx) {
+        tx.executeSql("INSERT INTO dossier (dossierJSON, timestamp) VALUES (?,?)", [$scope.currentTemplate,dateTime]);
+      })
+    }
+    else{
+      $scope.localDB.transaction(function(tx) {
+        tx.executeSql("UPDATE dossier SET dossierJSON=?, timestamp=? WHERE idDossier=?", [$scope.currentTemplate,dateTime,$scope.currentID]);
+      })
+    }
+  };
+
+  $scope.sendFile=function(server){
+    if ($scope.checkCompleteness($scope.currentTemplate).bool) {
+      $http.post(server,$scope,currentTemplate).then(function(resp) {
+        console.log('Success', resp);
+        // For JSON responses, resp.data contains the result
+      }, function(err) {
+        console.error('ERR', err);
+        // err.status will contain the status code
+        // TODO:show a popup saying that there was an error (network, refused, etc
+        // ...)
+      })
+    }
+    else{
+      //show popup with error error 
+    }
+  };
+  
+ 
+})

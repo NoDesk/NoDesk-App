@@ -248,12 +248,13 @@
 
 /*textAngular RTE css*/
 .ta-editor {
-    min-height: 300px;
-    height: auto;
-    overflow: auto;
-    font-family: inherit;
-    font-size: 100%;
-    margin:20px 0;
+  min-height: 300px;
+  height: auto;
+  overflow: auto;
+  font-family: inherit;
+  font-size: 100%;
+  margin:20px 0;
+  width:50%;
 }
 
 .form-control.nsk-bt-input{
@@ -278,4 +279,29 @@
   -ms-filter    : blur(2px);
   -o-filter     : blur(2px);
   filter        : blur(2px);
+}
+
+.nsk-input{
+  width:98%;
+  margin:auto;
+}
+
+.nsk-radiobox{
+  width:50%;
+  margin-left:10%;
+}
+
+
+.nsk-textArea{
+  width:98%;
+  margin:auto;
+}
+
+.nsk-checkbox{
+  width:50%;
+  margin-left:10%;
+}
+
+.nsk-editor-margin-bottom{
+  margin-bottom:30px;
 }

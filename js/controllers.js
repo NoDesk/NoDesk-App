@@ -150,8 +150,9 @@ angular.module('starter.controllers', ['ui.bootstrap','textAngular'])
 
 })
 
-.controller('MainButtonCtrl', function($scope,$location,$state) {
-  
+.controller('MainButtonCtrl', function($scope,$location,$state,$ionicSideMenuDelegate) {
+  $ionicSideMenuDelegate.canDragContent(true);
+
   $scope.goTo= function(e){
     $state.go(e);
     console.log(e);
@@ -639,13 +640,15 @@ angular.module('starter.controllers', ['ui.bootstrap','textAngular'])
 
 })
 
-.controller('LoginCtrl', function($scope, $http, $state ,AuthenticationService) {
+.controller('LoginCtrl', function($scope, $http, $state ,AuthenticationService,$ionicSideMenuDelegate) {
   $scope.message = "";
   
   $scope.user = {
     username: null,
     password: null
   };
+  
+  $ionicSideMenuDelegate.canDragContent(false);
  
   $scope.login = function() {
     AuthenticationService.login($scope.user);

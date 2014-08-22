@@ -62,7 +62,7 @@ angular.module('starter', ['ionic','http-auth-interceptor','starter.controllers'
     
     db.transaction(function(tx) {
       tx.executeSql('CREATE TABLE IF NOT EXISTS template (idTemplate integer primary key, templateJSON text, alive boolean, timestamp integer)');
-      tx.executeSql('CREATE TABLE IF NOT EXISTS dossier (idDossier integer primary key, data dossierJSON, timestamp integer)');
+      tx.executeSql('CREATE TABLE IF NOT EXISTS dossier (idDossier integer primary key,name text, dossierJSON text, timestamp integer,thumbnail text)');
       tx.executeSql('CREATE TABLE IF NOT EXISTS user (idUser integer primary key, name text, surname text, photo text, timestamp integer)');
       tx.executeSql('CREATE TABLE IF NOT EXISTS option (idOption integer primary key, optionJSON text, timestamp integer)');
     })

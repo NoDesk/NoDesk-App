@@ -32,13 +32,71 @@ angular.module('starter.controllers', ['ui.bootstrap','textAngular'])
 })
 
 .controller('BrowseCtrl', function($scope) {
-  $scope.items = [
+  $scope.items=[];
+
+  $scope.items = [[
     'The first choice!',
     'And another choice for you.',
     'And another choice for you2.',
     'but wait! A third!'
-  ];
+  ],
+  ['hurr','durr','toto','test']];
   
+  //Convert unix timestamp to date 
+  //return a string of the converted timestamp
+  function timeConverter(UNIX_timestamp){
+    var date = new Date(unix_timestamp*1000);
+    // hours part from the timestamp
+    var hours = date.getHours();
+    // minutes part from the timestamp
+    var minutes = date.getMinutes();
+    // seconds part from the timestamp
+    var seconds = date.getSeconds();
+
+    // will display time in 10:30:23 format
+    var formattedTime = hours + ':' + minutes + ':' + seconds;
+    return formattedTime;
+  }
+  
+  //load dossier from the localDB
+  $scope.loadDossier=function(){
+    var i,j=0;
+
+    $scope.localDB.transaction(function(tx) {
+      tx.executeSql("SELECT * FROM Dossier", [],
+      function(transaction, result) {
+        if (result != null && result.rows != null) {
+          DBListLength=result.rows.lenght;
+          for (var i = 0; i < DBListlength; i++) {
+            var row = result.rows.item(i);
+            var cover={date:null,name:null,thumb:null}
+            
+            //Row of 4 element 
+            if(i%4==0){
+              items.push([]);
+              j++;
+            }
+
+            cover.date=timeconverter(row.timestamp);
+            cover.name=row.name;
+            cover.thumb=row.thumbnail;
+            items[j].push(cover);
+          }
+        }
+      },errorHandler)
+    });
+  };
+
+  $scope.addCover=function(cover){
+    if(items[items.length].length>4){
+      items.push([]);
+      items[items.length].push(cover)
+    }
+    else{ 
+      items[items.length].push(cover)
+    }
+  }
+
 })
 
 
@@ -252,16 +310,23 @@ angular.module('starter.controllers', ['ui.bootstrap','textAngular'])
     */
   };
    
-  
-  /*FIX-ME: Doesn't render overflown centent*/
+  //Take a screenshot of the currently displayed dossier  
   $scope.storeCanvas=function(){
+
+    document.querySelector(".view").style.overflow = "visible";
+    document.querySelector(".has-header.scroll-content.ionic-scroll.has-subheader").style.overflow = "visible";
+    document.querySelector(".menu-content.pane.disable-user-behavior").style.overflow = "visible";
+    //scroll.removeAttribute("style");
     html2canvas(document.querySelector("#currentFile"), {
       allowTaint:'true',
-      useOverflow:'true',
+      useOverflow:'false',
       onrendered: function(canvas) {
 
         var base64 = canvas.toDataURL();
         console.log(base64);
+        document.querySelector(".view").style.overflow = "hidden";
+        document.querySelector(".has-header.scroll-content.ionic-scroll.has-subheader").style.overflow = "hidden";
+        document.querySelector(".menu-content.pane.disable-user-behavior").style.overflow = "hidden";
     }
     });
   };

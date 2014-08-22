@@ -1,27 +1,32 @@
-<ion-header-bar align-title="left" class="bar-light bar-subheader">
-<!-- TODO: Filter and ordering option-->  
-</ion-header-bar>
+<ion-view >  
+  <ion-header-bar align-title="left" class="bar-light bar-subheader">
+  <!-- TODO: Filter and ordering option-->  
+  </ion-header-bar>
 
-<ion-content>
-  <div class="inset-card-grid">
-    <div ng-controller="BrowseCtrl"> 
-      
-      <div class="row" ng-repeat="val in items">
-        <div class="col" ng-repeat="val in items">
-          
-          <div class="list card">
-            <div class="item item-image">
-                <img src="http://placehold.it/150x180">
-            </div>
-            <div class="item item-text-wrap">
-               <p>{{val}}</p>
-            </div>
-          </div>
+  <ion-content>
+    <div class="inset-card-grid">
+      <div ng-controller="BrowseCtrl"> 
         
+        <div class="row" ng-repeat="row in items">
+          <div class="col" ng-repeat="col in row">
+            
+            <div class="list card">
+              <div class="item item-image">
+                  <img ng-src="http://placehold.it/150x180">
+                  <!--
+                  <img ng-src={{col.thumb}}>
+                  -->
+              </div>
+              <div class="item item-text-wrap">
+                 <p>{{col.date}}</p>
+                 <h5>{{col.name}}</h5>
+              </div>
+            </div>
+          
+          </div>
         </div>
+
       </div>
-
-    </div>
-  <div>
-</ion-content>
-
+    <div>
+  </ion-content>
+</ion-view >  

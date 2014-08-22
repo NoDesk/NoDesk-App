@@ -1,67 +1,69 @@
 <!-- Content -->
-<ion-content has-header="true" class="has-header">
-  <div class="nsk-main-margin">
-    
-    <div class="row">
+<ion-view hide-back-button="true">  
+  <ion-content has-header="true" class="has-header">
+    <div class="nsk-main-margin">
       
-      <div class="col">
-        <h3>Recent files</h3>
-        <div ng-controller="CarouselCtrl"  >    
-        <ion-slide-box on-slide-changed="slideHasChanged($index)">
-          <ion-slide >
-            <div class="box blue"><h1>BLUE</h1></div>
-          </ion-slide>
-          <ion-slide>
-            <div class="box yellow"><h1>YELLOW</h1></div>
-          </ion-slide>
-          <ion-slide>
-            <div class="box pink"><h1>PINK</h1></div>
-          </ion-slide>
-        </ion-slide-box>
+      <div class="row">
+        
+        <div class="col">
+          <h3>Recent files</h3>
+          <div ng-controller="CarouselCtrl"  >    
+          <ion-slide-box on-slide-changed="slideHasChanged($index)">
+            <ion-slide >
+              <div class="box blue"><h1>BLUE</h1></div>
+            </ion-slide>
+            <ion-slide>
+              <div class="box yellow"><h1>YELLOW</h1></div>
+            </ion-slide>
+            <ion-slide>
+              <div class="box pink"><h1>PINK</h1></div>
+            </ion-slide>
+          </ion-slide-box>
+          </div>
         </div>
-      </div>
 
-      <div class="col">
-        <h3>Update</h3>
-        <div class="nsk-inlined " style="width:100%;">
-          <!-- Recent update list --> 
-          <ion-scroll>
+        <div class="col">
+          <h3>Update</h3>
+          <div class="nsk-inlined " style="width:100%;">
+            <!-- Recent update list --> 
+            <ion-scroll>
+              
+              <ion-list ng-controller="UpdateListCtrl">
+                <ion-item ng-repeat="update in items"href="">
+                  {{update}}
+                </ion-item>
+              </ion-list>
             
-            <ion-list ng-controller="UpdateListCtrl">
-              <ion-item ng-repeat="update in items"href="">
-                {{update}}
-              </ion-item>
-            </ion-list>
-          
-          </ion-scroll>
+            </ion-scroll>
+          </div>
         </div>
+      
       </div>
-    
-    </div>
-    <!-- Main Buttons --> 
-    <div class="row" ng-controller="MainButtonCtrl">
-      <div class="col">
-        <div class="list card nsk-inlined">
-          <div class="item item-image" ng-click="goTo('editor')">
-            <img src="img/editor.svg">
+      <!-- Main Buttons --> 
+      <div class="row" ng-controller="MainButtonCtrl">
+        <div class="col">
+          <div class="list card nsk-inlined">
+            <div class="item item-image" ng-click="goTo('editor')">
+              <img src="img/editor.svg">
+            </div>
+          </div> 
+        </div> 
+        <div class="col">
+          <div class="list card nsk-inlined">
+            <div class="item item-image" ng-click="goTo('browsing')">
+              <img src="img/folder.svg">
+            </div>
+          </div> 
+        </div> 
+        <div class="col">
+          <div class="list card nsk-inlined">
+            <div class="item item-image" ng-click="goTo('browsing')">
+              <img src="http://placehold.it/1024x1024.jpg">
+            </div>
           </div>
         </div> 
-      </div> 
-      <div class="col">
-        <div class="list card nsk-inlined">
-          <div class="item item-image" ng-click="goTo('browsing')">
-            <img src="img/folder.svg">
-          </div>
-        </div> 
-      </div> 
-      <div class="col">
-        <div class="list card nsk-inlined">
-          <div class="item item-image" ng-click="goTo('browsing')">
-            <img src="http://placehold.it/1024x1024.jpg">
-          </div>
-        </div>
-      </div> 
-    </div>
+      </div>
 
-  </div>
-</ion-content>   
+    </div>
+  </ion-content>   
+</ion-view>

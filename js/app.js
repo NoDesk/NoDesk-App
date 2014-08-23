@@ -69,15 +69,27 @@ angular.module('starter', ['ionic','http-auth-interceptor','starter.controllers'
   });
 })
 
+.factory('remoteService',function(){
+  var remoteServer="localhost:8000";
+  var server={};
+  
+  
+  server.getRemote=function(){return remoteServer;}
+  server.setRemote=function(newRemote){
+            remoteServer=newRemote;
+         }
 
-.factory('AuthenticationService', function($rootScope, $http, authService) {
+  return server;
+})
+
+.factory('AuthenticationService', function($rootScope, $http, authService,remoteService) {
   var service = {
     login: function(user) {
-      $http.post('http://localhost:8000/auth/login',"username="+encodeURI(user.username)+"&password="+encodeURI(user.password),{headers:{'Content-Type':'application/x-www-form-urlencoded'}})
+      $http.post('https://'+remoteService.getRemote()+'/auth/login',"username="+encodeURI(user.username)+"&password="+encodeURI(user.password),{headers:{'Content-Type':'application/x-www-form-urlencoded'}})
       //$http.post('http://localhost:8000/auth/login',user)
       .success(function (data, status, headers, config) {
     	 // $http.defaults.headers.common.Cookie = data.Set-Cookie;  // Step 1
-        
+        console.log('http://'+remoteService.getRemote()+'/auth/login',"username="+encodeURI(user.username)+"&password="+encodeURI(user.password)); 
     	  // Need to inform the http-auth-interceptor that
         // the user has logged in successfully.  To do this, we pass in a function that
         // will configure the request headers with the authorization token so

@@ -506,7 +506,7 @@ angular.module('starter.controllers', ['ui.bootstrap','textAngular'])
     });
 })
 
-.controller('TemplateSyncCtrl', function($scope, $http, $state ,AuthenticationService) {
+.controller('TemplateSyncCtrl', function($scope, $http, $state ,remoteService,AuthenticationService) {
   //The full template list, loaded at start-up from the BD and updated by the
   //server.
   //When closing the app, the localDB is updated by this list, ensuring
@@ -610,17 +610,17 @@ angular.module('starter.controllers', ['ui.bootstrap','textAngular'])
   };
   
   //API call to get alive template list 
-  $scope.fetchTemplateList=function(server,full){
+  $scope.fetchTemplateList=function(full){
     //Get list of full template from server
     if(full){
-      $http.get("http://"+server+"/template/?alive=true&json=true",{withCredentials :"true"}).then(function(resp) {
+      $http.get("https://"+remoteService.getRemote()+"/template/?alive=true&json=true",{withCredentials :"true"}).then(function(resp) {
         console.log('Success', resp);
         $scope.fetchedFullTemplateList=resp.data;
       });
     }
     //Get list of template from server
     else{
-      $http.get("http://"+server+"/template/?alive=true",{withCredentials :"true"}).then(function(resp) {
+      $http.get("http://"+remoteService.getRemote()+"/template/?alive=true",{withCredentials :"true"}).then(function(resp) {
         console.log('Success', resp);
         $scope.fetchedTemplateList=resp.data;
       });
@@ -628,8 +628,8 @@ angular.module('starter.controllers', ['ui.bootstrap','textAngular'])
   };
 
   //API : Fetch a specific template 
-  $scope.fetchTemplate=function(server,templateID){
-    $http.get("http://"+server+"/template/"+templateID,{withCredentials :"true"}).then(function(resp) {
+  $scope.fetchTemplate=function(templateID){
+    $http.get("http://"+remoteService.getRemote()+"/template/"+templateID,{withCredentials :"true"}).then(function(resp) {
       console.log('Success', resp);
       $scope.fetchedTemplateJSON=resp.data;
       }
@@ -640,17 +640,19 @@ angular.module('starter.controllers', ['ui.bootstrap','textAngular'])
 
 })
 
-.controller('LoginCtrl', function($scope, $http, $state ,AuthenticationService,$ionicSideMenuDelegate) {
+.controller('LoginCtrl', function($scope, $http, $state ,AuthenticationService,remoteService,$ionicSideMenuDelegate) {
   $scope.message = "";
   
   $scope.user = {
     username: null,
-    password: null
+    password: null,
+    server: null
   };
-  
+
   $ionicSideMenuDelegate.canDragContent(false);
  
   $scope.login = function() {
+    remoteService.setRemote($scope.user.server);
     AuthenticationService.login($scope.user);
   };
  
@@ -680,10 +682,10 @@ angular.module('starter.controllers', ['ui.bootstrap','textAngular'])
   
 })
 
-.controller('DossierSyncCtrl', function($scope, $http, $state ,AuthenticationService) {
+.controller('DossierSyncCtrl', function($scope, $http, $state ,remoteService,authenticationService) {
 
-  $scope.getFile=function(server,dossierID){
-    $http.get("http://"+server+"/"+dossierID).then(function(resp) {
+  $scope.getFile=function(dossierID){
+    $http.get("http://"+remoteService.getRemote()+"/"+dossierID).then(function(resp) {
       console.log('Success', resp);
       // For JSON responses, resp.data contains the result
     }, function(err) {
@@ -708,9 +710,9 @@ angular.module('starter.controllers', ['ui.bootstrap','textAngular'])
     }
   };
 
-  $scope.sendFile=function(server){
+  $scope.sendFile=function(templateID){
     if ($scope.checkCompleteness($scope.currentTemplate).bool) {
-      $http.post(server,$scope,currentTemplate).then(function(resp) {
+      $http.post("http://"+remoteService.getRemote()+"/"+templateID,$scope.currentTemplate).then(function(resp) {
         console.log('Success', resp);
         // For JSON responses, resp.data contains the result
       }, function(err) {

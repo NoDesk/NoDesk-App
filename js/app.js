@@ -58,6 +58,7 @@ angular.module('starter', ['ionic','http-auth-interceptor','starter.controllers'
     // Open or create a new database if not found
     // Use Cordova sqlite plugin
     // API : https://github.com/brodysoft/Cordova-SQLitePlugin/blob/master/README.md
+    /*
     var db = window.sqlitePlugin.openDatabase({name: "nodesk.db"});
     
     db.transaction(function(tx) {
@@ -66,9 +67,22 @@ angular.module('starter', ['ionic','http-auth-interceptor','starter.controllers'
       tx.executeSql('CREATE TABLE IF NOT EXISTS user (idUser integer primary key, name text, surname text, photo text, timestamp integer)');
       tx.executeSql('CREATE TABLE IF NOT EXISTS option (idOption integer primary key, optionJSON text, timestamp integer)');
     })
+    */
   });
 })
 
+.factory('inputForm',function(){
+  var inputTmp;
+  var tmp={};
+  
+  tmp.getInput=function(){return inputTmp;}
+  tmp.setInput=function(newInput){
+            inputTmp=newInput;
+         }
+
+  return tmp;
+
+})
 .factory('remoteService',function(){
   var remoteServer="localhost:8000";
   var server={};

@@ -159,8 +159,15 @@ angular.module('starter.controllers', ['ui.bootstrap','textAngular'])
   };
 
 })
+.controller('InputCtrl', function($scope,inputForm) {
 
-.controller('EditorCtrl', function($scope,$sce,$state,$ionicPopup, $timeout,$ionicModal,$http) {
+  $scope.updateFromInput=function(test){
+    inputForm.setInput(test);
+    alert(test.files[0].name);
+  };
+
+})
+.controller('EditorCtrl', function($scope,$sce,$state,$ionicPopup, $timeout,$ionicModal,$http,inputForm) {
   $scope.currentTemplate;
   
   /*Cordova/phonegap */ 
@@ -176,6 +183,15 @@ angular.module('starter.controllers', ['ui.bootstrap','textAngular'])
       function(imageData){ imageField.value = "data:image/jpeg;base64," + imageData;},
       function(message){ alert('Failed because: ' + message);},
       { quality: 50, destinationType: Camera.DestinationType.DATA_URL}
+    );
+  };
+  
+  $scope.getPictureFromDevice=function(imageField){  
+    
+    navigator.camera.getPicture(
+      function(imageData){ imageField.value = "data:image/jpeg;base64," + imageData;},
+      function(message){ alert('Failed because: ' + message);},
+      { quality: 50, destinationType: Camera.DestinationType.DATA_URL, sourceType:Camera.PictureSourceType.PHOTOLIBRARY}
     );
   };
   
@@ -252,7 +268,7 @@ angular.module('starter.controllers', ['ui.bootstrap','textAngular'])
             'message: ' + error.message + '\n');
     }
 
-    navigator.geolocation.getCurrentPosition(onSuccess, onError);
+    navigator.geolocation.getCurrentPosition(onSuccess, onError,{maximumAge:3000,timeout:5000,enableHighAccuracy:true});
 
   };
 
@@ -270,9 +286,10 @@ angular.module('starter.controllers', ['ui.bootstrap','textAngular'])
     scope: $scope,
     buttons: [
       { type: 'button button-icon icon ion-folder',
-        onTap: function(refValue) {
+        onTap: function() {
             //Cordova/phoneGap Files explorer
             //MIME-type image
+            $scope.getPictureFromDevice(refValue);
             return ;
         }
       },
@@ -298,18 +315,20 @@ angular.module('starter.controllers', ['ui.bootstrap','textAngular'])
   
   $scope.showImage=function(){
     alert($scope.currentTemplate[2].value);
-  }
+  };
+  
 
   $scope.addSound=function(refValue){
     var myPopup2 = $ionicPopup.show({
     title: 'Selectionner fichier audio', 
-    template: '<input type="file" id="fileInput">', // String (optional). The html template to place in the popup body.
+    template:'<div  class="fileinputs"> <input  ng-controller="InputCtrl" type="file" class="file" onchange=angular.element(this).scope().updateFromInput(this) /> <div class="fakefile icon ion-folder"> </div> </div>',
     scope: $scope,
     buttons: [
       { type: 'button button-icon icon ion-folder',
-        onTap: function(refValue) {
+        onTap: function() {
             //Cordova/phoneGap Files explorer
             //MIME-type audio 
+            refValue.value=inputForm.getInput().files[0];
             return;
         }
       },
@@ -359,11 +378,13 @@ angular.module('starter.controllers', ['ui.bootstrap','textAngular'])
     var myPopup3 = $ionicPopup.show({
     title: 'Selectionner video',
     scope: $scope,
+    template:'<div  class="fileinputs"> <input  ng-controller="InputCtrl" type="file" class="file" onchange=angular.element(this).scope().updateFromInput(this) /> <div class="fakefile icon ion-folder"> </div> </div>',
     buttons: [
       { type: 'button button-icon icon ion-folder',
-        onTap: function(refValue) {
+        onTap: function() {
             //Cordova/phoneGap Files explorer
             //MIME-type video 
+            refValue.value=inputForm.getInput().files[0];
             return;
         }
       },

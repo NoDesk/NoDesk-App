@@ -168,77 +168,93 @@ angular.module('starter.controllers', ['ui.bootstrap','textAngular'])
   /*Camera - Get Picture
    * API links : https://github.com/apache/cordova-plugin-camera/blob/master/doc/index.md
    **/
-  /*
-  navigator.camera.getPicture(onSuccess, onFail, { quality: 50,
-    destinationType: Camera.DestinationType.DATA_URL
-  });
+  
+  
+  $scope.getPicture=function(imageField){  
+    
+    navigator.camera.getPicture(
+      function(imageData){ imageField.value = "data:image/jpeg;base64," + imageData;},
+      function(message){ alert('Failed because: ' + message);},
+      { quality: 50, destinationType: Camera.DestinationType.DATA_URL}
+    );
+  };
+  
+  $scope.getAudio=function(soundField){
+    // capture callback
+    var captureSuccess = function(mediaFiles) {
+        var i, path, len;
+        for (i = 0, len = mediaFiles.length; i < len; i += 1) {
+            path = mediaFiles[i].fullPath;
+            // do something interesting with the file
+        }
+        //TODO: load into value as a base64 string
+        soundField.value=path;
 
-  function onSuccess(imageData) {
-    var image = document.getElementById('myImage');
-    image.src = "data:image/jpeg;base64," + imageData;
-  }
+    };
 
-  function onFail(message) {
-    alert('Failed because: ' + message);
-  } 
-  */
+    // capture error callback
+    var captureError = function(error) {
+        navigator.notification.alert('Error code: ' + error.code, null, 'Capture Error');
+    };
 
+    // start audio capture
+    navigator.device.capture.captureAudio(captureSuccess, captureError, {limit:1});
+  };
+  
+  $scope.getVideo=function(videoField){
+    // capture callback
+    var captureSuccess = function(mediaFiles) {
+        var i, path, len;
+        for (i = 0, len = mediaFiles.length; i < len; i += 1) {
+            path = mediaFiles[i].fullPath;
+            // do something interesting with the file
+        }
+        //TODO:load video file as a base64 string
+        alert(path);
+        video.field.value=path;
+    };
+
+    // capture error callback
+    var captureError = function(error) {
+        navigator.notification.alert('Error code: ' + error.code, null, 'Capture Error');
+    };
+
+    // start video capture
+    navigator.device.capture.captureVideo(captureSuccess, captureError, {limit:1});
+  };
   /*GPS - Get Position
    * API links : https://github.com/apache/cordova-plugin-geolocation/blob/master/doc/index.md
    **/
-  /*
-  // onSuccess Callback
-  // This method accepts a Position object, which contains the
-  // current GPS coordinates
-  //
-  var onSuccess = function(position) {
-    alert('Latitude: '          + position.coords.latitude          + '\n' +
-          'Longitude: '         + position.coords.longitude         + '\n' +
-          'Altitude: '          + position.coords.altitude          + '\n' +
-          'Accuracy: '          + position.coords.accuracy          + '\n' +
-          'Altitude Accuracy: ' + position.coords.altitudeAccuracy  + '\n' +
-          'Heading: '           + position.coords.heading           + '\n' +
-          'Speed: '             + position.coords.speed             + '\n' +
-          'Timestamp: '         + position.timestamp                + '\n');
-  };
-
-  // onError Callback receives a PositionError object
-  //
-  function onError(error) {
-    alert('code: '    + error.code    + '\n' +
-          'message: ' + error.message + '\n');
-  }
-
-  navigator.geolocation.getCurrentPosition(onSuccess, onError);
-  */
-
-  /*Audio - Get/Play audio media
-   * API links : https://github.com/apache/cordova-plugin-media/blob/master/doc/index.md  
-   **/
-   
-  /*
-  // Record audio
-  //
-  function recordAudio() {
-    var src = "myrecording.mp3";
-    var mediaRec = new Media(src,
-      // success callback
-      function() {
-        console.log("recordAudio():Audio Success");
-      },
-      // error callback
-      function(err) {
-        console.log("recordAudio():Audio Error: "+ err.code);
-      });
-
-      // Record audio
-      mediaRec.startRecord();
-  }
   
-  //Stop recording   
-  mediaRec.stopRecord();
-  /*
-  /*EMD -- Cordova/phonegap */
+
+
+  $scope.getCoordinate=function(coordinateField){
+    // onSuccess Callback
+    // This method accepts a Position object, which contains the
+    // current GPS coordinates
+    //
+    var onSuccess = function(position) {
+      alert('Latitude: '          + position.coords.latitude          + '\n' +
+            'Longitude: '         + position.coords.longitude         + '\n' +
+            'Altitude: '          + position.coords.altitude          + '\n' +
+            'Accuracy: '          + position.coords.accuracy          + '\n' +
+            'Altitude Accuracy: ' + position.coords.altitudeAccuracy  + '\n' +
+            'Heading: '           + position.coords.heading           + '\n' +
+            'Speed: '             + position.coords.speed             + '\n' +
+            'Timestamp: '         + position.timestamp                + '\n');
+      coordinateField.value=position.coords.latitude+","+position.coords.longitute;
+    };
+    
+    // onError Callback receives a PositionError object
+    //
+    function onError(error) {
+      alert('code: '    + error.code    + '\n' +
+            'message: ' + error.message + '\n');
+    }
+
+    navigator.geolocation.getCurrentPosition(onSuccess, onError);
+
+  };
 
   $scope.goTo= function(e){
     $state.go(e);
@@ -256,13 +272,14 @@ angular.module('starter.controllers', ['ui.bootstrap','textAngular'])
       { type: 'button button-icon icon ion-folder',
         onTap: function(refValue) {
             //Cordova/phoneGap Files explorer
-            //MIME-type image 
+            //MIME-type image
             return ;
         }
       },
       { type: 'button button-icon icon ion-camera',
-        onTap: function(refValue) {
+        onTap: function() {
             //Cordova/phoneGap camera 
+            $scope.getPicture(refValue);
             return ;
         }
       },
@@ -278,6 +295,10 @@ angular.module('starter.controllers', ['ui.bootstrap','textAngular'])
     }, 3000);
     */
   };
+  
+  $scope.showImage=function(){
+    alert($scope.currentTemplate[2].value);
+  }
 
   $scope.addSound=function(refValue){
     var myPopup2 = $ionicPopup.show({
@@ -293,8 +314,9 @@ angular.module('starter.controllers', ['ui.bootstrap','textAngular'])
         }
       },
       { type: 'button button-icon icon ion-ios7-mic',
-        onTap: function(refValue) {
+        onTap: function() {
             //Cordova/phoneGap microphone
+            $scope.getAudio(refValue);
             return;
         }
       },
@@ -346,8 +368,9 @@ angular.module('starter.controllers', ['ui.bootstrap','textAngular'])
         }
       },
       { type: 'button button-icon icon ion-videocamera',
-        onTap: function(refValue) {
+        onTap: function() {
             //Cordova/phoneGap camera/video
+            $scope.getVideo(refValue)
             return;
         }
       },
@@ -372,8 +395,9 @@ angular.module('starter.controllers', ['ui.bootstrap','textAngular'])
     scope: $scope,
     buttons: [
       { type: 'button button-icon icon ion-location',
-        onTap: function(refValue) {
+        onTap: function() {
             //Cordova/phoneGap gps
+            $scope.getCoordinate(refValue);
             return;
         }
       }
@@ -428,19 +452,12 @@ angular.module('starter.controllers', ['ui.bootstrap','textAngular'])
   }
 
   $scope.osmURL=function(coord){
-        var gps1=(coord.split(",")[1]-10); 
-        var gps2=(coord.split(",")[0]-10); 
-        var gps3=(coord.split(",")[1]+10); 
-        var gps4=(coord.split(",")[0]+10);
+        var gps1=(coord.split(",")[1]-0.1); 
+        var gps2=(coord.split(",")[0]-0.1 ); 
+        var gps3=(coord.split(",")[1]+0.1); 
+        var gps4=(coord.split(",")[0]+0.1);
         var baseURL="http://www.openstreetmap.org/export/embed.html?bbox=" +gps1+'%2C'+gps2+'%2C'+gps3+'%2C'+gps4+'&amp;layer=mapnik'; 
-        /*
-        // One should think about their particular case and sanitize accordingly
-    var qs = ["a", "b"].map(function(value, name) {
-        return encodeURIComponent(name) + "=" +
-               encodeURIComponent(value);
-      }).join("&");
-    */
-    // `baseUrl` isn't exposed to a user's control, so we don't have to worry about escaping it.
+    
     return $sce.trustAsResourceUrl(baseURL);
   };
 
@@ -449,7 +466,7 @@ angular.module('starter.controllers', ['ui.bootstrap','textAngular'])
     
     var tpl=[ { type: 'TextArea', name: 'TextArea_', value: 'TextArea' },
     { type: 'TextLine', name: 'TextLine_', value: 'TextLine' },
-    { type: 'Image', name: 'Image_', value: 'template_test.yaml' },
+    { type: 'Image', name: 'Image_', value: 'img/image.svg' },
     { type: 'Sound', name: 'Sound_', value: 'template_test.yaml' },
     { type: 'Video', name: 'Video_', value: 'template_test.yaml' },
     { type: 'Coordinates', name: 'Coordinates_', value: '43.2,42.0' },
@@ -644,19 +661,21 @@ angular.module('starter.controllers', ['ui.bootstrap','textAngular'])
   $scope.message = "";
   
   $scope.user = {
-    username: null,
-    password: null,
-    server: null
+    username: "test",
+    password: "test",
+    server: "nodesk.sharedmemory.fr:8080"
   };
 
   $ionicSideMenuDelegate.canDragContent(false);
- 
+  
   $scope.login = function() {
     remoteService.setRemote($scope.user.server);
     AuthenticationService.login($scope.user);
   };
  
   
+ $scope.login();
+
   $scope.$on('event:auth-loginRequired', function(e, rejection) {
     //alert("Error 401")
     //$scope.loginModal.show();

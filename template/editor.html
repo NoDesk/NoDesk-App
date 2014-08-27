@@ -25,23 +25,23 @@
         
         <div ng-switch-when="Image" class="nsk-tpl-image nsk-editor-margin-bottom">
           <h4>{{item.name}}</h4>
-          <div ><img class="nsk-tpl-img" src="img/image.svg"></div>
+          <div ><img class="nsk-tpl-img" ng-src="{{item.value}}"></div>
           <button type="button" class="btn btn-default nsk-tpl-btn"
-          ng-click="addImage({{item.value}})">Ajouter image</button>
+          ng-click="addImage(item)">Ajouter image</button>
         </div>
         
         <div ng-switch-when="Sound" class="nsk-tpl-sound nsk-editor-margin-bottom">
           <h4>{{item.name}}</h4>
           <div ><img class="nsk-tpl-img" src="img/sound.svg"></div>
           <button  type="button" class="btn btn-default nsk-tpl-btn"
-          ng-click="addSound({{item.value}})">Ajouter message sonore</button>
+          ng-click="addSound(item)">Ajouter message sonore</button>
         </div>
 
         <div ng-switch-when="Video" class="nsk-tpl-video nsk-editor-margin-bottom">
           <h4>{{item.name}}</h4>
           <div ><img class="nsk-tpl-img" src="img/video.svg"></div>
           <button  type="button" class="btn btn-default nsk-tpl-btn" 
-          ng-click="addVideo({{item.value}})">Ajouter video</button>
+          ng-click="addVideo(item.value)">Ajouter video</button>
         </div>
 
         <div ng-switch-when="User">
@@ -66,7 +66,7 @@
           marginheight="0" marginwidth="0"
           ng-src="{{osmURL(item.value)}}" style="border: 1px solid black"></iframe><br/>
           <button style="width:425px;" type="button" class="btn btn-default"
-          ng-click="addCoordinate({{item.value}})">Ajouter coordonnees</button>
+          ng-click="addCoordinate(item)">Ajouter coordonnees</button>
         </div>
         
         <div ng-switch-when="Email">
@@ -127,6 +127,8 @@
       <button style="width:100%;" type="button" class="btn btn-default"
       ng-click="parseTemplate()">Refresh test</button>
       
+      <button style="width:100%;" type="button" class="btn btn-default"
+      ng-click="showImage()">image test</button>
       
       <button style="width:100%;" type="button" class="btn btn-default"
       ng-controller="TemplateSyncCtrl"

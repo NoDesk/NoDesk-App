@@ -5,6 +5,61 @@
 
 angular.module('starter.controllers', ['ui.bootstrap','textAngular'])
 
+.controller('AppCtrl',function($scope,$ionicModal){
+  $scope.showNext=false;
+  $scope.firstUse=true;
+
+  document.addEventListener("resume",function() {
+    console.log("resume");
+    if($scope.showNext)
+      $scope.modal.show();
+  }, false);
+
+  document.addEventListener("pause",function() {
+    console.log("resume");
+    if(!$scope.firstUse)
+      $scope.showNext=true;
+    else
+    $scope.firstUse=false;
+  }, false);
+  
+  $ionicModal.fromTemplateUrl('template/pinModal.html',function(modal){
+      $scope.loginModal=modal;
+    },
+    {
+      scope: $scope,
+      animation: 'slide-in-up'
+    }).then(function(modal) {
+      $scope.modal = modal;
+    });
+
+  $scope.openPINModal = function() {
+    if(showNext)
+      $scope.modal.show();
+  };
+
+  $scope.closePINModal = function() {
+    $scope.modal.hide();
+  };
+  
+
+  //Cleanup the modal when we're done with it!
+  $scope.$on('$destroy', function() {
+    $scope.modal.remove();
+  });
+
+  // Execute action on hide modal
+  $scope.$on('modal.hidden', function() {
+    // Execute action
+  });
+
+  // Execute action on remove modal
+  $scope.$on('modal.removed', function() {
+    // Execute action
+  });
+
+})
+
 .controller('DropdownCtrl', function($scope) {
   $scope.items = [
     'The first choice!',
@@ -511,37 +566,6 @@ angular.module('starter.controllers', ['ui.bootstrap','textAngular'])
   
 
   $scope.data={ htmlcontent1:'<h2>Try me!</h2><p>textAngular is a super cool WYSIWYG Text Editor directive for AngularJS</p><p><b>Features:</b></p><ol><li>Automatic Seamless Two-Way-Binding</li><li style="color: blue;">Super Easy <b>Theming</b> Options</li><li>Simple Editor Instance Creation</li><li>Safely Parses Html for Custom Toolbar Icons</li><li>Doesn&apos;t Use an iFrame</li><li>Works with Firefox, Chrome, and IE8+</li></ol><p><b>Code at GitHub:</b> <a href="https://github.com/fraywing/textAngular">Here</a> </p>',htmlcontent2:'test'}
-})
-
-
-.controller('PINModalCtrl', function($scope,$ionicModal) {
-  $ionicModal.fromTemplateUrl('PIN',function(modal){
-      $scope.loginModal=modal;
-    },
-    {
-      scope: $scope,
-      animation: 'slide-in-up'
-    }).then(function(modal) {
-      $scope.modal = modal;
-    });
-    $scope.openModal = function() {
-      $scope.modal.show();
-    };
-    $scope.closeModal = function() {
-      $scope.modal.hide();
-    };
-    //Cleanup the modal when we're done with it!
-    $scope.$on('$destroy', function() {
-      $scope.modal.remove();
-    });
-    // Execute action on hide modal
-    $scope.$on('modal.hidden', function() {
-      // Execute action
-    });
-    // Execute action on remove modal
-    $scope.$on('modal.removed', function() {
-      // Execute action
-    });
 })
 
 .controller('TemplateSyncCtrl', function($scope, $http, $state ,remoteService,AuthenticationService) {

@@ -8,6 +8,7 @@ angular.module('starter', ['ionic','http-auth-interceptor','starter.controllers'
 .config(function($httpProvider) {
       //Enable cross domain calls
       $httpProvider.defaults.useXDomain = true;
+      $httpProvider.defaults.withCredentials = true;
 
       //Remove the header used to identify ajax call  that would prevent CORS from working
       delete $httpProvider.defaults.headers.common['X-Requested-With'];
@@ -71,6 +72,26 @@ angular.module('starter', ['ionic','http-auth-interceptor','starter.controllers'
   return tmp;
 
 })
+/*
+.factory('templateChoiceService',function(){
+  var templateList=[];
+  var selectedTemplate=[];
+  var service={};
+  
+  service.getTemplateList=function(){return templateList;}
+  service.setTemplateList=function(newTemplateList){
+            templateList=newTemplateList;
+         }
+  
+  service.getTemplate=function(){return templateList;}
+  service.setTemplate=function(newTemplateList){
+            templateList=newTemplateList;
+         }
+
+  return service;
+
+})
+*/
 .factory('remoteService',function(){
   var remoteServer="localhost:8000";
   var server={};
@@ -233,7 +254,7 @@ angular.module('starter', ['ionic','http-auth-interceptor','starter.controllers'
 })
 
 
-.factory('TemplateSyncService', function( $http, $state ,remoteService,AuthenticationService) {
+.factory('TemplateSyncService', function( $http, $state ,$q,remoteService,AuthenticationService) {
   //The full template list, loaded at start-up from the BD and updated by the
   //server.
   //When closing the app, the localDB is updated by this list, ensuring
@@ -249,9 +270,22 @@ angular.module('starter', ['ionic','http-auth-interceptor','starter.controllers'
   //Only hold the a template JSON 
   var fetchTemplateJSON;
 
+  var choice;
 
   var service = {
-        
+    
+    getTemplateList:function(){
+      return fetchedFullTemplateList;
+    },
+    
+    setChoice:function(item){
+      choice=item;
+    },
+    
+    getChoice:function(item){
+      return choice;
+    },
+
     //Update the specific template in the localDB
     updateTemplate:function(pk,updatedJSON){
       databaseService.get().localDB.transaction(function(tx) {
@@ -332,7 +366,7 @@ angular.module('starter', ['ionic','http-auth-interceptor','starter.controllers'
       currentTemplateList=[];
       
       var i;
-      var listLength=templateAlive.length;
+      var listLength=fetchedFullTemplateList.length;
       
       for(i=0;i<listLength;i++){
         CurrentList.push(fetchedFullTemplateList[i]);
@@ -341,11 +375,14 @@ angular.module('starter', ['ionic','http-auth-interceptor','starter.controllers'
     
     //API call to get alive template list 
     fetchTemplateList:function(full){
+      var deferred=$q.defer();
+
       //Get list of full template from server
       if(full){
         $http.get("https://"+remoteService.getRemote()+"/template/?alive=true&json=true",{withCredentials :"true"}).then(function(resp) {
           console.log('Success', resp);
           fetchedFullTemplateList=resp.data;
+          deferred.resolve(resp);
         });
       }
       //Get list of template from server
@@ -353,8 +390,10 @@ angular.module('starter', ['ionic','http-auth-interceptor','starter.controllers'
         $http.get("http://"+remoteService.getRemote()+"/template/?alive=true",{withCredentials :"true"}).then(function(resp) {
           console.log('Success', resp);
           fetchedTemplateList=resp.data;
+          deferred.resolve(resp);
         });
       }
+      return deferred.promise;
     },
 
     //API : Fetch a specific template 

@@ -222,16 +222,28 @@ angular.module('starter.controllers', ['ui.bootstrap','textAngular'])
   };
 
 })
-.controller('EditorCtrl', function($scope,$sce,$state,$ionicPopup, $timeout,$ionicModal,$http,inputForm) {
-  $scope.currentTemplate;
-  
-  /*Cordova/phonegap */ 
+
+.controller('ChoiceCtrl', function($scope,TemplateSyncService) {
+  $scope.TemplateList=TemplateSyncService.getTemplateList();
+  $scope.select=function(item){
+    TemplateSyncService.setChoice(item);
+  };
+})
+
+
+.controller('EditorCtrl', function($scope,$sce,$state,$ionicPopup, $timeout,$ionicModal,$http,inputForm,TemplateSyncService) {
+  $scope.currentTemplate=[];
+  $scope.currentTemplateList=[];
+  $scope.toParse;
+
+  var def = TemplateSyncService.fetchTemplateList(true);
+  def.then(function(result){$scope.currentTemplateList=result;$scope.showTemplateChoice();});
+
+ /*Cordova/phonegap */ 
   
   /*Camera - Get Picture
    * API links : https://github.com/apache/cordova-plugin-camera/blob/master/doc/index.md
    **/
-  
-  
   $scope.getPicture=function(imageField){  
     
     navigator.camera.getPicture(
@@ -293,12 +305,11 @@ angular.module('starter.controllers', ['ui.bootstrap','textAngular'])
     // start video capture
     navigator.device.capture.captureVideo(captureSuccess, captureError, {limit:1});
   };
+  
+  
   /*GPS - Get Position
    * API links : https://github.com/apache/cordova-plugin-geolocation/blob/master/doc/index.md
    **/
-  
-
-
   $scope.getCoordinate=function(coordinateField){
     // onSuccess Callback
     // This method accepts a Position object, which contains the
@@ -335,6 +346,24 @@ angular.module('starter.controllers', ['ui.bootstrap','textAngular'])
   $scope.test=function(){
   }
   
+  $scope.showTemplateChoice=function(){
+    var myPopup = $ionicPopup.confirm({
+      title: 'Choissisez un template',
+      scope: $scope,
+      template:'<ion-list ng-controller="ChoiceCtrl"> <ion-item ng-repeat="item in TemplateList" ng-click="select(item)"> {{item.name}}! </ion-item> </ion-list>'
+      
+    });
+    myPopup.then(function(res){
+      if(res){
+        $scope.toParse=TemplateSyncService.getChoice().json;
+        console.log($scope.toParse);
+        $scope.parseTemplate();
+      }
+      else
+        $state.go('home');
+    });
+  };
+
   $scope.addImage=function(refValue){
     var myPopup = $ionicPopup.show({
     title: 'Selectionner image',
@@ -501,35 +530,33 @@ angular.module('starter.controllers', ['ui.bootstrap','textAngular'])
     return $sce.trustAsResourceUrl(baseURL);
   };
 
-  $scope.parseTemplate=function(/*templateJSON*/){
-    //var tpl=JSON.parse(templateJSON)
+  $scope.parseTemplate=function(){
+    var tmp=[];
+    var parsed=JSON.parse($scope.toParse);
     
-    var tpl=[ { type: 'TextArea', name: 'TextArea_', value: 'TextArea' },
-    { type: 'TextLine', name: 'TextLine_', value: 'TextLine' },
-    { type: 'Image', name: 'Image_', value: 'img/image.svg' },
-    { type: 'Sound', name: 'Sound_', value: 'template_test.yaml' },
-    { type: 'Video', name: 'Video_', value: 'template_test.yaml' },
-    { type: 'Coordinates', name: 'Coordinates_', value: '43.2,42.0' },
-    { type: 'Date', name: 'Date_', value: '01/01/2000' },
-    { type: 'Time', name: 'Time_', value: '12:00' },
-    { type: 'User', name: 'User_', value: 'User' },
-    { type: 'Creator', name: 'Creator_', value: 'Creator' },
-    { type: 'Email', name: 'Email_', value: 'test@email.com' },
-    { type: 'Phone', name: 'Phone_', value: '00 00 00 00 00' },
-    { type: 'Radiobox',
-      name: 'Radiobox_',
-      value: [ 42, 'ok', 'maybe' ], 
-      result:''},
-    { type: 'Checkbox',
-      name: 'Checkbox_',
-      value: [ {text:'check1',checked:false},{text:'check2',checked:false},{text:'check3',checked:false} ] },
-    { type: 'Number', name: 'Number_', value: 42 } ];
+    for (var i = 0; i < parsed.length; i++) {
+      var tmpItem={type:"",name:"",value:""};
+      tmpItem.type=parsed[i].type;
+      tmpItem.name=parsed[i].name;
+      tmpItem.value=parsed[i].value;
       
-    $scope.currentTemplate=tpl;
-  };
-  
+      if(tmpItem.type=="Image")
+        tmpItem.value="img/image.svg"
+      else if(tmpItem.type=="RadioBox")
+        tmpItem.result='';
+      else if(tmpItem.type=="Checkbox"){
+        for (var j = 0; j < tmpItem.value.length; j++) {
+          var tmp2={};
+          tmp2.text=tmpItem.value[j];
+          tmp2.checked=false;
+          tmpItem.value[j]=tmp2;
+        };
+      }
+      tmp.push(tmpItem);
+    };
 
-  $scope.data={ htmlcontent1:'<h2>Try me!</h2><p>textAngular is a super cool WYSIWYG Text Editor directive for AngularJS</p><p><b>Features:</b></p><ol><li>Automatic Seamless Two-Way-Binding</li><li style="color: blue;">Super Easy <b>Theming</b> Options</li><li>Simple Editor Instance Creation</li><li>Safely Parses Html for Custom Toolbar Icons</li><li>Doesn&apos;t Use an iFrame</li><li>Works with Firefox, Chrome, and IE8+</li></ol><p><b>Code at GitHub:</b> <a href="https://github.com/fraywing/textAngular">Here</a> </p>',htmlcontent2:'test'}
+    $scope.currentTemplate=tmp;
+    console.log($scope.currentTemplate); 
 })
 
 

@@ -19,8 +19,13 @@
         <div ng-switch-when="TextArea">
           <h4>{{item.name}}</h4>
           <div nsk-textArea>
-            <text-angular name="htmlcontent1" ng-model="item.value" ta-target-toolbars='toolbar'></text-angular>
+            <text-angular name="htmlcontent{{$index}}" ng-model="item.value" ta-target-toolbars='toolbar'></text-angular>
           </div>
+        </div>
+        
+        <div ng-switch-when="TextLine">
+          <h4>{{item.name}}</h4>
+          <input type="text" class="form-control nsk-bt-input nsk-editor-margin-bottom nsk-input" ng-model="item.value" placeholder={{item.value}}>
         </div>
         
         <div ng-switch-when="Image" class="nsk-tpl-image nsk-editor-margin-bottom">

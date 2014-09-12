@@ -3,7 +3,7 @@
  * */
 
 
-angular.module('starter.controllers', ['ui.bootstrap','textAngular'])
+angular.module('starter.controllers', ['ui.bootstrap','textAngular','ngCookies'])
 
 .controller('AppCtrl',function($scope,$ionicModal){
   $scope.showNext=false;
@@ -86,9 +86,59 @@ angular.module('starter.controllers', ['ui.bootstrap','textAngular'])
   
 })
 
-.controller('BrowseCtrl', function($scope) {
+.controller('BrowseCtrl', function($scope,TemplateSyncService,DossierSyncService,$q) {
   $scope.items=[];
+  $scope.template=[];
+  
+  var def = TemplateSyncService.fetchTemplateList(false);
+  def.then(function(result){$scope.template=result.data;console.log($scope.template);$scope.getAllDossier();});
+  var allDossierID=[]
+  var allDossierFull=[];
 
+  $scope.getAllDossier=function(){
+    allDossierID=[];
+    allDossierFull=[];
+    console.log("AAAAAAAAAA!");
+    console.log("length"+$scope.template.length);
+
+    for (var i = 0; i < $scope.template.length; i++) {
+      allDossierID.push(DossierSyncService.getAllDossierFromTemplate($scope.template[i].pk));
+    };
+    
+    $q.all(allDossierID).then(function(ret){
+      for (var i = 0; i < ret.length; i++) {
+        for (var j = 0; j < ret[i].length; j++) {
+          allDossierFull.push(DossierSyncService.getFile(ret[i][j].pk,i));
+          console.log(ret);
+        };
+      };      
+      $q.all(allDossierFull).then(function(ret2){
+        for (var k = 0; k < ret2.length; k++) {
+          allDossierFull[k]=ret2[k];
+        };
+        $scope.showDossier();
+        console.log(ret2);
+      })
+    })
+  };
+  
+  
+  $scope.showDossier=function(){
+    var col,row=0;
+    
+    for (col = 0; col < allDossierFull.length; col++) {
+      
+      if(col%4==0){
+        $scope.item.push([]);
+        row++;
+      }
+
+      $scope.item[row].push(allDossierFull[col]);
+    };
+  };
+  
+  
+  /*
   $scope.items = [[
     'The first choice!',
     'And another choice for you.',
@@ -96,7 +146,8 @@ angular.module('starter.controllers', ['ui.bootstrap','textAngular'])
     'but wait! A third!'
   ],
   ['hurr','durr','toto','test']];
-  
+  */
+
   //Convert unix timestamp to date 
   //return a string of the converted timestamp
   function timeConverter(UNIX_timestamp){
@@ -230,12 +281,31 @@ angular.module('starter.controllers', ['ui.bootstrap','textAngular'])
   };
 })
 
+.controller('ErrorFormCtrl', function($scope,ErrorFormService) {
+  $scope.errors=ErrorFormService.getError();
+})
 
-.controller('EditorCtrl', function($scope,$sce,$state,$ionicPopup, $timeout,$ionicModal,$http,inputForm,TemplateSyncService) {
+.controller('SaveCtrl', function($scope,TemplateSyncService,DossierSyncService,remoteService,databaseService,ErrorFormService) {
+  
+   
+})
+
+.controller('EditorCtrl', function($scope,$sce,$state,$ionicPopup, $timeout,$ionicModal,$cookies,$http,inputForm,TemplateSyncService,DossierSyncService,ErrorFormService) {
   $scope.currentTemplate=[];
   $scope.currentTemplateList=[];
   $scope.toParse;
+        
 
+       // console.log($cookieStore.get('session'));
+       // console.log($cookieStore.get('sessionid'));
+       // console.log($cookieStore.get('csrftoken'));
+  console.log($cookies.sessionid);
+  console.log($cookies.csrftoken);
+  console.log(document.cookie);
+  
+  $http.defaults.headers.post['X-CSRFToken']=$cookies['csrftoken'];
+  console.log($cookies['csrftoken']);
+  
   var def = TemplateSyncService.fetchTemplateList(true);
   def.then(function(result){$scope.currentTemplateList=result;$scope.showTemplateChoice();});
 
@@ -439,6 +509,8 @@ angular.module('starter.controllers', ['ui.bootstrap','textAngular'])
   //Take a screenshot of the currently displayed dossier  
   $scope.storeCanvas=function(){
 
+    var base64;
+
     document.querySelector(".view").style.overflow = "visible";
     document.querySelector(".has-header.scroll-content.ionic-scroll.has-subheader").style.overflow = "visible";
     document.querySelector(".menu-content.pane.disable-user-behavior").style.overflow = "visible";
@@ -449,12 +521,13 @@ angular.module('starter.controllers', ['ui.bootstrap','textAngular'])
       onrendered: function(canvas) {
 
         var base64 = canvas.toDataURL();
-        console.log(base64);
         document.querySelector(".view").style.overflow = "hidden";
         document.querySelector(".has-header.scroll-content.ionic-scroll.has-subheader").style.overflow = "hidden";
         document.querySelector(".menu-content.pane.disable-user-behavior").style.overflow = "hidden";
-    }
+    
+      }
     });
+    return base64;
   };
 
 
@@ -475,7 +548,7 @@ angular.module('starter.controllers', ['ui.bootstrap','textAngular'])
       { type: 'button button-icon icon ion-videocamera',
         onTap: function() {
             //Cordova/phoneGap camera/video
-            $scope.getVideo(refValue)
+            $scope.getVideo(refValue);
             return;
         }
       },
@@ -556,7 +629,48 @@ angular.module('starter.controllers', ['ui.bootstrap','textAngular'])
     };
 
     $scope.currentTemplate=tmp;
-    console.log($scope.currentTemplate); 
+    console.log($scope.currentTemplate);
+  };
+  
+  $scope.showError=function(refValue){
+    var myPopup = $ionicPopup.show({
+    title: 'Champs non complétés',
+    templateURL:'template/errorForm.html',
+    scope: $scope,
+    buttons: [
+      { type: 'button button-icon icon ion-folder',
+        onTap: function() {
+            //Cordova/phoneGap Files explorer
+            //MIME-type image
+            $scope.getPictureFromDevice(refValue);
+            return ;
+        }
+      },
+      { type: 'button button-icon icon ion-camera',
+        onTap: function() {
+            //Cordova/phoneGap camera 
+            $scope.getPicture(refValue);
+            return ;
+        }
+      },
+    ]
+    });
+  };
+
+  $scope.saveAndsend=function(){
+    //save to localDB
+    var result=DossierSyncService.checkCompleteness($scope.currentTemplate);
+    var thumbnail=$scope.storeCanvas();
+    console.log(thumbnail); 
+    if(result.bool){
+      DossierSyncService.sendFile(TemplateSyncService.getChoice().pk,$scope.currentTemplate,$scope.toParse);
+    }
+    else{
+      ErrorFormService.setError(result.where);
+      $scope.showError();
+    }
+
+  }; 
 })
 
 

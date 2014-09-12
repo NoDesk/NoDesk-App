@@ -1,14 +1,15 @@
-<ion-view>
+<ion-view ng-controller="EditorCtrl">
   
   <ion-header-bar class="bar-subheader has-header">
     <div class="nsk-margin-auto">
       <text-angular-toolbar  name="toolbar" class="nsk-margin-auto"></text-angular-toolbar>
     </div>
+     <button class="button" ng-controller="SaveCtrl" ng-click="saveAndsend()">Save</button>
   </ion-header-bar>
 
   <ion-content has-header="true" class="has-header">
     
-    <div  id="currentFile" class="has-header nsk-thin-centered nsk-box-border nsk-box-shadow" ng-controller="EditorCtrl">
+    <div  id="currentFile" class="has-header nsk-thin-centered nsk-box-border nsk-box-shadow">
       
       <button style="width:100%;" type="button" class="btn btn-default"
       ng-click="storeCanvas()">Create canvas</button>

@@ -3,12 +3,14 @@
 // angular.module is a global place for creating, registering and retrieving Angular modules
 // 'starter' is the name of this angular module example (also set in a <body> attribute in index.html)
 // the 2nd parameter is an array of 'requires'
-angular.module('starter', ['ionic','http-auth-interceptor','starter.controllers'])
+angular.module('starter', ['ionic','http-auth-interceptor','starter.controllers','ngCookies'])
 
 .config(function($httpProvider) {
       //Enable cross domain calls
       $httpProvider.defaults.useXDomain = true;
       $httpProvider.defaults.withCredentials = true;
+      $httpProvider.defaults.xsrfHeaderName = 'X-CSRFToken';
+      $httpProvider.defaults.xsrfCookieName = 'csrftoken';
 
       //Remove the header used to identify ajax call  that would prevent CORS from working
       delete $httpProvider.defaults.headers.common['X-Requested-With'];
@@ -129,7 +131,7 @@ angular.module('starter', ['ionic','http-auth-interceptor','starter.controllers'
   return service;
 })
 
-.factory('AuthenticationService', function($rootScope, $http, authService,remoteService) {
+.factory('AuthenticationService', function($rootScope, $http, authService,remoteService,$cookieStore,$timeout) {
   var service = {
     login: function(user) {
       $http.post('https://'+remoteService.getRemote()+'/auth/login',"username="+encodeURI(user.username)+"&password="+encodeURI(user.password),{headers:{'Content-Type':'application/x-www-form-urlencoded'}})
@@ -137,7 +139,11 @@ angular.module('starter', ['ionic','http-auth-interceptor','starter.controllers'
       .success(function (data, status, headers, config) {
     	 // $http.defaults.headers.common.Cookie = data.Set-Cookie;  // Step 1
         console.log('http://'+remoteService.getRemote()+'/auth/login',"username="+encodeURI(user.username)+"&password="+encodeURI(user.password)); 
-    	  // Need to inform the http-auth-interceptor that
+        console.log(headers('Set-Cookie')); 
+        $timeout(function(){console.log($cookieStore.get('session') )});
+        $timeout(function(){console.log($cookieStore.get('sessionid') )});
+        $timeout(function(){console.log($cookieStore.get('csrftoken') )});
+        // Need to inform the http-auth-interceptor that
         // the user has logged in successfully.  To do this, we pass in a function that
         // will configure the request headers with the authorization token so
         // previously failed requests(aka with status == 401) will be resent with the
@@ -166,56 +172,52 @@ angular.module('starter', ['ionic','http-auth-interceptor','starter.controllers'
 })
 
 
-.factory('DossierSyncService', function($http, $state ,remoteService,authenticationService,databaseService) {
+.factory('ErrorFormService', function() {
+  var errorCompleteness=[];
+  var service={};
+
+  service.setError=function(errorArray){
+    errorCompleteness=errorArray;
+  };
+  
+  service.setError=function(){
+    return errorCompleteness;
+  };
+  
+  return service;
+})
+
+.factory('DossierSyncService', function($http, $state ,$q,remoteService,AuthenticationService,databaseService) {
   var currentID;
     
-  //Check if a template is completely filled
-  //Checkbox due to their metaphore are not checked at all
-  //Return an object where a boolean is set accordinly to completeness plus an
-  //array of the missing field identified by their name 
-  var checkCompleteness=function(form){
-    var nbField=form.length;
-    var i;
-    var j;
-    var result={bool:true,where:[]};
-
-    for(i=0;i<nbField;i++){
-      //Common case
-      if(form[i].type!='Radiobox' && form[i].type!='Checkbox'){
-        if(form[i].values==null)
-          result.bool=false;
-          result.where.push(form[i].name);
-      }
-      //Special case radiobox
-      else if(form[i].type=='RadioBox'){
-        var nbChoice=form[i].values.length;
-        var valid=false;
-        for (var j = 0; j < nbChoice; j++) {
-          if(form[i].values[j].checked==true){
-            valid=true;
-            break;
-          }
-        }
-        if(!valid)
-          result.bool=false;
-          result.where.push(form[i].name);
-      }
-      //Checkbox are left unchecked
-    }
-    return result;
-  };
-
   var service = {
-    getFile:function(dossierID){
-      $http.get("http://"+remoteService.getRemote()+"/"+dossierID).then(function(resp) {
+    getFile:function(dossierID,templateID){
+      var deferred=$q.defer();
+      $http.get("https://"+remoteService.getRemote()+"/template/"+templateID+"/"+dossierID).then(function(resp) {
         console.log('Success', resp);
+        deferred.resolve(resp);
         // For JSON responses, resp.data contains the result
       }, function(err) {
         console.error('ERR', err);
         // err.status will contain the status code
       })
+      return deferred.promise;
     },
     
+    getAllDossierFromTemplate:function(templateID){
+      console.log("hurr");
+      var deferred=$q.defer();
+      $http.get("https://"+remoteService.getRemote()+"/dossier/"+templateID).then(function(resp) {
+        console.log('Success', resp);
+        deferred.resolve(resp);
+        // For JSON responses, resp.data contains the result
+      }, function(err) {
+        console.error('ERR', err);
+        // err.status will contain the status code
+      })
+      return deferred.promise;
+    },
+
     saveFile:function(dossierToSave){
       var currentDate = new Date();
       var dateTime = currentDate.getTime(); 
@@ -232,9 +234,19 @@ angular.module('starter', ['ionic','http-auth-interceptor','starter.controllers'
       }
     },
     
-    sendFile:function(templateID,dossierToSend){
-      if (checkCompleteness(dossierToSend).bool) {
-        $http.post("http://"+remoteService.getRemote()+"/"+templateID,dossierToSend).then(function(resp) {
+    sendFile:function(templateID,dossierToSend,templateJSON){
+        var preparedDossier={};
+         
+        console.log("to parse"+templateJSON);
+        var parsed=JSON.parse(templateJSON);
+        preparedDossier.dossier_name="toto";
+        for (var i = 0; i < dossierToSend.length; i++) {
+          preparedDossier[parsed[i].field_name]=dossierToSend[i].value;
+        };
+        
+        console.log(preparedDossier);
+
+        $http.post("https://"+remoteService.getRemote()+"/dossier/"+templateID,preparedDossier).then(function(resp) {
           console.log('Success', resp);
           // For JSON responses, resp.data contains the result
         }, function(err) {
@@ -243,11 +255,45 @@ angular.module('starter', ['ionic','http-auth-interceptor','starter.controllers'
           // TODO:show a popup saying that there was an error (network, refused, etc
           // ...)
         })
+    },
+    //Check if a template is completely filled
+    //Checkbox due to their metaphore are not checked at all
+    //Return an object where a boolean is set accordinly to completeness plus an
+    //array of the missing field identified by their name 
+    checkCompleteness:function(form){
+      var nbField=form.length;
+      var i;
+      var j;
+      var result={bool:true,where:[]};
+      
+      console.log(form);
+      for(i=0;i<nbField;i++){
+        //Common case
+        if(form[i].type!='Radiobox' && form[i].type!='Checkbox'){
+          if(form[i].value==null || form[i].value=="")
+            result.bool=false;
+            result.where.push(form[i].name);
+        }
+        //Special case radiobox
+        else if(form[i].type=='RadioBox'){
+          var nbChoice=form[i].values.length;
+          var valid=false;
+          for (var j = 0; j < nbChoice; j++) {
+            if(form[i].values[j].checked==true){
+              valid=true;
+              break;
+            }
+          }
+          if(!valid)
+            result.bool=false;
+            result.where.push(form[i].name);
+        }
+        //Checkbox are left unchecked
       }
-      else{
-        //show popup with error error 
-      }
+      return result;
     }
+
+
   };
 
   return service;
@@ -387,7 +433,7 @@ angular.module('starter', ['ionic','http-auth-interceptor','starter.controllers'
       }
       //Get list of template from server
       else{
-        $http.get("http://"+remoteService.getRemote()+"/template/?alive=true",{withCredentials :"true"}).then(function(resp) {
+        $http.get("https://"+remoteService.getRemote()+"/template/?visible=true",{withCredentials :"true"}).then(function(resp) {
           console.log('Success', resp);
           fetchedTemplateList=resp.data;
           deferred.resolve(resp);

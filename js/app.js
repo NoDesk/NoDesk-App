@@ -142,7 +142,7 @@ angular.module('starter', ['ionic','http-auth-interceptor','starter.controllers'
         console.log(headers('Set-Cookie')); 
         $timeout(function(){console.log($cookieStore.get('session') )});
         $timeout(function(){console.log($cookieStore.get('sessionid') )});
-        $timeout(function(){console.log($cookieStore.get('csrftoken') )});
+        //$timeout(function(){console.log($cookieStore.get('csrftoken') )});
         // Need to inform the http-auth-interceptor that
         // the user has logged in successfully.  To do this, we pass in a function that
         // will configure the request headers with the authorization token so
@@ -193,9 +193,9 @@ angular.module('starter', ['ionic','http-auth-interceptor','starter.controllers'
   var service = {
     getFile:function(dossierID,templateID){
       var deferred=$q.defer();
-      $http.get("https://"+remoteService.getRemote()+"/template/"+templateID+"/"+dossierID).then(function(resp) {
+      $http.get("https://"+remoteService.getRemote()+"/dossier/"+templateID+"/"+dossierID).then(function(resp) {
         console.log('Success', resp);
-        deferred.resolve(resp);
+        deferred.resolve(resp.data);
         // For JSON responses, resp.data contains the result
       }, function(err) {
         console.error('ERR', err);
@@ -209,7 +209,7 @@ angular.module('starter', ['ionic','http-auth-interceptor','starter.controllers'
       var deferred=$q.defer();
       $http.get("https://"+remoteService.getRemote()+"/dossier/"+templateID).then(function(resp) {
         console.log('Success', resp);
-        deferred.resolve(resp);
+        deferred.resolve(resp.data);
         // For JSON responses, resp.data contains the result
       }, function(err) {
         console.error('ERR', err);

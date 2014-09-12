@@ -7,25 +7,32 @@
     <div class="inset-card-grid">
       <div ng-controller="BrowseCtrl"> 
         
-        <div class="row" ng-repeat="row in items">
-          <div class="col" ng-repeat="col in row">
+        <div ng-repeat="tpl in items">
+          <h2>{{tpl.template}}</h2>
+          <hr class="nsk-hr">
+
+          <div class="row" ng-repeat="row in tpl.dossier">
+            <div class="col" ng-repeat="col in row">
+              
+              <div class="list card">
+                <div class="item item-image">
+                    <img ng-src="http://placehold.it/150x180">
+                    <!--
+                    <img ng-src={{col.fields.dossier_thumb}}>
+                    -->
+                </div>
+                <div class="item item-text-wrap">
+                   <p>{{col.fields.dossier_date}}</p>
+                   <h5>{{col.fields.dossier_name}}</h5>
+                </div>
+              </div>
             
-            <div class="list card">
-              <div class="item item-image">
-                  <img ng-src="http://placehold.it/150x180">
-                  <!--
-                  <img ng-src={{col.thumb}}>
-                  -->
-              </div>
-              <div class="item item-text-wrap">
-                 <p>{{col.date}}</p>
-                 <h5>{{col.name}}</h5>
-              </div>
             </div>
-          
           </div>
+
         </div>
 
+        
       </div>
     <div>
   </ion-content>

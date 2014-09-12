@@ -98,7 +98,6 @@ angular.module('starter.controllers', ['ui.bootstrap','textAngular','ngCookies']
   $scope.getAllDossier=function(){
     allDossierID=[];
     allDossierFull=[];
-    console.log("AAAAAAAAAA!");
     console.log("length"+$scope.template.length);
 
     for (var i = 0; i < $scope.template.length; i++) {
@@ -106,35 +105,56 @@ angular.module('starter.controllers', ['ui.bootstrap','textAngular','ngCookies']
     };
     
     $q.all(allDossierID).then(function(ret){
+      console.log(ret);
       for (var i = 0; i < ret.length; i++) {
         for (var j = 0; j < ret[i].length; j++) {
-          allDossierFull.push(DossierSyncService.getFile(ret[i][j].pk,i));
-          console.log(ret);
+          allDossierFull.push(DossierSyncService.getFile(ret[i][j].pk,i+1));
+          console.log(ret[i][j].pk);
         };
       };      
       $q.all(allDossierFull).then(function(ret2){
-        for (var k = 0; k < ret2.length; k++) {
-          allDossierFull[k]=ret2[k];
+        allDossierFull=[];
+        var k=0;
+
+        for (var i = 0; i < ret.length; i++) {
+          allDossierFull.push([]);
+          for (var j = 0; j < ret[i].length; j++) {
+            allDossierFull[i][j]=ret2[k];
+            k++;
+          };
         };
+        console.log(allDossierFull);
         $scope.showDossier();
-        console.log(ret2);
       })
     })
   };
   
   
   $scope.showDossier=function(){
-    var col,row=0;
+    var col,row=-1;
     
-    for (col = 0; col < allDossierFull.length; col++) {
+    for (var i = 0; i < $scope.template.length; i++) {
+      var tmp={}
+      tmp.dossier=[];
+      tmp.template=$scope.template[i].name;
       
-      if(col%4==0){
-        $scope.item.push([]);
-        row++;
-      }
+      row=-1;
+      
+      for (col = 0; col < allDossierFull[i].length; col++) {
+        
+        if(col%4==0){
+          tmp.dossier.push([]);
+          row++;
+        }
 
-      $scope.item[row].push(allDossierFull[col]);
+        tmp.dossier[row].push(allDossierFull[i][col]);
+        console.log(allDossierFull[i][col]);
+      };
+      
+      $scope.items.push(tmp);
+
     };
+    console.log($scope.items);
   };
   
   

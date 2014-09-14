@@ -222,7 +222,7 @@ angular.module('starter', ['ionic','http-auth-interceptor','starter.controllers'
   return service;
 })
 
-.factory('DossierSyncService', function($http, $state ,$q,remoteService,AuthenticationService,databaseService) {
+.factory('DossierSyncService', function($http, $state ,$q,$ionicLoading,remoteService,AuthenticationService,databaseService) {
   var currentID;
     
   var service = {
@@ -300,6 +300,8 @@ angular.module('starter', ['ionic','http-auth-interceptor','starter.controllers'
         $http.post("https://"+remoteService.getRemote()+"/dossier/"+templateID,preparedDossier).then(function(resp) {
           console.log('Success', resp);
           // For JSON responses, resp.data contains the result
+          $state.go('home');
+          $ionicLoading.hide();
         }, function(err) {
           console.error('ERR', err);
           // err.status will contain the status code
@@ -345,6 +347,41 @@ angular.module('starter', ['ionic','http-auth-interceptor','starter.controllers'
     }
 
 
+  };
+
+  return service;
+})
+
+.factory('UpdateListService', function() {
+  var dossierInfo=[];
+
+  var service = {
+    setDossierInfo:function (listDossierInfo) {
+      for (var i = 0; i < listDossierInfo.length; i++) {
+        for (var j = 0; j < listDossierInfo[i].length; j++) {
+          dossierInfo.push(listDossierInfo[i][j])
+        };
+      };
+      console.log(dossierInfo)
+    },
+    getDossierInfo:function(){
+      return {info:dossierInfo};
+    }
+  };
+
+  return service;
+})
+
+.factory('ThumbnailSlideService', function() {
+  var thumbnail=[];
+
+  var service = {
+    addThumbnail:function (thumb) {
+      thumbnail.push(thumb)
+    },
+    getThumbnail:function(){
+      return {thumb:thumbnail};
+    }
   };
 
   return service;

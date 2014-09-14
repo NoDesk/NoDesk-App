@@ -19,127 +19,130 @@
           >
         </div>
       </form>
-
-      <div ng-repeat="item in currentTemplate" ng-switch="item.type">
-
-        <div ng-switch-when="TextArea">
-          <h3> <span class="label label-primary">{{item.name}}</span></h3>
-          <div nsk-textArea>
-            <text-angular name="htmlcontent{{$index}}" ng-model="item.value" ta-target-toolbars='toolbar'></text-angular>
-          </div>
-        </div>
-        
-        <div ng-switch-when="TextLine">
-          <h3> <span class="label label-primary">{{item.name}}</span></h3>
-          <input type="text" class="form-control nsk-bt-input nsk-editor-margin-bottom nsk-input" ng-model="item.value" placeholder={{item.value}}>
-        </div>
-        
-        <div ng-switch-when="Image" class="nsk-tpl-image nsk-editor-margin-bottom">
-          <h3> <span class="label label-primary">{{item.name}}</span></h3>
-          <div ><img class="nsk-tpl-img" ng-src="{{item.value}}"></div>
-          <button type="button" class="btn btn-default nsk-tpl-btn"
-          ng-click="addImage(item)">Ajouter image</button>
-        </div>
-        
-        <div ng-switch-when="Sound" class="nsk-tpl-sound nsk-editor-margin-bottom">
-          <h3> <span class="label label-primary">{{item.name}}</span></h3>
-          <div ><img class="nsk-tpl-img" src="img/sound.svg"></div>
-          <button  type="button" class="btn btn-default nsk-tpl-btn"
-          ng-click="addSound(item)">Ajouter message sonore</button>
-        </div>
-
-        <div ng-switch-when="Video" class="nsk-tpl-video nsk-editor-margin-bottom">
-          <h3> <span class="label label-primary">{{item.name}}</span></h3>
-          <div ><img class="nsk-tpl-img" src="img/video.svg"></div>
-          <button  type="button" class="btn btn-default nsk-tpl-btn" 
-          ng-click="addVideo(item.value)">Ajouter video</button>
-        </div>
-
-        <div ng-switch-when="User">
-          <h3> <span class="label label-primary">{{item.name}}</span></h3>
-          <div class="input-group nsk-input nsk-editor-margin-bottom">
-            <span class="input-group-addon">@</span>
-            <input type="text" class="form-control nsk-bt-input nsk-editor-margin-bottom" ng-model="item.value" placeholder="Username">
-          </div>
-        </div>
-        
-        <div ng-switch-when="Creator">
-          <h3> <span class="label label-primary">{{item.name}}</span></h3>
-          <div class="input-group input-group-lg nsk-input nsk-editor-margin-bottom">
-            <span class="input-group-addon">@</span>
-            <input type="text" class="form-control nsk-bt-input" ng-model="item.value" placeholder="Username">
-          </div>
-        </div>
-        
-        <div ng-switch-when="Coordinates" class="nsk-editor-margin-bottom">
-          <h3> <span class="label label-primary">{{item.name}}</span></h3>
-          <iframe width="425" height="350" frameborder="0" scrolling="no"
-          marginheight="0" marginwidth="0"
-          ng-src="{{osmURL(item.value)}}" style="border: 1px solid black"></iframe><br/>
-          <button style="width:425px;" type="button" class="btn btn-default"
-          ng-click="addCoordinate(item)">Ajouter coordonnees</button>
-        </div>
-        
-        <div ng-switch-when="Email">
-          <h3> <span class="label label-primary">{{item.name}}</span></h3>
-          <div class="input-group nsk-input nsk-editor-margin-bottom">
-            <span class="input-group-addon">@</span>
-            <input type="email" class="form-control nsk-bt-input"
-            ng-model="item.value" placeholder="{{item.value}}">
-          </div>
-        </div>
-        
-        <div ng-switch-when="Phone">
-          <h3> <span class="label label-info">{{item.name}}</span></h3>
-          <div class="input-group nsk-input nsk-editor-margin-bottom">
-            <span class="input-group-addon">@</span>
-            <input type="tel" class="form-control nsk-bt-input" ng-model="item.value" placeholder="{{item.value}}">
-          </div>
-        </div>
-        
-        <div ng-switch-when="Date">
-          <h3> <span class="label label-primary">{{item.name}}</span></h3>
-          <div class="input-group nsk-input nsk-editor-margin-bottom">
-            <span class="input-group-addon">@</span>
-            <input type="date" class="form-control nsk-bt-input" ng-model="item.value" placeholder="{{item.value}}">
-          </div>
-        </div>
-
-        <div ng-switch-when="Time">
-          <h3> <span class="label label-primary">{{item.name}}</span></h3>
-          <div class="input-group nsk-input nsk-editor-margin-bottom">
-            <span class="input-group-addon">@</span>
-            <input type="time" class="form-control nsk-bt-input" ng-model="item.value" placeholder="{{item.value}}">
-          </div>
-        </div>
-        
-        <div ng-switch-when="Radiobox">
-          <h3> <span class="label label-primary">{{item.name}}</span></h3>
-          <div class="nsk-radiobox nsk-editor-margin-bottom">
-            <ion-radio  ng-repeat="val in item.value"
-                        ng-value="val"
-                        ng-model="item.result">
-                        {{val}}
-            </ion-radio>
-          </div>
-        </div>
-        
-        <div ng-switch-when="Checkbox">
-          <h3> <span class="label label-primary">{{item.name}}</span></h3>
-          <div class="nsk-checkbox nsk-editor-margin-bottom">
-            <ion-checkbox  ng-repeat="val in item.value"
-                        ng-checked="val.checked"
-                        ng-model="val.checked">
-                        {{val.text}}
-            </ion-checkbox>
-          </div>
-        </div>
-          
-        <hr class="nsk-hr nsk-hr-editor ">
       
+      <div class="nsk-margin">
+        
+        <div ng-repeat="item in currentTemplate" ng-switch="item.type">
+
+          <div ng-switch-when="TextArea">
+            <h3> <span class="label label-primary">{{item.name}}</span></h3>
+            <div class="nsk-textArea">
+              <text-angular name="htmlcontent{{$index}}" ng-model="item.value" ta-target-toolbars='toolbar'></text-angular>
+            </div>
+          </div>
+          
+          <div ng-switch-when="TextLine">
+            <h3> <span class="label label-primary">{{item.name}}</span></h3>
+            <input type="text" class="form-control nsk-bt-input nsk-editor-margin-bottom nsk-input" ng-model="item.value" placeholder={{item.value}}>
+          </div>
+          
+          <div ng-switch-when="Image" class="nsk-tpl-image nsk-editor-margin-bottom">
+            <h3> <span class="label label-primary">{{item.name}}</span></h3>
+            <div ><img class="nsk-tpl-img" ng-src="{{item.value}}"></div>
+            <button type="button" class="btn btn-default nsk-tpl-btn"
+            ng-click="addImage(item)">Ajouter image</button>
+          </div>
+          
+          <div ng-switch-when="Sound" class="nsk-tpl-sound nsk-editor-margin-bottom">
+            <h3> <span class="label label-primary">{{item.name}}</span></h3>
+            <div ><img class="nsk-tpl-img" src="img/sound.svg"></div>
+            <button  type="button" class="btn btn-default nsk-tpl-btn"
+            ng-click="addSound(item)">Ajouter message sonore</button>
+          </div>
+
+          <div ng-switch-when="Video" class="nsk-tpl-video nsk-editor-margin-bottom">
+            <h3> <span class="label label-primary">{{item.name}}</span></h3>
+            <div ><img class="nsk-tpl-img" src="img/video.svg"></div>
+            <button  type="button" class="btn btn-default nsk-tpl-btn" 
+            ng-click="addVideo(item.value)">Ajouter video</button>
+          </div>
+
+          <div ng-switch-when="User">
+            <h3> <span class="label label-primary">{{item.name}}</span></h3>
+            <div class="input-group nsk-input nsk-editor-margin-bottom">
+              <span class="input-group-addon">@</span>
+              <input type="text" class="form-control nsk-bt-input nsk-editor-margin-bottom" ng-model="item.value" placeholder="Username">
+            </div>
+          </div>
+          
+          <div ng-switch-when="Creator">
+            <h3> <span class="label label-primary">{{item.name}}</span></h3>
+            <div class="input-group input-group-lg nsk-input nsk-editor-margin-bottom">
+              <span class="input-group-addon">@</span>
+              <input type="text" class="form-control nsk-bt-input" ng-model="item.value" placeholder="Username">
+            </div>
+          </div>
+          
+          <div ng-switch-when="Coordinates" class="nsk-editor-margin-bottom">
+            <h3> <span class="label label-primary">{{item.name}}</span></h3>
+            <iframe width="425" height="350" frameborder="0" scrolling="no"
+            marginheight="0" marginwidth="0"
+            ng-src="{{osmURL(item.value)}}" style="border: 1px solid black"></iframe><br/>
+            <button style="width:425px;" type="button" class="btn btn-default"
+            ng-click="addCoordinate(item)">Ajouter coordonnees</button>
+          </div>
+          
+          <div ng-switch-when="Email">
+            <h3> <span class="label label-primary">{{item.name}}</span></h3>
+            <div class="input-group nsk-input nsk-editor-margin-bottom">
+              <span class="input-group-addon">@</span>
+              <input type="email" class="form-control nsk-bt-input"
+              ng-model="item.value" placeholder="{{item.value}}">
+            </div>
+          </div>
+          
+          <div ng-switch-when="Phone">
+            <h3> <span class="label label-info">{{item.name}}</span></h3>
+            <div class="input-group nsk-input nsk-editor-margin-bottom">
+              <span class="input-group-addon">@</span>
+              <input type="tel" class="form-control nsk-bt-input" ng-model="item.value" placeholder="{{item.value}}">
+            </div>
+          </div>
+          
+          <div ng-switch-when="Date">
+            <h3> <span class="label label-primary">{{item.name}}</span></h3>
+            <div class="input-group nsk-input nsk-editor-margin-bottom">
+              <span class="input-group-addon">@</span>
+              <input type="date" class="form-control nsk-bt-input" ng-model="item.value" placeholder="{{item.value}}">
+            </div>
+          </div>
+
+          <div ng-switch-when="Time">
+            <h3> <span class="label label-primary">{{item.name}}</span></h3>
+            <div class="input-group nsk-input nsk-editor-margin-bottom">
+              <span class="input-group-addon">@</span>
+              <input type="time" class="form-control nsk-bt-input" ng-model="item.value" placeholder="{{item.value}}">
+            </div>
+          </div>
+          
+          <div ng-switch-when="Radiobox">
+            <h3> <span class="label label-primary">{{item.name}}</span></h3>
+            <div class="nsk-radiobox nsk-editor-margin-bottom">
+              <ion-radio  ng-repeat="val in item.value"
+                          ng-value="val"
+                          ng-model="item.result">
+                          {{val}}
+              </ion-radio>
+            </div>
+          </div>
+          
+          <div ng-switch-when="Checkbox">
+            <h3> <span class="label label-primary">{{item.name}}</span></h3>
+            <div class="nsk-checkbox nsk-editor-margin-bottom">
+              <ion-checkbox  ng-repeat="val in item.value"
+                          ng-checked="val.checked"
+                          ng-model="val.checked">
+                          {{val.text}}
+              </ion-checkbox>
+            </div>
+          </div>
+            
+          <hr class="nsk-hr nsk-hr-editor ">
+        
+        </div>
+
+
       </div>
-
-
     </div>
   </ion-content>
   

@@ -1,36 +1,38 @@
 <!-- Content -->
 <ion-view hide-back-button="true">  
-  <ion-content has-header="true" class="has-header">
+  <ion-content has-header="true" class="has-header" scroll="false">
     <div class="nsk-main-margin">
       
       <div class="row">
         
-        <div class="col">
+        <div class="col nsk-box-border nsk-box-shadow" >
           <h3>Recent files</h3>
           <div ng-controller="CarouselCtrl"  >    
           <ion-slide-box on-slide-changed="slideHasChanged($index)">
-            <ion-slide >
-              <div class="box blue"><h1>BLUE</h1></div>
-            </ion-slide>
-            <ion-slide>
-              <div class="box yellow"><h1>YELLOW</h1></div>
-            </ion-slide>
-            <ion-slide>
-              <div class="box pink"><h1>PINK</h1></div>
+              <ion-slide ng-show="!thumbnail.length">You haven't created any dossier yet !</ion-slide> 
+            <ion-slide ng-repeat="item in thumbnail" style="height:300px;">
+              <ion-content >
+                <div style="400px; height: 400px">
+                  <img ng-src={{item}}>
+                </div>
+              </ion-content>
             </ion-slide>
           </ion-slide-box>
           </div>
         </div>
 
-        <div class="col">
+        <div class="col nsk-box-border nsk-box-shadow" style="margin-left:15px;">
           <h3>Update</h3>
           <div class="nsk-inlined " style="width:100%;">
             <!-- Recent update list --> 
-            <ion-scroll>
-              
-              <ion-list ng-controller="UpdateListCtrl">
-                <ion-item ng-repeat="update in items"href="">
-                  {{update}}
+            <ion-scroll ng-controller="UpdateListCtrl" style="height:300px;">
+              <div ng-show="!items.length">No updates yet</div> 
+              <ion-list style="height:40%;">
+                <ion-item ng-repeat="update in items" href="">
+                  <div class="bs-callout bs-callout-warning">
+                    <h3>{{update.name}}</h3>
+                  </div>
+                    <h5>{{update.date}}</h5>
                 </ion-item>
               </ion-list>
             
@@ -40,7 +42,7 @@
       
       </div>
       <!-- Main Buttons --> 
-      <div class="row" ng-controller="MainButtonCtrl">
+      <div class="row nsk-row-center" ng-controller="MainButtonCtrl">
         <div class="col col-33">
           <div class=" card nsk-inlined">
             <div class="item item-image" ng-click="goTo('editor')">

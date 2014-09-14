@@ -4,68 +4,75 @@
     <div class="nsk-margin-auto">
       <text-angular-toolbar  name="toolbar" class="nsk-margin-auto"></text-angular-toolbar>
     </div>
-     <button class="button" ng-controller="SaveCtrl" ng-click="saveAndsend()">Save</button>
   </ion-header-bar>
 
   <ion-content has-header="true" class="has-header">
     
     <div  id="currentFile" class="has-header nsk-thin-centered nsk-box-border nsk-box-shadow">
       
-      
+      <form name="test">
+        <div class="input-group input-group-lg nsk-editor-margin-bottom
+        control-group" ng-class="{'has-error': test.title.$invalid}">
+          <span class="input-group-addon">Titre</span>
+          <input type="text" class="form-control nsk-bt-input" name="title"
+            ng-model="dossierTitle.title" placeholder="Votre titre" required
+          >
+        </div>
+      </form>
+
       <div ng-repeat="item in currentTemplate" ng-switch="item.type">
-        
 
         <div ng-switch-when="TextArea">
-          <h4>{{item.name}}</h4>
+          <h3> <span class="label label-primary">{{item.name}}</span></h3>
           <div nsk-textArea>
             <text-angular name="htmlcontent{{$index}}" ng-model="item.value" ta-target-toolbars='toolbar'></text-angular>
           </div>
         </div>
         
         <div ng-switch-when="TextLine">
-          <h4>{{item.name}}</h4>
+          <h3> <span class="label label-primary">{{item.name}}</span></h3>
           <input type="text" class="form-control nsk-bt-input nsk-editor-margin-bottom nsk-input" ng-model="item.value" placeholder={{item.value}}>
         </div>
         
         <div ng-switch-when="Image" class="nsk-tpl-image nsk-editor-margin-bottom">
-          <h4>{{item.name}}</h4>
+          <h3> <span class="label label-primary">{{item.name}}</span></h3>
           <div ><img class="nsk-tpl-img" ng-src="{{item.value}}"></div>
           <button type="button" class="btn btn-default nsk-tpl-btn"
           ng-click="addImage(item)">Ajouter image</button>
         </div>
         
         <div ng-switch-when="Sound" class="nsk-tpl-sound nsk-editor-margin-bottom">
-          <h4>{{item.name}}</h4>
+          <h3> <span class="label label-primary">{{item.name}}</span></h3>
           <div ><img class="nsk-tpl-img" src="img/sound.svg"></div>
           <button  type="button" class="btn btn-default nsk-tpl-btn"
           ng-click="addSound(item)">Ajouter message sonore</button>
         </div>
 
         <div ng-switch-when="Video" class="nsk-tpl-video nsk-editor-margin-bottom">
-          <h4>{{item.name}}</h4>
+          <h3> <span class="label label-primary">{{item.name}}</span></h3>
           <div ><img class="nsk-tpl-img" src="img/video.svg"></div>
           <button  type="button" class="btn btn-default nsk-tpl-btn" 
           ng-click="addVideo(item.value)">Ajouter video</button>
         </div>
 
         <div ng-switch-when="User">
-          <h4>{{item.name}}</h4>
-          <div class="input-group nsk-input">
+          <h3> <span class="label label-primary">{{item.name}}</span></h3>
+          <div class="input-group nsk-input nsk-editor-margin-bottom">
             <span class="input-group-addon">@</span>
-            <input type="text" class="form-control nsk-bt-input nsk-editor-margin-bottom" placeholder="Username">
+            <input type="text" class="form-control nsk-bt-input nsk-editor-margin-bottom" ng-model="item.value" placeholder="Username">
           </div>
         </div>
         
         <div ng-switch-when="Creator">
-          <h4>{{item.name}}</h4>
-          <div class="input-group input-group-large nsk-input nsk-editor-margin-bottom">
+          <h3> <span class="label label-primary">{{item.name}}</span></h3>
+          <div class="input-group input-group-lg nsk-input nsk-editor-margin-bottom">
             <span class="input-group-addon">@</span>
-            <input type="text" class="form-control nsk-bt-input" placeholder="Username">
+            <input type="text" class="form-control nsk-bt-input" ng-model="item.value" placeholder="Username">
           </div>
         </div>
         
         <div ng-switch-when="Coordinates" class="nsk-editor-margin-bottom">
-          <h4>{{item.name}}</h4>
+          <h3> <span class="label label-primary">{{item.name}}</span></h3>
           <iframe width="425" height="350" frameborder="0" scrolling="no"
           marginheight="0" marginwidth="0"
           ng-src="{{osmURL(item.value)}}" style="border: 1px solid black"></iframe><br/>
@@ -74,39 +81,40 @@
         </div>
         
         <div ng-switch-when="Email">
-          <h4>{{item.name}}</h4>
+          <h3> <span class="label label-primary">{{item.name}}</span></h3>
           <div class="input-group nsk-input nsk-editor-margin-bottom">
             <span class="input-group-addon">@</span>
-            <input type="email" class="form-control nsk-bt-input" placeholder="{{item.value}}">
+            <input type="email" class="form-control nsk-bt-input"
+            ng-model="item.value" placeholder="{{item.value}}">
           </div>
         </div>
         
         <div ng-switch-when="Phone">
-          <h4>{{item.name}}</h4>
+          <h3> <span class="label label-info">{{item.name}}</span></h3>
           <div class="input-group nsk-input nsk-editor-margin-bottom">
             <span class="input-group-addon">@</span>
-            <input type="tel" class="form-control nsk-bt-input" placeholder="{{item.value}}">
+            <input type="tel" class="form-control nsk-bt-input" ng-model="item.value" placeholder="{{item.value}}">
           </div>
         </div>
         
         <div ng-switch-when="Date">
-          <h4>{{item.name}}</h4>
+          <h3> <span class="label label-primary">{{item.name}}</span></h3>
           <div class="input-group nsk-input nsk-editor-margin-bottom">
             <span class="input-group-addon">@</span>
-            <input type="date" class="form-control nsk-bt-input" placeholder="{{item.value}}">
+            <input type="date" class="form-control nsk-bt-input" ng-model="item.value" placeholder="{{item.value}}">
           </div>
         </div>
 
         <div ng-switch-when="Time">
-          <h4>{{item.name}}</h4>
+          <h3> <span class="label label-primary">{{item.name}}</span></h3>
           <div class="input-group nsk-input nsk-editor-margin-bottom">
             <span class="input-group-addon">@</span>
-            <input type="time" class="form-control nsk-bt-input" placeholder="{{item.value}}">
+            <input type="time" class="form-control nsk-bt-input" ng-model="item.value" placeholder="{{item.value}}">
           </div>
         </div>
         
         <div ng-switch-when="Radiobox">
-          <h4>{{item.name}}</h4>
+          <h3> <span class="label label-primary">{{item.name}}</span></h3>
           <div class="nsk-radiobox nsk-editor-margin-bottom">
             <ion-radio  ng-repeat="val in item.value"
                         ng-value="val"
@@ -117,7 +125,7 @@
         </div>
         
         <div ng-switch-when="Checkbox">
-          <h4>{{item.name}}</h4>
+          <h3> <span class="label label-primary">{{item.name}}</span></h3>
           <div class="nsk-checkbox nsk-editor-margin-bottom">
             <ion-checkbox  ng-repeat="val in item.value"
                         ng-checked="val.checked"
@@ -126,10 +134,23 @@
             </ion-checkbox>
           </div>
         </div>
+          
+        <hr class="nsk-hr nsk-hr-editor ">
+      
       </div>
 
 
     </div>
   </ion-content>
+  
+  <ion-footer-bar align-title="left" class="bar-positive">
+  <div class="buttons">
+     <button class="button" ng-controller="SaveCtrl" ng-click="saveAndsend()">Save</button>
+  </div>
+  <h1 class="title"></h1>
+  <div class="buttons" ng-click="doSomething()">
+    <button class="button">Right Button</button>
+  </div>
+</ion-footer-bar>
 
 </ion-view>

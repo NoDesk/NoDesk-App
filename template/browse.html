@@ -1,25 +1,64 @@
-<ion-view >  
-  <ion-header-bar align-title="left" class="bar-light bar-subheader">
-  <!-- TODO: Filter and ordering option-->  
+<ion-view  ng-controller="BrowseCtrl" >  
+  <ion-header-bar align-title="left" class="bar-light bar-subheader"
+  style="padding-top:0px;">
+    <div class="row" style="width:80%;float:right;margin-bottom:5px;">
+      <div class="col-lg-6">
+        <div class="input-group nsk-input">
+          <span class="input-group-addon">
+            Du
+          </span>
+          <input type="text" class="form-control nsk-bt-input ">
+        </div><!-- /input-group -->
+      </div><!-- /.col-lg-6 -->
+      <div class="col-lg-6">
+        <div class="input-group nsk-input">
+          <span class="input-group-addon">
+            au
+          </span>
+          <input type="text" class="form-control nsk-bt-input ">
+        </div><!-- /input-group -->
+      </div><!-- /.col-lg-6 -->
+      <div class="col-lg-6">
+        <div class="input-group nsk-input">
+          <span class="input-group-addon">
+            Titre
+          </span>
+          <input type="text" class="form-control nsk-bt-input ">
+        </div><!-- /input-group -->
+      </div><!-- /.col-lg-6 -->
+      <div class="col-lg-6">
+        <ui-select multiple ng-model="$parent.selected" theme="bootstrap" ng-disabled="disabled" >
+          <ui-select-match placeholder="Select colors...">{{$item}}</ui-select-match>
+          <ui-select-choices repeat="tpl in templates| filter:$select.search">
+            {{tpl.name}}
+          </ui-select-choices>
+        </ui-select>
+      </div><!-- /.col-lg-6 -->
+      <div class="col-lg-6">
+        <label class="checkbox-inline" style="padding-top:10px;">
+          <input type="checkbox" id="inlineCheckbox1" value="isMine"> Uniquement mes dossiers
+        </label>
+      </div><!-- /.col-lg-6 -->
+    </div><!-- /.row -->
   </ion-header-bar>
 
   <ion-content>
     <div class="inset-card-grid">
-      <div ng-controller="BrowseCtrl"> 
+      <div> 
         
         <div ng-repeat="tpl in items">
           <h2>{{tpl.template}}</h2>
           <hr class="nsk-hr">
 
           <div class="row" ng-repeat="row in tpl.dossier">
-            <div class="col" ng-repeat="col in row">
+            <div class="col" ng-repeat="col in row" >
               
               <div class="list card">
-                <div class="item item-image">
-                    <img ng-src="http://placehold.it/150x180">
+                <div class="item item-image" >
                     <!--
-                    <img ng-src={{col.fields.dossier_thumb}}>
+                    <img ng-src="http://placehold.it/150x180">
                     -->
+                    <img ng-src={{col.fields.dossier_thumbnail}} style="height:512px;">
                 </div>
                 <div class="item item-text-wrap">
                    <p>{{col.fields.dossier_date}}</p>

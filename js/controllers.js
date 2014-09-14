@@ -88,8 +88,29 @@ angular.module('starter.controllers', ['ui.bootstrap','textAngular','ngCookies']
 
 .controller('BrowseCtrl', function($scope,TemplateSyncService,DossierSyncService,$q) {
   $scope.items=[];
+
+  $scope.disabled = undefined;
+  $scope.searchEnabled = undefined;
+
+  $scope.enable = function() {
+    $scope.disabled = false;
+  };
+
+  $scope.disable = function() {
+    $scope.disabled = true;
+  };
+
+  $scope.enableSearch = function() {
+    $scope.searchEnabled = true;
+  }
+
+  $scope.disableSearch = function() {
+    $scope.searchEnabled = false;
+  }
+
+
   $scope.template=[];
-  
+  $scope.selected=[]; 
   var def = TemplateSyncService.fetchTemplateList(false);
   def.then(function(result){$scope.template=result.data;console.log($scope.template);$scope.getAllDossier();});
   var allDossierID=[]
@@ -310,10 +331,11 @@ angular.module('starter.controllers', ['ui.bootstrap','textAngular','ngCookies']
    
 })
 
-.controller('EditorCtrl', function($scope,$sce,$state,$ionicPopup, $timeout,$ionicModal,$cookies,$http,inputForm,TemplateSyncService,DossierSyncService,ErrorFormService) {
+.controller('EditorCtrl', function($scope,$sce,$state,$ionicPopup,$q, $timeout,$ionicModal,$ionicScrollDelegate,$cookies,$http,inputForm,TemplateSyncService,DossierSyncService,ErrorFormService) {
   $scope.currentTemplate=[];
   $scope.currentTemplateList=[];
   $scope.toParse;
+  $scope.dossierTitle={title:""};
         
 
        // console.log($cookieStore.get('session'));
@@ -529,9 +551,11 @@ angular.module('starter.controllers', ['ui.bootstrap','textAngular','ngCookies']
   //Take a screenshot of the currently displayed dossier  
   $scope.storeCanvas=function(){
 
-    var base64;
-
+    $ionicScrollDelegate.scrollTop(); 
+    var deferred=$q.defer();
+    var base64; 
     document.querySelector(".view").style.overflow = "visible";
+    document.querySelector("ion-view.pane").style.overflow = "visible";
     document.querySelector(".has-header.scroll-content.ionic-scroll.has-subheader").style.overflow = "visible";
     document.querySelector(".menu-content.pane.disable-user-behavior").style.overflow = "visible";
     //scroll.removeAttribute("style");
@@ -540,14 +564,16 @@ angular.module('starter.controllers', ['ui.bootstrap','textAngular','ngCookies']
       useOverflow:'false',
       onrendered: function(canvas) {
 
-        var base64 = canvas.toDataURL();
-        document.querySelector(".view").style.overflow = "hidden";
-        document.querySelector(".has-header.scroll-content.ionic-scroll.has-subheader").style.overflow = "hidden";
-        document.querySelector(".menu-content.pane.disable-user-behavior").style.overflow = "hidden";
-    
+        base64 = canvas.toDataURL();
+        //document.querySelector(".view").style.overflow = "hidden";
+        //document.querySelector(".has-header.scroll-content.ionic-scroll.has-subheader").style.overflow = "hidden";
+        //document.querySelector(".menu-content.pane.disable-user-behavior").style.overflow = "hidden";
+        //document.querySelector("ion-view.pane").style.overflow = "hidden";
+        console.log(base64); 
+        deferred.resolve(base64);
       }
     });
-    return base64;
+    return deferred.promise;
   };
 
 
@@ -681,16 +707,19 @@ angular.module('starter.controllers', ['ui.bootstrap','textAngular','ngCookies']
     //save to localDB
     var result=DossierSyncService.checkCompleteness($scope.currentTemplate);
     var thumbnail=$scope.storeCanvas();
-    console.log(thumbnail); 
-    if(result.bool){
-      DossierSyncService.sendFile(TemplateSyncService.getChoice().pk,$scope.currentTemplate,$scope.toParse);
-    }
-    else{
-      ErrorFormService.setError(result.where);
-      $scope.showError();
-    }
+    
+    thumbnail.then(function(thumb) {
+      if(result.bool){
+        DossierSyncService.sendFile(TemplateSyncService.getChoice().pk,$scope.currentTemplate,$scope.toParse,thumb,$scope.dossierTitle);
+      }
+      else{
+        ErrorFormService.setError(result.where);
+        $scope.showError();
+      }
+    });
+  };
 
-  }; 
+
 })
 
 

@@ -11,6 +11,7 @@
     <link href="lib/ionic/css/ionic.css" rel="stylesheet">
     <link href="lib/font-awesome-4.1.0/css/font-awesome.min.css" rel="stylesheet">
     <link href="css/app.css" rel="stylesheet">
+    <link href="css/select.css" rel="stylesheet">
 
     <!-- IF using Sass (run gulp sass first), then uncomment below and remove the CSS includes above
       <link href="css/ionic.app.css" rel="stylesheet">
@@ -40,6 +41,9 @@
     <script src="js/app.js"></script>
     <script src="js/controllers.js"></script>
     
+    <!-- UI select (multiple selection in dropdown) -->
+    <script src="lib/select.js"></script>
+
     <!-- phonegap script  -->
     <!-- <script src="cordova.js"></script> -->
   </head>
@@ -65,7 +69,7 @@
         </ion-nav-button>
         <ion-nav-button side="left">
           <button class="button button-clear button-light" ng-click="goToOption()">
-            <h4>Mes info</h4>
+            Mes info
           </button>
         </ion-nav-button>
           
@@ -76,7 +80,7 @@
         <ion-nav-button side="left">
           <div class="nsk-header-icon-hspacer"></div> 
             <button class="button button-clear button-light" ng-click="goToOption()">
-              <h4>Paramètres</h4>
+              Paramètres
             </button>
         </ion-nav-button>
          
@@ -130,9 +134,9 @@
               </button>
 
               <ul class="dropdown-menu" role="menu">
-                <li><a href="#"><i id="away-status-icon" class="icon ion-close-circled nsk-color-red"></i>  Absent</a></li>
-                <li><a href="#"><i id="occupied-status-icon" class="icon ion-minus-circled nsk-color-orange"></i>  Occupé</a></li>
-                <li><a href="#"><i id="invisible-status-icon" class="icon ion-ios7-circle-outline nsk-color-grey"></i>  Invisible</a></li>
+                <li><a href=""><i id="away-status-icon" class="icon ion-close-circled nsk-color-red"></i>  Absent</a></li>
+                <li><a href=""><i id="occupied-status-icon" class="icon ion-minus-circled nsk-color-orange"></i>  Occupé</a></li>
+                <li><a href=""><i id="invisible-status-icon" class="icon ion-ios7-circle-outline nsk-color-grey"></i>  Invisible</a></li>
               </ul>
 
             </div>

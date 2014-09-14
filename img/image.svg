@@ -14,18 +14,18 @@
    id="svg3707"
    version="1.1"
    inkscape:version="0.48.4 r9939"
-   sodipodi:docname="folder.svg">
+   sodipodi:docname="image.svg">
   <defs
      id="defs3709" />
   <sodipodi:namedview
      id="base"
-     pagecolor="#ffffff"
+     pagecolor="#A8A8A8"
      bordercolor="#666666"
-     borderopacity="1.0"
+     borderopacity="0.5"
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
      inkscape:zoom="0.35"
-     inkscape:cx="375"
+     inkscape:cx="-149.28571"
      inkscape:cy="520"
      inkscape:document-units="px"
      inkscape:current-layer="layer1"
@@ -43,7 +43,7 @@
         <dc:format>image/svg+xml</dc:format>
         <dc:type
            rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
-        <dc:title></dc:title>
+        <dc:title />
       </cc:Work>
     </rdf:RDF>
   </metadata>
@@ -55,6 +55,7 @@
     <path
        id="path3734"
        d="m 115.42858,227.21932 v 641.71429 h 789.8022 V 227.21932 H 115.42858 z M 855.86814,819.57098 H 164.79121 V 276.58196 H 855.86814 V 819.57098 z M 658.41759,399.98856 c 0,40.89385 33.1501,74.04395 74.04395,74.04395 40.89387,0 74.04396,-33.1501 74.04396,-74.04395 0,-40.89386 -33.15009,-74.04396 -74.04396,-74.04396 -40.89385,0 -74.04395,33.1501 -74.04395,74.04396 z M 806.5055,770.20833 H 214.15386 l 148.08791,-394.9011 197.45054,246.81319 98.72528,-74.04395 148.08791,222.13186 z"
-       inkscape:connector-curvature="0" />
+       inkscape:connector-curvature="0"
+       style="fill:#000000;fill-opacity:0.39344263" />
   </g>
 </svg>

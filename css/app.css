@@ -204,6 +204,7 @@
  border-width:0px;
  border-style:solid;
  border-color:black;
+ border-radius:6px;
 }
 
 .nsk-box-shadow{
@@ -330,3 +331,17 @@ input.file {
 .nsk-hr{
   margin-top:0px;
 }
+
+.nsk-hr-editor{
+  width:95%;
+}
+
+html,body{
+-webkit-user-select: none;
+-webkit-touch-callout: none;
+}
+
+*[contenteditable] {
+-webkit-user-select: text !important;
+}
+

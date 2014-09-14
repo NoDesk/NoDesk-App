@@ -3,7 +3,7 @@
 // angular.module is a global place for creating, registering and retrieving Angular modules
 // 'starter' is the name of this angular module example (also set in a <body> attribute in index.html)
 // the 2nd parameter is an array of 'requires'
-angular.module('starter', ['ionic','http-auth-interceptor','starter.controllers','ngCookies'])
+angular.module('starter', ['ionic','http-auth-interceptor','starter.controllers','ngCookies','ui.select'])
 
 .config(function($httpProvider) {
       //Enable cross domain calls
@@ -19,6 +19,10 @@ angular.module('starter', ['ionic','http-auth-interceptor','starter.controllers'
 .config(function ($compileProvider){
   // Set the whitelist for certain URLs just to be safe
   $compileProvider.aHrefSanitizationWhitelist(/^\s*(https?|ftp|mailto|file|tel):/);
+})
+
+.config(function(uiSelectConfig) {
+  uiSelectConfig.theme = 'bootstrap';
 })
 
 .config(function($stateProvider, $urlRouterProvider) {
@@ -60,6 +64,37 @@ angular.module('starter', ['ionic','http-auth-interceptor','starter.controllers'
     }
     databaseService.start();
   });
+})
+
+.filter('propsFilter', function() {
+  return function(items, props) {
+    var out = [];
+
+    if (angular.isArray(items)) {
+      items.forEach(function(item) {
+        var itemMatches = false;
+
+        var keys = Object.keys(props);
+        for (var i = 0; i < keys.length; i++) {
+          var prop = keys[i];
+          var text = props[prop].toLowerCase();
+          if (item[prop].toString().toLowerCase().indexOf(text) !== -1) {
+            itemMatches = true;
+            break;
+          }
+        }
+
+        if (itemMatches) {
+          out.push(item);
+        }
+      });
+    } else {
+      // Let the output be the input untouched
+      out = items;
+    }
+
+    return out;
+  };
 })
 
 .factory('inputForm',function(){
@@ -234,18 +269,34 @@ angular.module('starter', ['ionic','http-auth-interceptor','starter.controllers'
       }
     },
     
-    sendFile:function(templateID,dossierToSend,templateJSON){
+    sendFile:function(templateID,dossierToSend,templateJSON,thumbnail,dossierTitle){
         var preparedDossier={};
          
         console.log("to parse"+templateJSON);
         var parsed=JSON.parse(templateJSON);
-        preparedDossier.dossier_name="toto";
+        preparedDossier.dossier_name=dossierTitle.title;
+        preparedDossier.dossier_thumbnail=thumbnail;
         for (var i = 0; i < dossierToSend.length; i++) {
-          preparedDossier[parsed[i].field_name]=dossierToSend[i].value;
+          
+          if (parsed[i].type=="Checkbox") {
+              console.log(parsed[i]);
+            for (var j = 0; j < parsed[i].value.length; j++) {
+              var key=""+parsed[i].field_name+"_"+j;
+              console.log(key);
+              console.log("test2");
+              preparedDossier[key]=dossierToSend[i].value[j].checked;
+            };
+          }
+          else if(parsed[i].type=="Radiobox"){
+            preparedDossier[parsed[i].field_name]=dossierToSend[i].result;
+          }
+          else{
+            preparedDossier[parsed[i].field_name]=dossierToSend[i].value;
+          }
         };
         
         console.log(preparedDossier);
-
+        
         $http.post("https://"+remoteService.getRemote()+"/dossier/"+templateID,preparedDossier).then(function(resp) {
           console.log('Success', resp);
           // For JSON responses, resp.data contains the result

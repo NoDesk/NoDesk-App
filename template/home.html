@@ -9,13 +9,16 @@
           <h3>Recent files</h3>
           <div ng-controller="CarouselCtrl"  >    
           <ion-slide-box on-slide-changed="slideHasChanged($index)">
-              <ion-slide ng-show="!thumbnail.length">You haven't created any dossier yet !</ion-slide> 
+              <ion-slide ng-hide="thumbnail.length">You haven't created any dossier yet !</ion-slide> 
             <ion-slide ng-repeat="item in thumbnail" style="height:300px;">
-              <ion-content >
-                <div style="400px; height: 400px">
-                  <img ng-src={{item}}>
+              <ion-scroll >
+                <div style="400px; height: 400px;">
+                  <img ng-src={{item.src}} style="">
                 </div>
-              </ion-content>
+              </ion-scroll>
+              <h2 class="nsk-transparent-txt-mask">{{item.name}} | {{item.tpl}}
+              <br
+              />{{item.date}}</h2>
             </ion-slide>
           </ion-slide-box>
           </div>
@@ -26,12 +29,14 @@
           <div class="nsk-inlined " style="width:100%;">
             <!-- Recent update list --> 
             <ion-scroll ng-controller="UpdateListCtrl" style="height:300px;">
-              <div ng-show="!items.length">No updates yet</div> 
+              <div ng-show="!items.length" class="well" style="height:300px;">No updates yet</div> 
               <ion-list style="height:40%;">
                 <ion-item ng-repeat="update in items" href="">
                   <div class="bs-callout bs-callout-warning">
                     <h3>{{update.name}}</h3>
+                    <h4 class="nsk-inlined">| {{update.tpl}}</h4>
                   </div>
+                    
                     <h5>{{update.date}}</h5>
                 </ion-item>
               </ion-list>

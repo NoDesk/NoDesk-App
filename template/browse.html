@@ -44,11 +44,18 @@
 
   <ion-content>
     <div class="inset-card-grid">
-      <div> 
+      <accordion> 
         
-        <div ng-repeat="tpl in items">
-          <h2>{{tpl.template}}</h2>
-          <hr class="nsk-hr">
+        <accordion-group ng-repeat="tpl in items"ng-init="status.open = true" is-open="status.open">
+          
+          <accordion-heading>
+            <h2 style="display:inline-block">{{tpl.template}}</h2>
+              
+              <i class="pull-right icon" ng-class="{'ion-chevron-down icon-big':
+              status.open, 'ion-chevron-right icon-big': !status.open}"></i>
+              <span class="badge badge-calm pull-right">{{nbFiles[$index]}}</span>
+          </accordion-heading>
+
 
           <div class="row" ng-repeat="row in tpl.dossier">
             <div class="col" ng-repeat="col in row" >
@@ -69,10 +76,10 @@
             </div>
           </div>
 
-        </div>
+        </accordion-group>
 
         
-      </div>
+      </accordion>
     <div>
   </ion-content>
 </ion-view >  

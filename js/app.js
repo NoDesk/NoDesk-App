@@ -240,7 +240,6 @@ angular.module('starter', ['ionic','http-auth-interceptor','starter.controllers'
     },
     
     getAllDossierFromTemplate:function(templateID){
-      console.log("hurr");
       var deferred=$q.defer();
       $http.get("https://"+remoteService.getRemote()+"/dossier/"+templateID).then(function(resp) {
         console.log('Success', resp);
@@ -356,9 +355,10 @@ angular.module('starter', ['ionic','http-auth-interceptor','starter.controllers'
   var dossierInfo=[];
 
   var service = {
-    setDossierInfo:function (listDossierInfo) {
+    setDossierInfo:function (listDossierInfo,template) {
       for (var i = 0; i < listDossierInfo.length; i++) {
         for (var j = 0; j < listDossierInfo[i].length; j++) {
+          listDossierInfo[i][j].tpl=template[i].name;
           dossierInfo.push(listDossierInfo[i][j])
         };
       };
@@ -376,8 +376,14 @@ angular.module('starter', ['ionic','http-auth-interceptor','starter.controllers'
   var thumbnail=[];
 
   var service = {
-    addThumbnail:function (thumb) {
-      thumbnail.push(thumb)
+    addThumbnail:function (thumb,name,tplName,date) {
+      var tmp={};
+      tmp.src=thumb;
+      tmp.name=name;
+      tmp.tpl=tplName;
+      tmp.date=date;
+      console.log(tplName);
+      thumbnail.push(tmp)
     },
     getThumbnail:function(){
       return {thumb:thumbnail};

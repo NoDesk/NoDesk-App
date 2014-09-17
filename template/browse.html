@@ -3,6 +3,12 @@
   style="padding-top:0px;">
     <div class="row" style="width:80%;float:right;margin-bottom:5px;">
       <div class="col-lg-6">
+        <button class="button button-balanced" ng-click="refresh()">
+        Rafraichir
+        </button>
+      </div><!-- /.col-lg-6 -->
+
+      <div class="col-lg-6">
         <div class="input-group nsk-input">
           <span class="input-group-addon">
             Du
@@ -60,16 +66,17 @@
           <div class="row" ng-repeat="row in tpl.dossier">
             <div class="col" ng-repeat="col in row" >
               
-              <div class="list card">
+              <div class="list card" ng-click="displayDossier($parent.$parent.$index,$parent.$index,$index)">
                 <div class="item item-image" >
                     <!--
                     <img ng-src="http://placehold.it/150x180">
                     -->
                     <img ng-src={{col.fields.dossier_thumbnail}} style="height:512px;">
                 </div>
-                <div class="item item-text-wrap">
+                <div class="item item-text-wrap"
+                >
+                   <h3>{{col.fields.dossier_name}}</h3>
                    <p>{{col.fields.dossier_date}}</p>
-                   <h5>{{col.fields.dossier_name}}</h5>
                 </div>
               </div>
             

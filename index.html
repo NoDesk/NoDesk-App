@@ -169,12 +169,13 @@
               
               <!-- Chat item : user -->
               <ion-item ng-repeat="item in items" class="item-avatar-left">
-                <img ng-src="res/test/{{item.imagePath}}">
+                <img ng-src="img/{{item.imagePath}}">
                 
                 <div class="nsk-chat-client-info">
                   
                   <!-- Status -->
-                  <i   class="icon ion-checkmark-circled nsk-chat-user-status-icon nsk-color-{{item.status}}"></i> 
+                  <i   class="icon ion-checkmark-circled
+                  nsk-chat-user-status-icon nsk-color-green"></i> 
                   <!-- add padding right to nsk-user-status-icon class -->
                   <div style="display:inline-block;width:3px;"></div>
                   

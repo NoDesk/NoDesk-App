@@ -51,6 +51,10 @@ angular.module('starter', ['ionic','http-auth-interceptor','starter.controllers'
       url: '/login',
       templateUrl: 'template/login.html'
     })
+    .state("view", {
+      url: '/view',
+      templateUrl: 'template/view.html'
+    })
 
 })
 
@@ -353,15 +357,22 @@ angular.module('starter', ['ionic','http-auth-interceptor','starter.controllers'
 
 .factory('UpdateListService', function() {
   var dossierInfo=[];
+  var first=true;
 
   var service = {
     setDossierInfo:function (listDossierInfo,template) {
+      if(first)
+        first=false;
+      else
+        dossierInfo=[];
+
       for (var i = 0; i < listDossierInfo.length; i++) {
         for (var j = 0; j < listDossierInfo[i].length; j++) {
           listDossierInfo[i][j].tpl=template[i].name;
           dossierInfo.push(listDossierInfo[i][j])
         };
       };
+      dossierInfo.reverse();
       console.log(dossierInfo)
     },
     getDossierInfo:function(){
@@ -369,6 +380,70 @@ angular.module('starter', ['ionic','http-auth-interceptor','starter.controllers'
     }
   };
 
+  return service;
+})
+
+
+.factory('LoadingService', function() {
+  var alreadyDone=false;
+  var items=[];
+  var nbFiles=[];
+  var template=[];
+
+  var service = {
+    getLoadingState:function(){
+      return alreadyDone;
+    },
+    
+    setLoadingState:function(bool){
+      alreadyDone=bool;
+    },
+    
+    setItem:function(itemCtrl,nbFilesCtrl){
+      items=itemCtrl;
+      nbFiles=nbFilesCtrl;
+    },
+    
+    getItem:function(){
+      return items;
+    },
+
+    getNbItem:function(){
+      return nbFiles;
+    },
+    getTemplate:function(){
+      return template;
+    },
+    setTemplate:function(templateCtrl){
+      template=templateCtrl;
+    }
+  };
+
+  return service;
+})
+
+
+.factory('ShareService', function() {
+  var dossier={};
+  var template=[];
+  
+  var service = {
+    getDossier:function(){
+      return dossier;
+    },
+    setDossier:function(newDossier){
+      delete newDossier.$$hashKey;
+      console.log(newDossier);
+      return dossier=newDossier;
+    },
+    getTemplate:function(){
+      return template;
+    },
+    setTemplate:function(newTemplate){
+      console.log(newTemplate);
+      return template=newTemplate;
+    }
+  };
   return service;
 })
 
@@ -519,7 +594,7 @@ angular.module('starter', ['ionic','http-auth-interceptor','starter.controllers'
 
       //Get list of full template from server
       if(full){
-        $http.get("https://"+remoteService.getRemote()+"/template/?alive=true&json=true",{withCredentials :"true"}).then(function(resp) {
+        $http.get("https://"+remoteService.getRemote()+"/template/?visible=true&json=true",{withCredentials :"true"}).then(function(resp) {
           console.log('Success', resp);
           fetchedFullTemplateList=resp.data;
           deferred.resolve(resp);

@@ -435,6 +435,12 @@ input.file {
   font-size:25px;
 }
 
+.icon-very-big{
+  font-size:30px;
+  margin-left:45%;
+  color:#444;
+}
+
 .panel-default > .panel-heading{
   border: 0px;
   background-color: #ffffff;
